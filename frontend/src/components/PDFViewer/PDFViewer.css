@@ -1,0 +1,44 @@
+/* PDF Viewer Styles */
+.pdf-viewer {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+/* Make the PDF viewer responsive */
+@media (max-width: 768px) {
+  .pdf-viewer {
+    padding: 0;
+  }
+}
+
+/* Style for the Document component */
+.pdf-viewer .react-pdf__Document {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Style for the Page component */
+.pdf-viewer .react-pdf__Page {
+  margin: 0 auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+/* Style for page canvas */
+.pdf-viewer .react-pdf__Page__canvas {
+  display: block;
+  max-width: 100%;
+  height: auto !important;
+}
+
+/* Hide text layer in mobile view to improve performance */
+@media (max-width: 640px) {
+  .pdf-viewer .react-pdf__Page__textContent {
+    display: none;
+  }
+} 

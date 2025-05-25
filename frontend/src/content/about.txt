@@ -1,0 +1,15 @@
+Department Background and Vision:
+
+Established in 2016, the Department of Computer Science and Engineering (CSE) at IIT Dharwad is one of the institute’s foundational departments. It offers a comprehensive suite of academic programs, including a four-year B.Tech., a two-year M.Tech. (launched in 2024), and two research-intensive programs—M.S. (by Research) and Ph.D.—in  Computer Science and Engineering. Beginning from the academic year 2025–26, the M.S. (by Research) program will be renamed as M.Tech. by Research to better reflect its structure and rigor.
+
+In addition, the department offers an interdisciplinary B.Tech. program in Mathematics and Computing in collaboration with the Department of Mathematics, a minor program in Data Science and Artificial Intelligence, jointly with the Department of Electrical, Electronics, and Communication Engineering, and a minor program in Computer Science. 
+
+The Department of Computer Science and Engineering at IIT Dharwad is actively engaged in cutting-edge research across four principal thrust areas:
+●	Theoretical Foundations, including logic, graph theory, and algorithms;
+●	Systems, encompassing computer architecture, operating systems, compilers, and parallel and distributed computing;
+●	Networks, with focus on cutting-edge research in 4G/5G/6G cellular networks, IoT networks, network protocols, security, and AI/ML-driven network management. Work also spans edge/fog computing, vehicular communication (V2X), and network slicing/virtualization;
+●	Artificial Intelligence and Machine Learning (AI/ML), emphasizing applied machine learning, deep learning, optimization, evolutionary computation, generative modeling, and data science.
+In addition, the department is involved in several interdisciplinary research domains such as cyber-physical systems, smart grids, healthcare technologies, natural language processing, scientific computing, and blockchain systems—addressing contemporary challenges in cybersecurity, distributed computing, and intelligent systems.
+The B.Tech. and M.Tech. curricula are thoughtfully designed to strike a balance between strong foundational knowledge and advanced specialization tracks, aligned with faculty research expertise and the evolving demands of the computing discipline. Courses are continuously updated to reflect the latest developments in academic research and industry practices.
+The department is deeply committed to fostering innovation and impactful research. It maintains robust collaborations with leading academic institutions, government agencies, and industry partners. Supported by state-of-the-art laboratories, high-performance computing infrastructure, and a vibrant research ecosystem, students and scholars are well-equipped to translate ideas into impactful prototypes and deployable solutions.
+The department's research culture is further evidenced by frequent contributions to top-tier journals and prestigious international conferences, highlighting its expanding global research footprint.
