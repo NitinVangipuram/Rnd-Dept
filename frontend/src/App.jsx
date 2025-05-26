@@ -25,82 +25,78 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 overflow-hidden flex flex-col">
-      {/* Fixed top bar */}
-      <Topbar toggleMobileMenu={toggleMobileMenu} isMobileMenuOpen={isMobileMenuOpen} />
-      
-      {/* Mobile menu overlay */}
-      <div 
-        className={`sm:hidden fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 ${
-          isMobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-        }`} 
-        onClick={() => setIsMobileMenuOpen(false)}
-      />
-      
-      <div className="flex flex-grow relative" style={{ paddingTop: '70px' }}>
-        {/* Sidebar navigation */}
-        <div 
-          className={`fixed top-[70px] left-0 bottom-0 w-[280px] sm:w-[220px] lg:w-[250px] z-40 
-            bg-white shadow-md transition-transform duration-300 ease-in-out
-            ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full sm:translate-x-0'}`}
-        >
-          <Navbar closeMenu={() => setIsMobileMenuOpen(false)} />
-        </div>
-        
-        {/* Main content - explicit margin to avoid sidebar overlap */}
-        <div className="w-full sm:pl-[220px] lg:pl-[250px] flex flex-col min-h-full">
-          <div className="max-w-full overflow-x-hidden flex-grow">
-            <Routes>
-              {/* Home page loaded eagerly */}
-              <Route path="/" element={<Home />} />
-              
-              {/* Each lazy-loaded page wrapped in its own Suspense */}
-              <Route path="/academics" element={
-                <Suspense fallback={<PageSkeleton />}>
-                  <Academics />
-                </Suspense>
-              } />
-              <Route path="/admissions" element={
-                <Suspense fallback={<PageSkeleton />}>
-                  <Admissions />
-                </Suspense>
-              } />
-              <Route path="/people" element={
-                <Suspense fallback={<PageSkeleton />}>
-                  <People />
-                </Suspense>
-              } />
-              <Route path="/join-as-faculty" element={
-                <Suspense fallback={<PageSkeleton />}>
-                  <JoinAsFaculty />
-                </Suspense>
-              } />
-              <Route path="/contact" element={
-                <Suspense fallback={<PageSkeleton />}>
-                  <Contact />
-                </Suspense>
-              } />
-              <Route path="/research" element={
-                <Suspense fallback={<PageSkeleton />}>
-                  <Research />
-                </Suspense>
-              } />
-              <Route path="/about" element={
-                <Suspense fallback={<PageSkeleton />}>
-                  <About />
-                </Suspense>
-              } />
-              <Route path="/search" element={
-                <Suspense fallback={<PageSkeleton />}>
-                  <SearchResults />
-                </Suspense>
-              } />
-            </Routes>
-          </div>
-          <Footer />
+<div style={{
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #581c87, #1e3a8a, #312e81)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '1rem'
+    }}>
+      <div style={{ textAlign: 'center' }}>
+        <h1 style={{
+          fontSize: 'clamp(3rem, 8vw, 6rem)',
+          fontWeight: 'bold',
+          color: 'white',
+          marginBottom: '1rem',
+          animation: 'pulse 2s infinite'
+        }}>
+          Coming Soon
+        </h1>
+        <p style={{
+          fontSize: 'clamp(1.25rem, 4vw, 2rem)',
+          color: '#d1d5db',
+          marginBottom: '2rem',
+          maxWidth: '42rem',
+          margin: '0 auto 2rem auto'
+        }}>
+         Stay tuned for updates!
+        </p>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '0.5rem'
+        }}>
+          <div style={{
+            width: '12px',
+            height: '12px',
+            backgroundColor: 'white',
+            borderRadius: '50%',
+            animation: 'bounce 1s infinite'
+          }}></div>
+          <div style={{
+            width: '12px',
+            height: '12px',
+            backgroundColor: 'white',
+            borderRadius: '50%',
+            animation: 'bounce 1s infinite',
+            animationDelay: '0.1s'
+          }}></div>
+          <div style={{
+            width: '12px',
+            height: '12px',
+            backgroundColor: 'white',
+            borderRadius: '50%',
+            animation: 'bounce 1s infinite',
+            animationDelay: '0.2s'
+          }}></div>
         </div>
       </div>
+      
+      <style jsx>{`
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.7; }
+        }
+        
+        @keyframes bounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-10px); }
+        }
+      `}</style>
+      
     </div>
+    
   );
 }
 
