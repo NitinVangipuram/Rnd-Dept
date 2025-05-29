@@ -14,12 +14,7 @@ src/
 │
 ├── pages/                 # Different pages for routing
 │   ├── Home.jsx
-│   ├── Academics.jsx
-│   ├── Admissions.jsx
-│   ├── Research.jsx
-│   ├── People.jsx
-│   ├── Contact.jsx
-│   └── ...                # Other pages
+│   ├── People.jsx               
 │
 ├── routes/                # All route configs
 │   └── AppRoutes.jsx
