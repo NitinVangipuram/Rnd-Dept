@@ -39,19 +39,19 @@ const formData = [
   },
   {
     name: 'Indent form A - For direct purchases of value up to ₹ 50,000',
-    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/Indent_Form_A.docx',
+    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/Indent%20from%20A_For%20direct%20purchases%20of%20value%20up%20to%20%E2%82%B9%2050,000.docx',
   },
   {
     name: 'Indent form B - For purchases between ₹ 50,001 to ₹ 10 Lakhs',
-    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/Indent_Form_B.docx',
+    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/Indent%20form%20B_%20For%20purchases%20between%20%E2%82%B9%2050,001-%20to%20%E2%82%B9%2010%20Lakhs.docx',
   },
   {
     name: 'Indent form C - For purchases above ₹ 10 lakhs',
-    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/Indent_Form_C.docx',
+    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/Indent%20form%20C_%20For%20purchases%20above%20%E2%82%B9%2010%20lakhs.docx',
   },
   {
     name: 'Verification Report Form',
-    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/Verification_Report_Form.docx',
+    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/Verification_Report.docx',
   },
   {
     name: 'Project Completion Report',
@@ -71,7 +71,7 @@ const formData = [
   },
   {
     name: 'Consumable Stock Form',
-    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/Consumable_Stock_Form.docx',
+    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/Consumables%20stock%20register%20format_v3.xlsx',
   }
 ];
 

@@ -11,7 +11,6 @@ import Csr from './pages/Csr';
 
 // Lazy load all other page components
 const People = lazy(() => import('./pages/People'));
-const About = lazy(() => import('./pages/About'));
 
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -55,12 +54,6 @@ function App() {
               <Route path="/people" element={
                 <Suspense fallback={<PageSkeleton />}>
                   <People />
-                </Suspense>
-              } />
-              
-              <Route path="/about" element={
-                <Suspense fallback={<PageSkeleton />}>
-                  <About />
                 </Suspense>
               } />
               
