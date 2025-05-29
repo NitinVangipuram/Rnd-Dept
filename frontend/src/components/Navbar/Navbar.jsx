@@ -31,42 +31,6 @@ const Navbar = ({ closeMenu }) => {
                 </li>
                 <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
                     <NavLink
-                        to="/about"
-                        className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
-                        onClick={handleLinkClick}
-                    >
-                        About
-                    </NavLink>
-                </li>
-                <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
-                    <NavLink
-                        to="/academics"
-                        className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
-                        onClick={handleLinkClick}
-                    >
-                        Academics
-                    </NavLink>
-                </li>
-                <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
-                    <NavLink
-                        to="/admissions"
-                        className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
-                        onClick={handleLinkClick}
-                    >
-                        Admissions
-                    </NavLink>
-                </li>
-                <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
-                    <NavLink
-                        to="/join-as-faculty"
-                        className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
-                        onClick={handleLinkClick}
-                    >
-                        Join As Faculty
-                    </NavLink>
-                </li>
-                <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
-                    <NavLink
                         to="/people"
                         className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
                         onClick={handleLinkClick}
@@ -76,20 +40,54 @@ const Navbar = ({ closeMenu }) => {
                 </li>
                 <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
                     <NavLink
-                        to="/research"
+                        to="/Documents"
                         className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
                         onClick={handleLinkClick}
                     >
-                        Research
+
+                       OM and Documents
+
                     </NavLink>
                 </li>
                 <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
                     <NavLink
-                        to="/contact"
+
+                        to="/FundingStatistics"
+
+
                         className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
                         onClick={handleLinkClick}
                     >
-                        Contact Us
+                        Funding Statistics
+                    </NavLink>
+                </li>
+                <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
+                    <NavLink
+
+                        to="/OfficeStatistics"
+
+                        className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
+                        onClick={handleLinkClick}
+                    >
+                        Office Statistics
+                    </NavLink>
+                </li>
+                <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
+                    <NavLink
+                        to="/csr"
+                        className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
+                        onClick={handleLinkClick}
+                    >
+                        CSR Donations
+                    </NavLink>
+                </li>
+                <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
+                    <NavLink
+                        to="/forms"
+                        className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
+                        onClick={handleLinkClick}
+                    >
+                        Forms
                     </NavLink>
                 </li>
             </ul>

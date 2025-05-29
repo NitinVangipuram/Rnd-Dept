@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-scroll';
+import { Mail, Globe } from "lucide-react";
 
 // Navigation Card Component
 const NavCard = ({ title, icon, targetId }) => {
@@ -34,31 +35,42 @@ const Section = ({ id, title, children }) => {
 };
 
 // Faculty Card Component
-const FacultyCard = ({ name, title, image, expertise, email, phone, website }) => {
+
+const FacultyCard = ({ name, title, image, expertise, email, website }) => {
   return (
-    <div className="bg-white rounded-lg shadow-sm overflow-hidden flex flex-col h-full">
+    <div className="bg-white rounded-lg shadow-sm overflow-hidden flex flex-col h-full
+                    hover:shadow-lg cursor-pointer transition-shadow duration-300 ease-in-out">
+      {/* Image Section */}
       <div className="w-48 h-48 mx-auto mt-4 mb-2 bg-gray-100 flex items-center justify-center rounded-lg overflow-hidden">
         {image ? (
-          <img 
+          <img
             src={image}
-            alt={name} 
+            alt={name}
             className="w-full h-full object-cover"
             onError={(e) => {
-              e.target.onerror = null; // Prevent infinite fallback loop
-              e.target.style.display = 'none';
-              e.target.parentNode.classList.add('flex', 'items-center', 'justify-center');
+              e.target.onerror = null;
+              e.target.style.display = "none";
+              e.target.parentNode.classList.add("flex", "items-center", "justify-center");
             }}
           />
-        ) : null}
-        <div className={`text-8xl text-indigo-200 ${image ? 'hidden' : ''}`}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-24 h-24">
-            <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clipRule="evenodd" />
+        ) : (
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-24 h-24 text-indigo-300" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              fillRule="evenodd"
+              d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 
+              .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 
+              0 01-.437-.695z"
+              clipRule="evenodd"
+            />
           </svg>
-        </div>
+        )}
       </div>
+
+      {/* Text Section */}
       <div className="p-4 flex-grow">
         <h3 className="text-lg font-semibold text-gray-800">{name}</h3>
-        <p className="text-indigo-600 font-medium">{title}</p>
+        <p className="text-indigo-600 font-medium whitespace-pre-line">{title}</p>
+
         {expertise && (
           <div className="mt-2">
             <p className="text-sm text-gray-700 font-medium">Research Areas</p>
@@ -66,30 +78,24 @@ const FacultyCard = ({ name, title, image, expertise, email, phone, website }) =
           </div>
         )}
       </div>
-      <div className="p-4 bg-gray-50 border-t border-gray-100">
+
+      {/* Contact Section */}
+      <div className="p-4 bg-gray-50 border-t border-gray-100 space-y-1">
         {email && (
-          <div className="flex items-center text-sm mb-1">
-            <svg className="w-4 h-4 mr-2 text-gray-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
-            </svg>
-            <a href={`mailto:${email}`} className="text-indigo-600 hover:underline truncate">{email}</a>
+          <div className="flex items-center text-sm text-gray-700">
+            <Mail className="w-4 h-4 mr-2 text-gray-500" />
+            <a href={`mailto:${email}`} className="text-indigo-600 hover:underline truncate">
+              {email}
+            </a>
           </div>
         )}
-        {phone && (
-          <div className="flex items-center text-sm mb-1">
-            <svg className="w-4 h-4 mr-2 text-gray-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
-            </svg>
-            <span className="text-gray-600 truncate">{phone}</span>
-          </div>
-        )}
+
         {website && (
-          <div className="flex items-center text-sm">
-            <svg className="w-4 h-4 mr-2 text-gray-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clipRule="evenodd"></path>
-            </svg>
-            <a href={website} target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:underline truncate">Website</a>
+          <div className="flex items-center text-sm text-gray-700">
+            <Globe className="w-4 h-4 mr-2 text-gray-500" />
+            <a href={website} target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:underline truncate">
+              Website
+            </a>
           </div>
         )}
       </div>
@@ -97,17 +103,21 @@ const FacultyCard = ({ name, title, image, expertise, email, phone, website }) =
   );
 };
 
+
+
+
 // Staff Card Component
-const StaffCard = ({ name, title, image, email, phone, office }) => {
+const StaffCard = ({ name, title, image, email }) => {
   return (
-    <div className="bg-white rounded-lg shadow-sm overflow-hidden flex flex-col h-full">
+    <div className="bg-white rounded-lg shadow-sm overflow-hidden flex flex-col h-full
+                    hover:shadow-lg cursor-pointer transition-shadow duration-300 ease-in-out">
       <div className="p-4 flex items-start border-b border-gray-100">
         <div className="flex-shrink-0 mr-4">
           <div className="w-20 h-20 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
             {image ? (
-              <img 
+              <img
                 src={image}
-                alt={name} 
+                alt={name}
                 className="w-full h-full object-cover"
                 onError={(e) => {
                   e.target.onerror = null; // Prevent infinite fallback loop
@@ -138,234 +148,126 @@ const StaffCard = ({ name, title, image, email, phone, office }) => {
             <a href={`mailto:${email}`} className="text-indigo-600 hover:underline truncate">{email}</a>
           </div>
         )}
-        {phone && (
-          <div className="flex items-center mb-2">
-            <svg className="w-4 h-4 mr-2 text-gray-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
-            </svg>
-            <span className="text-gray-600 truncate">{phone}</span>
-          </div>
-        )}
-        {office && (
-          <div className="flex items-center">
-            <svg className="w-4 h-4 mr-2 text-gray-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4zm3 1h6v4H7V5zm8 8v2h1v1H4v-1h1v-2a1 1 0 011-1h8a1 1 0 011 1z" clipRule="evenodd"></path>
-            </svg>
-            <span className="text-gray-600 truncate">{office}</span>
-          </div>
-        )}
       </div>
     </div>
   );
 };
 
-// Former Member Card Component
-const FormerMemberCard = ({ name, title, period, currentAffiliation }) => {
-  return (
-    <div className="bg-white rounded-lg shadow-sm p-4 h-full">
-      <h3 className="text-lg font-semibold text-gray-800">{name}</h3>
-      <p className="text-indigo-600 text-sm">{title}</p>
-      {period && <p className="text-sm text-gray-600 mt-1">Period: {period}</p>}
-      {currentAffiliation && (
-        <div className="mt-2 text-sm">
-          <p className="text-gray-700 font-medium">Current Affiliation</p>
-          <p className="text-gray-600">{currentAffiliation}</p>
-        </div>
-      )}
-    </div>
-  );
-};
+
+
 
 // People Page Component
 const People = () => {
-  // HOD and Associate Head data
-  const leadership = [
+  // Dean data
+  const Dean = [
     {
-      name: "Dr. Ramchandra Phawade",
-      title: "Assistant Professor and Head of Department",
-      expertise: "Computer Science and Engineering",
-      email: "prb@iitdh.ac.in",
-      phone: "+91-836-2212-001",
-      website: "https://iitdh.ac.in/prb/",
-      image: "https://iitdh.ac.in/sites/default/files/2024-02/phawade.jpg"
-    },
-    {
-      name: "Dr. Vandana Bharti",
-      title: "Assistant Professor and Associate Head",
-      expertise: "Computer Science and Engineering",
-      email: "vandana@iitdh.ac.in",
-      phone: "+91-836-2212-002",
-      website: "https://sites.google.com/iitdh.ac.in/vandana",
-      image: "https://iitdh.ac.in/sites/default/files/2024-02/VB_iitdh%20-%20Vandana%20Bharti.png"
+      name: "Prof Pratyasa Bhui",
+      title: "Associate Professor, Electrical, Electronics and Communication Engineering\nDean, Research & Development (R&D)\nMember, Senate",
+      expertise: "Power Systems,Smart Grid,Renewable Energy",
+      email: "dean.rnd@iitdh.ac.in",
+      website: "https://iitdh.ac.in/pbhui/",
+      image: "https://www.iitdh.ac.in/sites/default/files/2024-05/Pratyasa%20Bhui.jpg"
     }
   ];
 
+  // AssociateDean data
+  const AssociateDean = [
+    {
+      name: "Prof Sandeep R B",
+      title: `Assistant Professor, Computer Science and Engineering\nAssociate Dean, Research & Development (R&D) - Projects`,
+      expertise: "Algorithms, Graph Theory",
+      email: "sandeeprb@iitdh.ac.in",
+      website: "https://sites.google.com/site/homepagesandeeprb/",
+      image: "https://www.iitdh.ac.in/sites/default/files/styles/profile_picture_crop/public/2024-09/sandeep-photo%20-%20Sandeep%20Ramani%20Balakrishnan.jpg?h=5c7a6dd7&itok=qzsH3arM"
+    },
+    {
+      name: "Prof Rajshekhar V Bhat",
+      title: `Assistant Professor, Electrical, Electronics and Communication Engineering\nAssociate Dean, Research & Development (R&D)-  External Relations\nMember, Senate`,
+      expertise: "Broad area of wireless communications and deep learning",
+      email: "rajshekhar.bhat@iitdh.ac.in",
+      website: "https://rajshekharvbhat.github.io/",
+      image: "https://www.iitdh.ac.in/sites/default/files/styles/profile_picture_crop/public/2023-09/rajbhatnew%20-%20Rajshekhar%20V%20Bhat.jpeg?h=9dceb2a7&itok=opOtZNq-"
+    }
+  ];
   // Faculty data
   const facultyMembers = [
     {
-      name: "Dr. Dileep A D",
-      title: "Professor and Dean Administration",
-      expertise: "Computer Science and Engineering",
-      email: "addileep@iitdh.ac.in",
-      phone: "+91-836-2212-003",
-      website: "https://faculty.iitmandi.ac.in/~addileep/",
-      image: "https://iitdh.ac.in/sites/default/files/2024-02/Dileep%20-%20Dileep%20A%20D.jpg"
+      name: "Prof Kundan Kumar Singh Sagar",
+      title: `Assistant Professor, Chemistry\nFaculty In-Charge, Outreach Research & Development - 2`,
+      expertise: "Bioinorganic, nanocluster, catalysis, small molecule activation",
+      email: "kksingh@iitdh.ac.in",
+      website: "https://sites.google.com/iitdh.ac.in/kundan",
+      image: "https://www.iitdh.ac.in/sites/default/files/styles/profile_picture_crop/public/2025-02/121bd9c1-056f-4029-897a-e0b9ee873655.jpg?h=d74d5750&itok=kWyChg1k"
     },
     {
-      name: "Dr. Achyut Mani Tripathi",
-      title: "Assistant Professor",
-      expertise: "Computer Science and Engineering",
-      email: "t.achyut@iitdh.ac.in",
-      phone: "+91-836-2212-004",
-      website: "https://achyutmani.github.io/",
-      image: "https://iitdh.ac.in/sites/default/files/2024-02/Achyut%20-%20Achyut%20Mani%20Tripathi%20-%20Achyut%20Mani%20Tripathi.jpeg"
-    },
-    {
-      name: "Dr. Gayathri Ananthanarayanan",
-      title: "Assistant Professor",
-      expertise: "Computer Science and Engineering",
-      email: "gayathri@iitdh.ac.in",
-      phone: "+91-836-2212-005",
-      website: "https://homepages.iitdh.ac.in/~gayathri/",
-      image: "https://iitdh.ac.in/sites/default/files/2024-02/recent-photo%20-%20Gayathri%20Ananthanarayanan.jpg"
-    },
-    {
-      name: "Dr. Jivnesh Balasaheb Sandhan",
-      title: "Visiting Assistant Professor",
-      expertise: "Computer Science and Engineering",
-      email: "jivnesh@iitdh.ac.in",
-      phone: "+91-836-2212-006",
-      website: "https://jivnesh.github.io/",
-      image: "https://iitdh.ac.in/sites/default/files/2024-02/Jivnesh_500%20-%20Jivnesh%20Balasaheb%20Sandhan_0.png"
-    },
-    {
-      name: "Dr. Kedar Vithal Khandeparkar",
-      title: "Assistant Professor",
-      expertise: "Computer Science and Engineering",
-      email: "kedark@iitdh.ac.in",
-      phone: "+91-836-2212-007",
-      website: "https://iitdh.ac.in/~kedark/",
-      image: "https://iitdh.ac.in/sites/default/files/2024-02/kedar2%20-%20Kedar%20Vithal%20Khandeparkar.jpeg"
-    },
-    {
-      name: "Dr. Konjengbam Anand",
-      title: "Assistant Professor",
-      expertise: "Computer Science and Engineering",
-      email: "konjengbam.anand@iitdh.ac.in",
-      phone: "+91-836-2212-008",
-      website: "https://sites.google.com/view/drkonjengbamanand?pli=1",
-      image: "https://iitdh.ac.in/sites/default/files/2024-02/anand%20profile23c%20-%20Konjengbam%20Anand_0.jpg"
-    },
-    {
-      name: "Dr. Koteswararao Kondepu",
-      title: "Associate Professor and Associate Dean IPS Network",
-      expertise: "Computer Science and Engineering",
-      email: "k.kondepu@iitdh.ac.in",
-      phone: "+91-836-2212-009",
-      website: "https://scholar.google.com/citations?user=X-yZFQkAAAAJ&hl=en",
-      image: "https://iitdh.ac.in/sites/default/files/2024-02/kondepu.jpeg"
-    },
-    {
-      name: "Dr. Nikhil D Hegde",
-      title: "Assistant Professor",
-      expertise: "Computer Science and Engineering",
-      email: "nikhilh@iitdh.ac.in",
-      phone: "+91-836-2212-010",
-      website: "https://hegden.github.io/",
-      image: "https://iitdh.ac.in/sites/default/files/2024-02/IMG_0847%20-%20Copy%20-%20Nikhil%20Hegde.jpg"
-    },
-    {
-      name: "Dr. Rajshekar K",
-      title: "Assistant Professor",
-      expertise: "Computer Science and Engineering",
-      email: "rajshekar.k@iitdh.ac.in",
-      phone: "+91-836-2212-011",
-      website: "https://www.iitdh.ac.in/rajshekar.k/",
-      image: "https://iitdh.ac.in/sites/default/files/2024-02/self%20-%20Rajshekar%20K.jpg"
-    },
-    {
-      name: "Dr. Sandeep R B",
-      title: "Assistant Professor",
-      expertise: "Computer Science and Engineering",
-      email: "sandeeprb@iitdh.ac.in",
-      phone: "+91-836-2212-012",
-      website: "https://sites.google.com/site/homepagesandeeprb/",
-      image: "https://iitdh.ac.in/sites/default/files/2024-02/IMG_0599_2%20-%20Sandeep%20Ramani%20Balakrishnan.jpg"
-    },
-    {
-      name: "Dr. Siba Narayan Swain",
-      title: "Assistant Professor",
-      expertise: "Computer Science and Engineering",
-      email: "sibaswain@iitdh.ac.in",
-      phone: "+91-836-2212-013",
-      website: "https://shivanarayan06.wixsite.com/website",
-      image: "https://iitdh.ac.in/sites/default/files/2024-02/siba-.png"
-    },
-    {
-      name: "Dr. Tamal Das",
-      title: "Assistant Professor",
-      expertise: "Computer Science and Engineering",
-      email: "tamal@iitdh.ac.in",
-      phone: "+91-836-2212-014",
-      website: "https://sites.google.com/view/dtamal",
-      image: "https://iitdh.ac.in/sites/default/files/2024-02/Dec%2016%2C%202018%20%282%29%20-%20Tamal%20Das.jpg"
-    },
-    {
-      name: "Dr. Vijeth J Kotagi",
-      title: "Assistant Professor",
-      expertise: "Computer Science and Engineering",
-      email: "vijethjk@iitdh.ac.in",
-      phone: "+91-836-2212-015",
-      website: "https://scholar.google.com/citations?user=2d8W5cYAAAAJ",
-      image: "https://iitdh.ac.in/sites/default/files/2024-02/Photo%20-%20Vijeth%20Jinachandra%20Kotagi%20-%20Vijeth%20Jinachandra%20Kotagi.jpg"
+      name: "Prof Punnag Chatterjee",
+      title: `Assistant Professor, Mechanical, Materials and Aerospace Engineering\nFaculty In-Charge, Outreach Research & Development - 1`,
+      expertise: "Smart structures, vibration and dynamics, aeroelasticity, energy harvesting",
+      email: "punnag.chatterjee@iitdh.ac.in",
+      website: "https://sites.google.com/view/punnagchatterjee/home",
+      image: "https://www.iitdh.ac.in/sites/default/files/styles/profile_picture_crop/public/2023-09/Punnag_Chatterjee_Website_photo_IITDh_cropped%20-%20Punnag%20Chatterjee.jpg?h=a8890f14&itok=lD39UHv6"
     }
   ];
+
 
   // Staff data from staff.html
   const staffMembers = [
     {
-      name: "Abhishek Kumar",
-      title: "Junior Assistant",
-      email: "abhishekkumar.m@iitdh.ac.in",
-      office: "Computer Science and Engineering, Electrical, Electronics and Communication Engineering",
-      image: "https://iitdh.ac.in/sites/default/files/styles/profile_picture_crop/public/2023-10/abhishek.png?h=c683bfe4&itok=voTsqWPU"
+      name: "Chetan Basavaraj Totad",
+      title: "Assistant Registrar",
+      email: "chetan.totad@iitdh.ac.in",
+      image: "https://www.iitdh.ac.in/sites/default/files/styles/profile_picture_crop/public/2024-06/Chetan%20Basavaraj%20Totad_0.jpg?h=af0fce98&itok=mlWynFMO"
     },
     {
-      name: "Arunkumar Dindalakoppa",
+      name: "Harsha Chavan",
       title: "Executive Assistant",
-      email: "arunkumard@iitdh.ac.in",
-      office: "Computer Science and Engineering, Electrical, Electronics and Communication Engineering",
-      image: "https://iitdh.ac.in/sites/default/files/styles/profile_picture_crop/public/2025-02/arunkumar.jpeg?h=0bc399ec&itok=1s2MxsS9"
+      email: "harshachavan@iitdh.ac.in",
+      image: "https://www.iitdh.ac.in/sites/default/files/styles/profile_picture_crop/public/2025-02/harsha.jpeg?h=8538a345&itok=Rc315F6L"
+    }, {
+      name: "Mallanagoud S Patil",
+      title: "Junior Assistant",
+      email: "mallanagoud@iitdh.ac.in",
+      image: "https://www.iitdh.ac.in/sites/default/files/styles/profile_picture_crop/public/2023-09/b775356d-8a89-471b-b4f0-4754fb8b1ef5%20-%20Mallanagoud%20Somanagoud%20Patil.jpg?h=a657718e&itok=6SXlbzZL"
     },
     {
-      name: "Chandrashekar S",
-      title: "Junior Technical Superintendent",
-      email: "chandrashekar.s@iitdh.ac.in",
-      office: "Computer Science and Engineering",
-      image: "https://iitdh.ac.in/sites/default/files/styles/profile_picture_crop/public/2024-01/Chandrashekar_S%20-%20Chandrashekar%20S_0.png?itok=06-F4itV"
-    }
+      name: "Monica A Kuri",
+      title: "Executive Assistant",
+      email: "monicakuri@iitdh.ac.in",
+      image: "https://www.iitdh.ac.in/sites/default/files/styles/profile_picture_crop/public/2024-11/WhatsApp%20Image%202024-10-18%20at%203.19.29%20PM%20-%20Manpower%20IITDh.jpeg?h=3d2982b5&itok=ixaQnflg"
+    },
+    {
+      name: "Nanda Goudar",
+      title: "Executive Assistant",
+      email: "nanda.goudar@iitdh.ac.in",
+      image: "https://www.iitdh.ac.in/sites/default/files/styles/profile_picture_crop/public/2024-08/IMG-20240722-WA0023~2%20-%20Nanda%20Goudar.jpg?h=26da0c27&itok=rO5S8S9J"
+    },
+    {
+      name: "Praveen M Hodlur",
+      title: "Junior Superintendent",
+      email: "praveenhodlur@iitdh.ac.in",
+      image: "https://www.iitdh.ac.in/sites/default/files/styles/profile_picture_crop/public/2024-02/Praveen%20Hodlur%20photo%20-%20Praveen%20Hodlur.jpg?itok=c8js0h5F"
+    },
+    {
+      name: "Raksha Nagaling",
+      title: "Executive Assistant",
+      email: "raksha.n@iitdh.ac.in",
+      image: "https://www.iitdh.ac.in/sites/default/files/styles/profile_picture_crop/public/2024-08/WhatsApp%20Image%202024-08-19%20at%204.52.15%20PM%20%281%29%20-%20Dean%20RND%20Office.jpeg?h=f2ea0a24&itok=flPTSB4G"
+    },
+    {
+      name: "Renuka G Tallur",
+      title: "Executive Assistant",
+      email: "renukagt@iitdh.ac.in",
+      image: "https://www.iitdh.ac.in/sites/default/files/styles/profile_picture_crop/public/2025-04/WhatsApp%20Image%202025-04-02%20at%201.28.33%20PM.jpeg?h=bcacaa9d&itok=Q7bNIC0y"
+    },
+    {
+      name: "Soubhagyalaxmi Wagh",
+      title: "Executive assistant",
+      email: "soubhagyawagh@iitdh.ac.in",
+      image: "https://www.iitdh.ac.in/sites/default/files/styles/profile_picture_crop/public/2024-08/Soubhagyalaxmi%20wagh.png?itok=aNyI91S0"
+    },
   ];
 
-  // Sample former members data
-  const formerMembers = [
-    {
-      name: "Dr. Prabuchandran K J",
-      title: "Former Assistant Professor",
-      // period: "2016-2021",
-    },
-    {
-      name: "Dr. Anantha Padmanabha",
-      title: "Former Assistant Professor",
-      // period: "2017-2022",
-    },
-    // {
-    //   name: "Dr. Vikram Singh",
-    //   title: "Former Professor",
-    //   period: "2016-2020",
-    //   currentAffiliation: "Indian Institute of Science, Bangalore"
-    // },
-    
-  ];
+
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -373,54 +275,72 @@ const People = () => {
       <div id="people-top" className="mb-10">
         <h1 className="text-3xl font-bold text-gray-800 mb-2">People</h1>
         <p className="text-gray-600">
-          Meet the faculty, staff, and former members of the Department of Computer Science and Engineering.
+          Meet the Dean,Associate Dean,faculty Incharge and staff of the Research and Development Section.
         </p>
       </div>
 
       {/* Navigation Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-12">
-        <NavCard 
-          title="Department Leadership" 
+        <NavCard
+          title="Dean"
           icon={<i className="fas fa-user-tie"></i>}
-          targetId="leadership" 
+          targetId="Dean"
         />
-        <NavCard 
-          title="Faculty" 
+        <NavCard
+          title="Associate Dean"
           icon={<i className="fas fa-chalkboard-teacher"></i>}
-          targetId="faculty" 
+          targetId="AssociateDean"
         />
-        <NavCard 
-          title="Staff" 
+        <NavCard
+          title="Faculty In-Charge"
           icon={<i className="fas fa-users"></i>}
-          targetId="staff" 
+          targetId="Faculty-In-Charge"
         />
-        <NavCard 
-          title="Former Members" 
+        <NavCard
+          title="Staff"
           icon={<i className="fas fa-user-graduate"></i>}
-          targetId="former-members" 
+          targetId="Staff"
         />
       </div>
-      
-      {/* Leadership Section */}
-      <Section id="leadership" title="Department Leadership">
+
+      {/* Dean Section */}
+      <Section id="Dean" title="Dean">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {leadership.map((member, index) => (
+          {Dean.map((member, index) => (
             <FacultyCard key={index} {...member} />
           ))}
         </div>
       </Section>
 
-      {/* Faculty Section */}
-      <Section id="faculty" title="Faculty Members">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* AssociateDean Section */}
+      <Section id="AssociateDean" title="Associate Dean">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {AssociateDean.map((member, index) => (
+            <FacultyCard key={index} {...member} />
+          ))}
+        </div>
+      </Section>
+
+      {/* Faculty In-Charge Section */}
+      <Section id="Faculty-In-Charge" title="Faculty In-Charge">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {facultyMembers.map((member, index) => (
             <FacultyCard key={index} {...member} />
           ))}
         </div>
       </Section>
 
+      {/* Faculty Section */}
+      {/* <Section id="AssociateDean" title="Associate Dean">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {facultyMembers.map((member, index) => (
+            <FacultyCard key={index} {...member} />
+          ))}
+        </div>
+      </Section> */}
+
       {/* Staff Section */}
-      <Section id="staff" title="Staff Members">
+      <Section id="Staff" title="Staff">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {staffMembers.map((member, index) => (
             <StaffCard key={index} {...member} />
@@ -428,17 +348,9 @@ const People = () => {
         </div>
       </Section>
 
-      {/* Former Members Section */}
-      <Section id="former-members" title="Former Members">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {formerMembers.map((member, index) => (
-            <FormerMemberCard key={index} {...member} />
-          ))}
-        </div>
-      </Section>
-      
+
       {/* Back to Top Button */}
-      <div className="text-center mt-10">
+      <div className="cursor-pointer text-center mt-10">
         <Link
           to="people-top"
           spy={true}

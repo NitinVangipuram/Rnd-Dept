@@ -56,7 +56,7 @@ function Topbar({ toggleMobileMenu, isMobileMenuOpen }) {
       {/* Department name - centered on laptop+ screens */}
       <div className="flex-1 hidden sm:flex justify-center items-center">
         <h1 onClick={()=> navigate('/')} className="cursor-pointer text-[0.9rem] md:text-[1.1rem] lg:text-[1.2rem] font-semibold text-[#1a1a1a] tracking-wide text-center">
-          DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING
+          Research and Development Section
         </h1>
       </div>
       
@@ -65,7 +65,7 @@ function Topbar({ toggleMobileMenu, isMobileMenuOpen }) {
         <h1
           onClick={()=> navigate('/')}
           className="cursor-pointer text-[0.65rem] font-semibold text-[#1a1a1a] tracking-wide text-center">
-         Department of Computer Science & Engineering
+         Research and Development Section
         </h1>
       </div>
 
