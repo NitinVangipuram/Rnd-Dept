@@ -1,236 +1,187 @@
-import React from 'react';
-import { Link } from 'react-scroll';
+import React, { useState } from 'react';
+
+const fundingAgencies = [{'name': 'Bhabha Atomic Research Centre (BARC)',
+  'link': 'http://www.barc.gov.in/'},
+ {'name': 'Bill & Melinda Gates Foundation',
+  'link': 'https://www.gatesfoundation.org/'},
+ {'name': 'Board of Research & Nuclear Sciences (BRNS)',
+  'link': 'https://brns.res.in/'},
+ {'name': 'Central Pollution Control Board (CPCB)',
+  'link': 'http://cpcb.nic.in/'},
+ {'name': 'Indo French Centre for the Promotion of Advanced Research (IFCPAR)/ Centre Franco Indien Pourla Promotion Le La Recherche Avancee (CEFIIPR)',
+  'link': 'http://www.cefipra.org/'},
+ {'name': 'Council of Science & Technology (CST)',
+  'link': 'http://www.cefipra.org/'},
+ {'name': 'Council of Scientific & Industrial Research (CSIR)',
+  'link': 'http://www.dstup.in/CST'},
+ {'name': 'Defence Research & Development Organisation (DRDO)',
+  'link': 'http://www.csir.res.in/'},
+ {'name': 'Department of Atomic Energy (DAE)',
+  'link': 'https://www.drdo.gov.in/drdo/English/index.jsp?pg=homebody.jsp'},
+ {'name': 'Department of Biotechnology (DBT)', 'link': 'http://dae.gov.in/'},
+ {'name': 'Indira Gandhi Center for Advanced Research (IGCAR)',
+  'link': 'http://www.dbtindia.gov.in/'},
+ {'name': 'Department of Science & Technology (DST)',
+  'link': 'http://www.igcar.ernet.in/'},
+ {'name': 'EURAXESS India', 'link': 'http://www.dst.gov.in/'},
+ {'name': 'Gas Authority of India Ltd (GAIL)',
+  'link': 'https://euraxess.ec.europa.eu/worldwide/india'},
+ {'name': 'Hindustan Shipyard Ltd.', 'link': 'http://www.gailonline.com'},
+ {'name': 'Science and Engineering Research Board (SERB)',
+  'link': 'http://www.hslvizag.in/'},
+ {'name': 'Indian Institute of Technology Bombay',
+  'link': 'http://www.serb.gov.in/home.php'},
+ {'name': 'Indian Institute of Tropical Meteorology (IITM)',
+  'link': 'http://www.iitb.ac.in/'},
+ {'name': 'Indo-German Science & Technology Centre',
+  'link': 'http://www.tropmet.res.in/'},
+ {'name': 'Indo-US Science and Technology Forum (IUSSTF)',
+  'link': 'http://www.igstc.org/'},
+ {'name': 'International Water Management Institute (IWMI)',
+  'link': 'http://www.iusstf.org/'},
+ {'name': 'Oil & Natural Gas Corporation Ltd (ONGC)',
+  'link': 'http://www.iwmi.cgiar.org/'},
+ {'name': 'Ministry of Coal & Mines (MoCM)', 'link': 'https://ongcindia.com/'},
+ {'name': 'Ministry of Electronics & Information Technology (MEITY)',
+  'link': 'http://coal.gov.in/'},
+ {'name': 'Ministry of Earth Sciences (MoES)', 'link': 'http://meity.gov.in/'},
+ {'name': 'Ministry of Education (MoE)', 'link': 'http://www.moes.gov.in/'},
+ {'name': 'Ministry of Housing and Poverty Alleviation (MHPA)',
+  'link': 'http://mhrd.gov.in/'},
+ {'name': 'Indian Council for Social Research (ICSSR)',
+  'link': 'http://mhupa.gov.in/Default.aspx?ReturnUrl=%2f'},
+ {'name': 'Indian Council for Medical Research (ICMR)',
+  'link': 'http://icssr.org/'},
+ {'name': 'Ministry of New and Renewable Energy (MNRE)',
+  'link': 'http://www.icmr.nic.in/'},
+ {'name': 'Ministry of Road Transport & Highway',
+  'link': 'http://www.mnre.gov.in/'},
+ {'name': 'Ministry of Textiles (MoT)', 'link': 'http://morth.nic.in/'},
+ {'name': 'Ministry of Jal Shakti', 'link': 'http://texmin.gov.in/'},
+ {'name': 'Ministry of Defence', 'link': 'https://jalshakti-dowr.gov.in/'},
+ {'name': 'Ministry of Environment & Forests (MoEF)',
+  'link': 'http://www.mod.gov.in/'},
+ {'name': 'Ministry of Health & Family Welfare',
+  'link': 'http://envfor.nic.in/'},
+ {'name': 'Ministry of Micro, Small and Medium Enterprises',
+  'link': 'http://mohfw.nic.in/'},
+ {'name': 'Ministry of Petroleum & Natural Gas',
+  'link': 'http://msme.gov.in/'},
+ {'name': 'Ministry of Rural Development', 'link': 'https://mopng.gov.in/en'},
+ {'name': 'Ministry of Urban Development', 'link': 'http://www.rural.nic.in/'},
+ {'name': 'Ministry of Food Processing Industries (MFPI)',
+  'link': 'http://moud.gov.in/'},
+ {'name': 'Ministry of Power (MoP)', 'link': 'http://mofpi.gov.in/'},
+ {'name': 'Ministry of Social Justice & Empowerment (MoSJE)',
+  'link': 'http://powermin.gov.in/'},
+ {'name': 'Department of Ocean Development (DOD)',
+  'link': 'http://socialjustice.gov.in/'},
+ {'name': 'Department of Scientific and Industrial Research (DSIR)',
+  'link': 'https://www.moes.gov.in/brief-extramural-support'},
+ {'name': 'Department of AYUSH', 'link': 'http://www.dsir.gov.in/'},
+ {'name': 'Department of Chemicals & Petrochemicals, Ministry of Chemicals & Fertilizers',
+  'link': 'http://indianmedicine.nic.in/'},
+ {'name': 'Department of Fertilizers, Ministry of Chemicals & Fertilizers',
+  'link': 'http://chemicals.gov.in/'},
+ {'name': 'Naval Research Board (NRB)', 'link': 'http://fert.nic.in/'},
+ {'name': 'National Thermal Power Corporation(NTPC)',
+  'link': 'https://www.drdo.gov.in/drdo/naval-research-board/submission-proposals'},
+ {'name': 'National Aerospace Laboratory (NAL)',
+  'link': 'http://www.ntpc.co.in/'},
+ {'name': 'U.P. Small Industry Development Corporation (UPSIDC)',
+  'link': 'http://www.nal.res.in/'},
+ {'name': 'University Grants Commission (UGC)',
+  'link': 'http://onlineupsidc.com/'},
+ {'name': 'Wellcome Trust DBT', 'link': 'http://www.ugc.ac.in/'},
+ {'name': 'Atomic Energy Regulatory Board (AERB)',
+  'link': 'http://www.wellcomedbt.org/'},
+ {'name': 'Centre for Development of Advanced Computing (CDAC)',
+  'link': 'http://www.aerb.gov.in/'},
+ {'name': 'Centre for Development of Telematics (C- DOT)',
+  'link': 'http://www.cdac.in/'},
+ {'name': 'Aeronautics Research & Development Board (ARDB)',
+  'link': 'http://www.cdot.com/'},
+ {'name': 'Advanced Research Centre for Powder Metallurgy and New Materials (ARCI)',
+  'link': 'https://www.drdo.gov.in/drdo/aeronautics-research-development/rules-grants-introductions'},
+ {'name': 'Central Power Research Institute (CPRI)',
+  'link': 'https://www.arci.res.in/'},
+ {'name': 'Indian Space Research Organization (ISRO)',
+  'link': 'http://www.cpri.in/'},
+ {'name': 'Indian Council for Historical Research (ICHR)',
+  'link': 'http://www.isro.gov.in/'},
+ {'name': 'Indian National Science Academy (INSA)',
+  'link': 'https://brns.res.in/'},
+ {'name': 'Indian Space Research Organisation (ISRO)',
+  'link': 'http://insaindia.org/'},
+ {'name': 'Indo-US Science & Technology Forum',
+  'link': 'https://www.isro.gov.in/'},
+ {'name': 'Coal India Ltd.', 'link': 'http://www.indousstf.org/'},
+ {'name': 'National Science Foundation', 'link': 'http://www.coalindia.in/'},
+ {'name': 'Deutsche Forschungsgemeinschaft (DFG – German Research Foundation)',
+  'link': 'http://www.nsf.gov/'},
+ {'name': 'Northern Indian Textile Research Association (NITRA)',
+  'link': 'http://www.dfg.de/en/'},
+ {'name': 'Petroleum Conservation Research Association (PCRA)',
+  'link': 'http://www.nitratextile.org/'},
+ {'name': 'Tata Institute of Fundamental Research',
+  'link': 'http://www.pcra.org/'},
+ {'name': 'Technology Information, Forecasting & Assessment Council (TIFAC)',
+  'link': 'http://www.tifr.res.in/'},
+ {'name': 'UK India Education and Research Initiative (UKIERI)',
+  'link': 'http://www.tifac.org.in/'},
+ {'name': 'University Grants Commission', 'link': 'http://www.ukieri.org/'}
+ ];
+
 
 export default function Funding_statistics() {
-  const fundingAgencyNames = [
-    "Bhabha Atomic Research Centre (BARC)",
-    "Bill & Melinda Gates Foundation",
-    "Board of Research & Nuclear Sciences (BRNS)",
-    "Central Pollution Control Board (CPCB)",
-    "Indo French Centre for the Promotion of Advanced Research (IFCPAR)/ Centre Franco Indien Pourla Promotion Le La Recherche Avancee (CEFIIPR)",
-    "Council of Science & Technology (CST)",
-    "Council of Scientific & Industrial Research (CSIR)",
-    "Defence Research & Development Organisation (DRDO)",
-    "Department of Atomic Energy (DAE)",
-    "Department of Biotechnology (DBT)",
-    "Indira Gandhi Center for Advanced Research (IGCAR)",
-    "Department of Science & Technology (DST)",
-    "EURAXESS India",
-    "Gas Authority of India Ltd (GAIL)",
-    "Hindustan Shipyard Ltd.",
-    "Science and Engineering Research Board (SERB)",
-    "Indian Institute of Technology Bombay",
-    "Indian Institute of Tropical Meteorology (IITM)",
-    "Indo-German Science & Technology Centre",
-    "Indo-US Science and Technology Forum (IUSSTF)",
-    "International Water Management Institute (IWMI)",
-    "Oil & Natural Gas Corporation Ltd (ONGC)",
-    "Ministry of Coal & Mines (MoCM)",
-    "Ministry of Electronics & Information Technology (MEITY)",
-    "Ministry of Earth Sciences (MoES)",
-    "Ministry of Education (MoE)",
-    "Ministry of Housing and Poverty Alleviation (MHPA)",
-    "Indian Council for Social Research (ICSSR)",
-    "Indian Council for Medical Research (ICMR)",
-    "Ministry of New and Renewable Energy (MNRE)",
-    "Ministry of Road Transport & Highway",
-    "Ministry of Textiles (MoT)",
-    "Ministry of Jal Shakti",
-    "Ministry of Defence",
-    "Ministry of Environment & Forests (MoEF)",
-    "Ministry of Health & Family Welfare",
-    "Ministry of Micro, Small and Medium Enterprises",
-    "Ministry of Petroleum & Natural Gas",
-    "Ministry of Rural Development",
-    "Ministry of Urban Development",
-    "Ministry of Food Processing Industries (MFPI)",
-    "Ministry of Power (MoP)",
-    "Ministry of Social Justice & Empowerment (MoSJE)",
-    "Department of Ocean Development (DOD)",
-    "Department of Scientific and Industrial Research (DSIR)",
-    "Department of AYUSH",
-    "Department of Chemicals & Petrochemicals, Ministry of Chemicals & Fertilizers",
-    "Department of Fertilizers, Ministry of Chemicals & Fertilizers",
-    "Naval Research Board (NRB)",
-    "National Thermal Power Corporation(NTPC)",
-    "National Aerospace Laboratory (NAL)",
-    "U.P. Small Industry Development Corporation (UPSIDC)",
-    "University Grants Commission (UGC)",
-    "Wellcome Trust DBT",
-    "Atomic Energy Regulatory Board (AERB)",
-    "Centre for Development of Advanced Computing (CDAC)",
-    "Centre for Development of Telematics (C- DOT)",
-    "Aeronautics Research & Development Board (ARDB)",
-    "Advanced Research Centre for Powder Metallurgy and New Materials (ARCI)",
-    "Central Power Research Institute (CPRI)",
-    "Indian Space Research Organization (ISRO)",
-    "Indian Council for Historical Research (ICHR)",
-    "Bhabha Atomic Research Centre (BARC)", // Duplicate, but keeping as per image
-    "Bill & Melinda Gates Foundation", // Duplicate, but keeping as per image
-    "Board of Research & Nuclear Sciences (BRNS)", // Duplicate, but keeping as per image
-    "Indian National Science Academy (INSA)",
-    "Indian Space Research Organisation (ISRO)", // Duplicate, but keeping as per image
-    "Indo-US Science & Technology Forum", // Duplicate, but keeping as per image
-    "Coal India Ltd.",
-    "National Science Foundation",
-    "Deutsche Forschungsgemeinschaft (DFG – German Research Foundation)",
-    "Northern Indian Textile Research Association (NITRA)",
-    "Petroleum Conservation Research Association (PCRA)",
-    "Tata Institute of Fundamental Research",
-    "Technology Information, Forecasting & Assessment Council (TIFAC)",
-    "UK India Education and Research Initiative (UKIERI)",
-    "University Grants Commission" // This seems to be a duplicate from above (index 53), keeping for exact match to provided list if intentional.
-  ];
+  const [showModal, setShowModal] = useState(false);
+  const [selectedDocLink, setSelectedDocLink] = useState('');
+  const [rawDocLink, setRawDocLink] = useState('');
 
-  // The URLs provided in your last message.
-  const fundingAgencyUrls = [
-    "http://www.barc.gov.in/",
-    "https://www.gatesfoundation.org/",
-    "https://brns.res.in/",
-    "http://cpcb.nic.in/",
-    "http://www.cefipra.org/",
-    "http://www.cefipra.org/", // Duplicate URL for CST (index 5) - confirmed from your provided URL list
-    "http://www.dstup.in/CST",
-    "http://www.csir.res.in/",
-    "https://www.drdo.gov.in/drdo/English/index.jsp?pg=homebody.jsp",
-    "http://dae.gov.in/",
-    "http://www.dbtindia.gov.in/",
-    "http://www.igcar.ernet.in/",
-    "http://www.dst.gov.in/",
-    "https://euraxess.ec.europa.eu/worldwide/india",
-    "http://www.gailonline.com",
-    "http://www.hslvizag.in/",
-    "http://www.serb.gov.in/home.php",
-    "http://www.iitb.ac.in/",
-    "http://www.tropmet.res.in/",
-    "http://www.igstc.org/",
-    "http://www.iusstf.org/",
-    "http://www.iwmi.cgiar.org/",
-    "https://ongcindia.com/",
-    "http://coal.gov.in/",
-    "http://meity.gov.in/",
-    "http://www.moes.gov.in/",
-    "http://mhrd.gov.in/",
-    "http://mhupa.gov.in/Default.aspx?ReturnUrl=%2f",
-    "http://icssr.org/",
-    "http://www.icmr.nic.in/",
-    "http://www.mnre.gov.in/",
-    "http://morth.nic.in/",
-    "http://texmin.gov.in/",
-    "https://jalshakti-dowr.gov.in/",
-    "http://www.mod.gov.in/",
-    "http://envfor.nic.in/",
-    "http://mohfw.nic.in/",
-    "http://msme.gov.in/",
-    "https://mopng.gov.in/en",
-    "http://www.rural.nic.in/",
-    "http://moud.gov.in/",
-    "http://mofpi.gov.in/",
-    "http://powermin.gov.in/",
-    "http://socialjustice.gov.in/",
-    "https://www.moes.gov.in/brief-extramural-support",
-    "http://www.dsir.gov.in/",
-    "http://indianmedicine.nic.in/",
-    "http://chemicals.gov.in/",
-    "http://fert.nic.in/",
-    "https://www.drdo.gov.in/drdo/naval-research-board/submission-proposals",
-    "http://www.ntpc.co.in/",
-    "http://www.nal.res.in/",
-    "http://onlineupsidc.com/",
-    "http://www.ugc.ac.in/",
-    "http://www.wellcomedbt.org/",
-    "http://www.aerb.gov.in/",
-    "http://www.cdac.in/",
-    "http://www.cdot.com/",
-    "https://www.drdo.gov.in/drdo/aeronautics-research-development/rules-grants-introductions",
-    "https://www.arci.res.in/",
-    "http://www.cpri.in/",
-    "http://www.isro.gov.in/",
-    "http://ichr.ac.in/",
-    "http://www.barc.gov.in/", // Duplicate URL
-    "https://www.gatesfoundation.org/", // Duplicate URL
-    "https://brns.res.in/", // Duplicate URL
-    "http://insaindia.org/",
-    "https://www.isro.gov.in/", // Duplicate URL
-    "http://www.indousstf.org/", // Duplicate URL
-    "http://www.coalindia.in/",
-    "http://www.nsf.gov/",
-    "http://www.dfg.de/en/",
-    "http://www.nitratextile.org/",
-    "http://www.pcra.org/",
-    "http://www.tifr.res.in/",
-    "http://www.tifac.org.in/",
-    "http://www.ukieri.org/",
-    "http://www.ugc.ac.in/" // URL for the duplicate "University Grants Commission"
-  ];
-
+  // const handleViewClick = (link) => {
+  //   const encodedLink = encodeURIComponent(link);
+  //   const viewerURL = `https://docs.google.com/gview?url=${encodedLink}&embedded=true`;
+  //   setSelectedDocLink(viewerURL);
+  //   setRawDocLink(link);
+  //   setShowModal(true);
+  // };
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans text-gray-800">
+  <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8 text-gray-800">
+    <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">
+      Funding Agencies
+    </h1>
 
-
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-          <div className="bg-gray-100 px-6 py-4 border-b border-gray-200">
-            <h1 id="here"className="text-xl font-bold text-gray-800 text-center">Web-Links of Various Funding Agencies Sponsoring Research Projects</h1>
-          </div>
-          <div className="p-0">
-            <table className="min-w-full leading-normal">
-              <thead>
-                <tr className="bg-gray-50 border-b border-gray-200">
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-1/12">
-                    Sl No
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-11/12">
-                    Funding Agencies
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {fundingAgencyNames.map((agencyName, index) => (
-                  <tr key={index} className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} border-b border-gray-200 hover:bg-gray-100 transition-colors duration-200`}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 w-1/12">
-                      {index + 1}.
-                    </td>
-                    <td className="px-6 py-4 text-sm w-11/12">
-                      {/* Check if a URL exists for the current index before creating a link */}
-                      {fundingAgencyUrls[index] ? (
-                        <a
-                          href={fundingAgencyUrls[index]}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#8B008B] hover:underline hover:text-black" // Tailwind classes for link styling
-                        >
-                          {agencyName}
-                        </a>
-                      ) : (
-                        // If no URL, display text without a link, using plain text styling
-                        <span className="text-gray-900">
-                          {agencyName}
-                        </span>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        {/* Back to Top Link at the bottom */}
-        <div className="text-center mt-10">
-          <Link
-            to="here"
-            spy={true}
-            smooth={true}
-            offset={-100}
-            duration={500}
-            className="inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300 cursor-pointer"
-          >
-            Back to Top
-          </Link>
-        </div>
-      </div>
+    <div className="overflow-x-auto">
+      <table className="min-w-full table-auto border border-gray-300 shadow-md bg-white">
+        <thead className="bg-gray-300 text-sm sm:text-base">
+          <tr>
+            <th className="p-2 sm:p-3 border">Sl No.</th>
+            <th className="p-2 sm:p-3 border text-left">Agency Name</th>
+          </tr>
+        </thead>
+        <tbody className="text-sm sm:text-base">
+          {fundingAgencies.map((agency, index) => (
+            <tr
+              key={index}
+              className={`text-center ${index % 2 === 0 ? "bg-white" : "bg-gray-200"}`}
+            >
+              <td className="p-2 sm:p-3 border">{index + 1}</td>
+              <td className="p-2 sm:p-3 border text-left">
+                <a
+                  href={agency.link}
+                  className="text-blue-700 underline hover:text-blue-900"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {agency.name}
+                </a>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
-  );
-}
+  </div>
+  )
+};
