@@ -7,6 +7,7 @@ import Footer from './components/Footer/Footer';
 import PageSkeleton from './components/LoadingSkeleton/PageSkeleton';
 import Home from './pages/Home';  // Import Home eagerly
 import Forms from './pages/Forms';
+import Csr from './pages/Csr';
 
 // Lazy load all other page components
 const People = lazy(() => import('./pages/People'));
@@ -66,6 +67,12 @@ function App() {
               <Route path="/forms" element={
                 <Suspense fallback={<PageSkeleton />}>
                   <Forms />
+                </Suspense>
+              } />
+
+              <Route path="/csr" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Csr />
                 </Suspense>
               } />
             </Routes>
