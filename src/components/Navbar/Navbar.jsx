@@ -44,12 +44,17 @@ const Navbar = ({ closeMenu }) => {
                         className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
                         onClick={handleLinkClick}
                     >
+
                        OM and Documents
+
                     </NavLink>
                 </li>
                 <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
                     <NavLink
+
                         to="/FundingStatistics"
+
+
                         className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
                         onClick={handleLinkClick}
                     >
@@ -58,7 +63,9 @@ const Navbar = ({ closeMenu }) => {
                 </li>
                 <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
                     <NavLink
+
                         to="/OfficeStatistics"
+
                         className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
                         onClick={handleLinkClick}
                     >

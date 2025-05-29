@@ -11,10 +11,12 @@ import Csr from './pages/Csr';
 
 // Lazy load all other page components
 
+
 const People = lazy(() => import('./pages/People'));
 const Funding = lazy(() => import('./pages/Funding_statistics'));
 const Office= lazy(() => import('./pages/Office_statistics'));
 const Documents = lazy(() => import('./pages/Documents'));
+
 
 
 function App() {
@@ -67,6 +69,7 @@ function App() {
                   <Forms />
                 </Suspense>
               } />
+
               <Route path="/FundingStatistics" element={
                 <Suspense fallback={<PageSkeleton />}>
                   <Funding />
@@ -77,17 +80,23 @@ function App() {
                   <Documents />
                 </Suspense>
               } />
+
+
+
               <Route path="/csr" element={
                 <Suspense fallback={<PageSkeleton />}>
                   <Csr />
                 </Suspense>
               } />
+
               
               <Route path="/OfficeStatistics" element={
                 <Suspense fallback={<PageSkeleton />}>
                   <Office />
                 </Suspense>
               } />
+
+
             </Routes>
           </div>
           <Footer />
