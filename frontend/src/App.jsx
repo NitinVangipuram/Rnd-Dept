@@ -92,6 +92,11 @@ function App() {
                   <Searchresults />
                 </Suspense>
               } />
+              <Route path="/csr" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Csr/>
+                </Suspense>
+              } />
             </Routes>
           </div>
           <Footer />
