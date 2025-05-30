@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
 import AltCarousel from '../components/Carousel/AltCarousel';
-import img1 from '../assets/carousel-images/image1.jpg';
-import img2 from '../assets/carousel-images/image2.jpg';
-import img3 from '../assets/carousel-images/image3.jpg';
+import img1 from '../assets/carousel-images/image1.png';
+import img2 from '../assets/carousel-images/image2.png';
+import img3 from '../assets/carousel-images/image3.png';
+import img4 from '../assets/carousel-images/image4.png';
 
 const CACHE_KEY = 'cachedOpportunities';
 const CACHE_TIMESTAMP_KEY = 'opportunitiesCacheTimestamp';
