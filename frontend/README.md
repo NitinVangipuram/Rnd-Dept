@@ -22,4 +22,3 @@ src/
 ├── App.jsx                # Entry component
 └── main.jsx               # Vite main entry point
 ```
-"# Rnd-Dept" 
