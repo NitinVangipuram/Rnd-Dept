@@ -11,7 +11,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
             <p className="text-gray-600 text-sm">
-              &copy; {currentYear} Department of Computer Science and Engineering, IIT Dharwad
+              &copy; {currentYear} Research and Development Section, IIT Dharwad
             </p>
           </div>
           <div className="text-gray-500 text-sm">
