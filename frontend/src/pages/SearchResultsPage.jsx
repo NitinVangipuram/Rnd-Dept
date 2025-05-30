@@ -18,7 +18,7 @@ const SearchResultsPage = () => {
     <div
       style={{
         padding: "2rem",
-        minHeight: "calc(100vh - 70px - 60px)", // adjust 70px and 60px to your header/footer heights
+        minHeight: "calc(100vh - 70px - 60px)", 
         boxSizing: "border-box",
         display: "flex",
         flexDirection: "column",
