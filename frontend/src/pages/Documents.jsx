@@ -1,15 +1,16 @@
 import React from 'react';
-import './documents.css'; // Assuming you still want to keep this for any global styles or if you add more later
+import './documents.css'; 
+import { Link } from 'react-scroll';
 
 export default function Documents() {
   return (
-    <div className="omanddoc p-6">
+    <div id="document-top" className="omanddoc p-6">
       <div className='om'>
         {/* Placeholder for "Office Statistics" heading */}
-        <h1 className='text-[black] text-3xl font-bold mb-8'>OM and Documents</h1> 
+        <h1 className='text-[black] text-3xl font-bold mb-8'>OM and Documents</h1>
 
         <h2 className='text-[black] text-2xl font-semibold mb-4'>OM for Engagement of Manpower:</h2>
-        <hr className="border border-[#D8BFD8] mb-6" /> 
+        <hr className="border border-[#D8BFD8] mb-6" />
         <ul className="list-none space-y-3 mb-8">
           <li>
             <a href="https://intranet.iitdh.ac.in:444/pdf/OM_JRF_SRF_RA_2023.pdf" target='_blank' className="text-[#8B008B] hover:underline hover:text-[black]  text-lg">JRF/SRF/RA Positions</a>
@@ -23,7 +24,7 @@ export default function Documents() {
         </ul>
 
         <h2 className='text-[black] text-2xl font-semibold mb-4'>Circulars and Office Orders:</h2>
-        <hr className="border border-[#D8BFD8] mb-6" /> 
+        <hr className="border border-[#D8BFD8] mb-6" />
         {/* Changed to ol for numbered list and applied purple text */}
         <ol className="list-decimal list-inside space-y-3 mb-8 text-[#8B008B] text-lg">
           <li>
@@ -66,6 +67,19 @@ export default function Documents() {
             <a href="https://drive.google.com/file/d/1-kEHmWqM-Cdn56EkwPgj1ZkQMdaFbj3w/view?usp=drive_link" target='_blank' className="text-[#8B008B] hover:underline hover:text-[black]">Implementation of revised Overhead charges for consultancy projects</a>
           </li>
         </ol>
+      </div>
+      {/* Back to Top Button */}
+      <div className="cursor-pointer text-center mt-10">
+        <Link
+          to="document-top"
+          spy={true}
+          smooth={true}
+          offset={-100}
+          duration={500}
+          className="inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300"
+        >
+          Back to Top
+        </Link>
       </div>
     </div>
   );

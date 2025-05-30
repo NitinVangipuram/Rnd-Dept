@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-scroll';
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
 import AltCarousel from '../components/Carousel/AltCarousel';
 import img1 from '../assets/carousel-images/image1.jpg';
@@ -7,7 +8,7 @@ import img3 from '../assets/carousel-images/image3.jpg';
 
 const CACHE_KEY = 'cachedOpportunities';
 const CACHE_TIMESTAMP_KEY = 'opportunitiesCacheTimestamp';
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in ms
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in minutes
 
 const OpportunityCard = ({ scheme, agency, deadline, link }) => (
     <div
@@ -90,7 +91,7 @@ const Opportunities = () => {
     return (
         <>
             {/* Carousel Section */}
-            <div className="py-6 px-4 md:px-8">
+            <div id="home-top" className="py-6 px-4 md:px-8">
                 <div className="">
                     <AltCarousel images={images} />
                 </div>
@@ -120,6 +121,19 @@ const Opportunities = () => {
                     </div>
                 )}
             </div>
+                        {/* Back to Top Button */}
+                              <div className="cursor-pointer text-center mt-10">
+                                <Link
+                                  to="home-top"
+                                  spy={true}
+                                  smooth={true}
+                                  offset={-100}
+                                  duration={500}
+                                  className="inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300"
+                                >
+                                  Back to Top
+                                </Link>
+                              </div>
         </>
     );
 };
