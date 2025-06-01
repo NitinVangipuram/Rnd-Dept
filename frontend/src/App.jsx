@@ -7,14 +7,17 @@ import Footer from './components/Footer/Footer';
 import PageSkeleton from './components/LoadingSkeleton/PageSkeleton';
 import Home from './pages/Home';
 import Forms from './pages/Forms';
-import Csr from './pages/Csr';
 
 // Lazy load other pages
 const People = lazy(() => import('./pages/People'));
+const Sponsored = lazy(() => import('./pages/Sponsored'));;
+const Consultancy = lazy(() => import('./pages/Consultancy'));
+const CSRP= lazy(() => import('./pages/CSRProjects'));
 const Funding = lazy(() => import('./pages/Funding_statistics'));
 const Office = lazy(() => import('./pages/Office_statistics'));
 const Documents = lazy(() => import('./pages/Documents'));
 const Searchresults = lazy(() => import('./pages/searchresults')); 
+const Csr= lazy(() => import('./pages/Csr')); 
 
 // ScrollToTop logic inside App.jsx
 function ScrollToTop() {
@@ -66,6 +69,11 @@ function App() {
                   <Forms />
                 </Suspense>
               } />
+              <Route path="/csr" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  < Csr/>
+                </Suspense>
+              } />
               <Route path="/people" element={
                 <Suspense fallback={<PageSkeleton />}>
                   <People />
@@ -92,9 +100,21 @@ function App() {
                   <Searchresults />
                 </Suspense>
               } />
-              <Route path="/csr" element={
+            <Route path="/Projects/Consultancy" element={
                 <Suspense fallback={<PageSkeleton />}>
-                  <Csr/>
+                  <Consultancy/>
+                </Suspense>
+              } />
+           
+                <Route path="/Projects/Sponsored" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Sponsored/>
+                </Suspense>
+              } />
+            
+            <Route path="/Projects/Csr" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <CSRP/>
                 </Suspense>
               } />
             </Routes>

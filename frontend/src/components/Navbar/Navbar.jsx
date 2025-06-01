@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import MyDropdownNav from '../MyDropdownNav/MyDropdownNav';
 
 const Navbar = ({ closeMenu }) => {
     const handleLinkClick = () => {
@@ -38,6 +39,7 @@ const Navbar = ({ closeMenu }) => {
                         People
                     </NavLink>
                 </li>
+                <MyDropdownNav/>
                 <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
                     <NavLink
                         to="/Documents"
