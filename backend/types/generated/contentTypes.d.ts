@@ -468,6 +468,38 @@ export interface ApiDocDoc extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiEthicscommitteEthicscommitte
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'ethicscommittes';
+  info: {
+    displayName: 'ethicscommitte';
+    pluralName: 'ethicscommittes';
+    singularName: 'ethicscommitte';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    currentorganization: Schema.Attribute.String & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::ethicscommitte.ethicscommitte'
+    > &
+      Schema.Attribute.Private;
+    Name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    role: Schema.Attribute.String & Schema.Attribute.Required;
+    sl_no: Schema.Attribute.Integer & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiFundingStatisticFundingStatistic
   extends Struct.CollectionTypeSchema {
   collectionName: 'funding_statistics';
@@ -1060,6 +1092,7 @@ declare module '@strapi/strapi' {
       'api::consultancy.consultancy': ApiConsultancyConsultancy;
       'api::csrproject.csrproject': ApiCsrprojectCsrproject;
       'api::doc.doc': ApiDocDoc;
+      'api::ethicscommitte.ethicscommitte': ApiEthicscommitteEthicscommitte;
       'api::funding-statistic.funding-statistic': ApiFundingStatisticFundingStatistic;
       'api::sponsor.sponsor': ApiSponsorSponsor;
       'plugin::content-releases.release': PluginContentReleasesRelease;

@@ -70,7 +70,7 @@ const MyDropdownNav = () => {
                         <NavLink
                             to="/Projects/Csr"
                             className={({ isActive }) => `
-                                py-2 pl-3 pr-3 font-medium block w-full text-gray-700 hover:text-[purple] hover:bg-slate-100 rounded-lg
+                                py-2 pl-3 pr-3 font-medium block w-full text-gray-700 hover:text-[blue] hover:bg-slate-100 rounded-lg
                 
                             `}
                             onClick={handleLinkClick}
@@ -81,7 +81,7 @@ const MyDropdownNav = () => {
                         <NavLink
                             to="/Projects/Sponsored"
                             className={({ isActive }) => `
-                                py-2 pl-3 pr-3 font-medium block w-full text-gray-700 hover:text-[purple] hover:bg-slate-100 rounded-lg
+                                py-2 pl-3 pr-3 font-medium block w-full text-gray-700 hover:text-[blue] hover:bg-slate-100 rounded-lg
         
                             `}
                             onClick={handleLinkClick}
@@ -92,7 +92,7 @@ const MyDropdownNav = () => {
                         <NavLink
                             to="/Projects/Consultancy"
                             className={({ isActive }) => `
-                                py-2 pl-3 pr-3 font-medium block w-full text-gray-700 hover:bg-slate-100 hover:text-[purple] rounded-lg
+                                py-2 pl-3 pr-3 font-medium block w-full text-gray-700 hover:bg-slate-100 hover:text-[blue] rounded-lg
 
                             `}
                             onClick={handleLinkClick}

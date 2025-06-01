@@ -18,6 +18,7 @@ const Office = lazy(() => import('./pages/Office_statistics'));
 const Documents = lazy(() => import('./pages/Documents'));
 const Searchresults = lazy(() => import('./pages/searchresults')); 
 const Csr= lazy(() => import('./pages/Csr')); 
+const Ethics = lazy(() => import('./pages/Ethicscommitte'));
 
 // ScrollToTop logic inside App.jsx
 function ScrollToTop() {
@@ -98,6 +99,11 @@ function App() {
               <Route path="/search" element={
                 <Suspense fallback={<PageSkeleton />}>
                   <Searchresults />
+                </Suspense>
+              } />
+              <Route path="/ethicscommittee" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Ethics />
                 </Suspense>
               } />
             <Route path="/Projects/Consultancy" element={
