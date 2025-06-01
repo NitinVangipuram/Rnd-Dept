@@ -14,6 +14,7 @@ const People = lazy(() => import('./pages/People'));
 const Funding = lazy(() => import('./pages/Funding_statistics'));
 const Office = lazy(() => import('./pages/Office_statistics'));
 const Documents = lazy(() => import('./pages/Documents'));
+const Searchresults = lazy(() => import('./pages/searchresults')); 
 
 // ScrollToTop logic inside App.jsx
 function ScrollToTop() {
@@ -85,9 +86,15 @@ function App() {
                   <Documents />
                 </Suspense>
               } />
+             
+              <Route path="/search" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Searchresults />
+                </Suspense>
+              } />
               <Route path="/csr" element={
                 <Suspense fallback={<PageSkeleton />}>
-                  <Csr />
+                  <Csr/>
                 </Suspense>
               } />
             </Routes>
