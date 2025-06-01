@@ -1,84 +1,112 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import axios from 'axios';
 
-const csrData = [
-{
-    name: 'IIT Dharwad CSR Brochure',
-    wordLink: 'https://intranet.iitdh.ac.in:444/CSR/IIT%20Dharwad%20-%20CSR%20Brochure.pdf',
-  },
-  {
-    name: 'CSR Eligibility Cover Letter',
-    wordLink: 'https://intranet.iitdh.ac.in:444/CSR/3%20CSR%20Eligibility%20Cover%20Letter.pdf',
-  },
-  {
-    name: 'CSR Amendments',
-    wordLink: 'https://intranet.iitdh.ac.in:444/CSR/3a%20CSR%20Amendments.pdf',
-  },
-  {
-    name: 'DSIR Recognition',
-    wordLink: 'https://intranet.iitdh.ac.in:444/CSR/3b%20DSIR%20Recognition.pdf', // Assuming link format, you can replace with actual if available
-  },
-  {
-    name: 'Exemption Certificate',
-    wordLink: 'https://intranet.iitdh.ac.in:444/CSR/3c%2080G%20Exemption%20Certificate.pdf',
-  }
-];
+import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
 
+const CACHE_EXPIRY = 5 * 60 * 1000;
+
+const backendUrl = import.meta.env.VITE_STRAPI_URL;
 
 export default function Csr() {
   const [showModal, setShowModal] = useState(false);
   const [selectedDocLink, setSelectedDocLink] = useState('');
   const [rawDocLink, setRawDocLink] = useState('');
 
-  const handleViewClick = (link) => {
-    const encodedLink = encodeURIComponent(link);
-    const viewerURL = `https://docs.google.com/gview?url=${encodedLink}&embedded=true`;
-    setSelectedDocLink(viewerURL);
-    setRawDocLink(link);
-    setShowModal(true);
-  };
+  const [csrData, setCsrData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error,setError] = useState(null);
+
+  useEffect(() => {
+    const cacheKey = 'csrDataCache';
+    const cacheTimestampKey = 'csrDataCacheTimestamp';
+
+    //console.log(backendUrl);
+
+    const loadData = async () => {
+      // Try to get from cache
+      const cached = localStorage.getItem(cacheKey);
+      const cachedTimestamp = localStorage.getItem(cacheTimestampKey);
+
+      // If cached and not expired
+      if (cached && cachedTimestamp && Date.now() - Number(cachedTimestamp) < CACHE_EXPIRY) {
+        setCsrData(JSON.parse(cached));
+        setLoading(false);
+
+      //   console.log("test1"+csrData);
+      } else {
+        // Fetch from backend
+        try {
+          const response = await axios.get(`${backendUrl}/csr?populate=*`);
+          const items = response.data?.data?.link || [];
+
+          //console.log(items)
+
+          setCsrData(items);
+
+
+          // Save to cache
+          localStorage.setItem(cacheKey, JSON.stringify(items));
+          localStorage.setItem(cacheTimestampKey, Date.now().toString());
+        } catch (err) {
+          console.error('Failed to fetch CSR data', err);
+          setError(err);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadData();
+  }, [backendUrl]);
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8 text-gray-800">
       <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">CSR Information</h1>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full table-auto border border-gray-300 shadow-md bg-white">
-          <thead className="bg-gray-200 text-sm sm:text-base">
-            <tr>
-              <th className="p-2 sm:p-3 border">Sl No.</th>
-              <th className="p-2 sm:p-3 border text-left">Form Name</th>
-              <th className="p-2 sm:p-3 border">View PDF</th>
-              {/* <th className="p-2 sm:p-3 border">PDF</th> */}
-            </tr>
-          </thead>
-          <tbody className="text-sm sm:text-base">
-            {csrData.map((form, index) => (
-              <tr key={index} className="text-center hover:bg-gray-50">
-                <td className="p-2 sm:p-3 border">{index + 1}</td>
-                <td className="p-2 sm:p-3 border text-left">{form.name}</td>
-                <td className="p-2 sm:p-3 border">
-                  <a
-                    href={form.wordLink}
-                    className="text-purple-600 underline hover:text-purple-800"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    View
-                  </a>
-                </td>
-                {/* <td className="p-2 sm:p-3 border">
-                  <button
-                    onClick={() => handleViewClick(form.wordLink)}
-                    className="text-blue-600 underline hover:text-blue-800 cursor-pointer"
-                  >
-                    View
-                  </button>
-                </td> */}
+      {loading ? (
+        <PageSkeleton />
+      ) : error ? (
+        <div className="text-red-500">{error}</div>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="min-w-full table-auto border border-gray-300 shadow-md bg-white">
+            <thead className="bg-gray-200 text-sm sm:text-base">
+              <tr>
+                <th className="p-2 sm:p-3 border">Sl No.</th>
+                <th className="p-2 sm:p-3 border text-left">Form Name</th>
+                <th className="p-2 sm:p-3 border">View PDF</th>
+                {/* <th className="p-2 sm:p-3 border">PDF</th> */}
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody className="text-sm sm:text-base">
+              {csrData.map((form, index) => (
+                <tr key={index} className="text-center hover:bg-gray-50">
+                  <td className="p-2 sm:p-3 border">{index + 1}</td>
+                  <td className="p-2 sm:p-3 border text-left">{form.name}</td>
+                  <td className="p-2 sm:p-3 border">
+                    <a
+                      href={form.wordLink}
+                      className="text-purple-600 underline hover:text-purple-800"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View
+                    </a>
+                  </td>
+                  {/* <td className="p-2 sm:p-3 border">
+                    <button
+                      onClick={() => handleViewClick(form.wordLink)}
+                      className="text-blue-600 underline hover:text-blue-800 cursor-pointer"
+                    >
+                      View
+                    </button>
+                  </td> */}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {/* Modal */}
       {showModal && (
