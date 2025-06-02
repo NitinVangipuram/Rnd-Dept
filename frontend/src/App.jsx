@@ -8,6 +8,7 @@ import PageSkeleton from './components/LoadingSkeleton/PageSkeleton';
 import Home from './pages/Home';
 import Forms from './pages/Forms';
 import Csr from './pages/Csr';
+import ResearchAreas from './pages/ResearchAreas';
 
 // Lazy load other pages
 const People = lazy(() => import('./pages/People'));
@@ -88,6 +89,11 @@ function App() {
               <Route path="/csr" element={
                 <Suspense fallback={<PageSkeleton />}>
                   <Csr />
+                </Suspense>
+              } />
+              <Route path="/research-areas" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <ResearchAreas />
                 </Suspense>
               } />
             </Routes>
