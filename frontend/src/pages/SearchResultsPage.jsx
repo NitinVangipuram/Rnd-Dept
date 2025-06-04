@@ -30,7 +30,7 @@ const SearchResultsPage = () => {
         {results.map((item, idx) => (
           <li key={idx} style={{ marginBottom: "1rem" }}>
             <Link to={item.link}>
-              <strong>{item.title}</strong>
+              <strong style={{color:"#00f"}}>{item.title}</strong>
               <div style={{ fontSize: "0.9em" }}>
                 {item.displaycontent || item.content}
               </div>

@@ -4,9 +4,9 @@ const searchData = [
   // Home Page
   {
     page: 'Home',
-    title: 'Welcome Message',
-    content: 'Welcome to the Department of Computer Science and Engineering at IIT Dharwad.',
-    displaycontent: 'Welcome to R&D Section',
+    title: 'Welcome to R&D Section',
+    content: 'Welcome to the Resource and Development(rnd) Section of IIT Dharwad.',
+    displaycontent: 'Welcome to the Resource and Development Section of IIT Dharwad.',
     link: '/'
   },
   {

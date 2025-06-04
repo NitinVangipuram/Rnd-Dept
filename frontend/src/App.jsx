@@ -8,8 +8,7 @@ import Footer from './components/Footer/Footer';
 import PageSkeleton from './components/LoadingSkeleton/PageSkeleton';
 import Home from './pages/Home';
 import Forms from './pages/Forms';
-import Csr from './pages/Csr';
-import SearchResultsPage from './pages/SearchResultsPage';
+// import SearchResultsPage from './pages/SearchResultsPage';
 
 // Lazy load other pages
 const People = lazy(() => import('./pages/People'));
@@ -19,7 +18,7 @@ const CSRP= lazy(() => import('./pages/CSRProjects'));
 const Funding = lazy(() => import('./pages/Funding_statistics'));
 const Office = lazy(() => import('./pages/Office_statistics'));
 const Documents = lazy(() => import('./pages/Documents'));
-const Searchresults = lazy(() => import('./pages/searchresults')); 
+const Searchresults = lazy(() => import('./pages/SearchResultsPage')); 
 const Csr= lazy(() => import('./pages/Csr')); 
 const Ethics = lazy(() => import('./pages/Ethicscommitte'));
 
@@ -113,7 +112,7 @@ function App() {
                     <Csr />
                   </Suspense>
                 } />
-                <Route path="/search" element={<SearchResultsPage />} />
+                <Route path="/search" element={<Searchresults />} />
                 <Route path="*" element={<div style={{padding: "2rem"}}>No results found.</div>} />
               </Routes>
             </div>
