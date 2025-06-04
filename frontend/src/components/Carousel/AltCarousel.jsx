@@ -56,7 +56,10 @@ const CustomCarousel = ({ images }) => {
       onTouchEnd={handleTouchEnd}
     >
       {/* Carousel wrapper */}
-      <div className="relative h-48 sm:h-64 md:h-80 lg:h-96 overflow-hidden">
+      <div 
+        className="relative overflow-hidden"
+        style={{paddingTop:'33.33%'}}
+      >
         {images.map((src, index) => (
           <div
             key={index}

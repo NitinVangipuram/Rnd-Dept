@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-scroll';
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
 import AltCarousel from '../components/Carousel/AltCarousel';
-import img1 from '../assets/carousel-images/image1.jpg';
-import img2 from '../assets/carousel-images/image2.jpg';
-import img3 from '../assets/carousel-images/image3.jpg';
+import img1 from '../assets/carousel-images/image-1.png';
+import img2 from '../assets/carousel-images/image-2.png';
+import img3 from '../assets/carousel-images/image-3.png';
+import img4 from '../assets/carousel-images/image-4.png';
 
 const CACHE_KEY = 'cachedOpportunities';
 const CACHE_TIMESTAMP_KEY = 'opportunitiesCacheTimestamp';
@@ -39,7 +40,7 @@ const Opportunities = () => {
     const [opportunities, setOpportunities] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const images = [img1, img2, img3];
+    const images = [img1, img2, img3, img4];
 
     useEffect(() => {
         const fetchOpportunities = async () => {

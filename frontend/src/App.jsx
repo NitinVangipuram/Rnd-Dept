@@ -13,9 +13,15 @@ import SearchResultsPage from './pages/SearchResultsPage';
 
 // Lazy load other pages
 const People = lazy(() => import('./pages/People'));
+const Sponsored = lazy(() => import('./pages/Sponsored'));;
+const Consultancy = lazy(() => import('./pages/Consultancy'));
+const CSRP= lazy(() => import('./pages/CSRProjects'));
 const Funding = lazy(() => import('./pages/Funding_statistics'));
 const Office = lazy(() => import('./pages/Office_statistics'));
 const Documents = lazy(() => import('./pages/Documents'));
+const Searchresults = lazy(() => import('./pages/searchresults')); 
+const Csr= lazy(() => import('./pages/Csr')); 
+const Ethics = lazy(() => import('./pages/Ethicscommitte'));
 
 // ScrollToTop logic inside App.jsx
 function ScrollToTop() {
