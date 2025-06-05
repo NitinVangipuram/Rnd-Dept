@@ -7,9 +7,9 @@ export default function Sponsored() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Note: consultancies named collection was created inplace os Sponsors actually this is sponsored projects
-    const STRAPI_API_TOKEN = "76c0a73a0e8995193f27fb3fa52991a8cc964a7e561831edbec5568b3bb861fb9f5d410c452c9a476d54ea42087134afdd39fe85bcf36e426a3e647359ca11d3579f0431631e58d82fb51b9ed917dc57381815ac0f37ec4fc096f6fb1f1b8937ec24ca88926827fe868b10115c4abd2867815984f99a42051143771b054c1aa6"
-    const STRAPI_API_URL = 'http://localhost:1337/api/sponsors?pagination[pageSize]=100';
+    const CONSULTANCY_TOKEN="82dce5396d0337b14b24d017a843c21ef3c1f1adaf683a960237ceaf364cb3c581aa904b62dce6c0e7348df40e4709edc85efdad59ccdef33ab48f4b49f84c060e27a123f30d2bd3c8f89e241163b54e01699c5902d66c79b639abc1b1dbbc1a75b16023d237341ed88c837e4c802011c685d570a1959d8a54ac6ecaf7998326"
+    const STRAPI_API_TOKEN = CONSULTANCY_TOKEN
+    const STRAPI_API_URL = 'https://rnd.iitdh.ac.in/strapi/api/consultancies?pagination[pageSize]=100';
 
     useEffect(() => {
         const fetchData = async () => {

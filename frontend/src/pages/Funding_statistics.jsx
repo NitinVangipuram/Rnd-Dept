@@ -6,8 +6,8 @@ export default function Funding_statistics() {
   const [error, setError] = useState(null);
 
   
-  const STRAPI_API_TOKEN = "7c8d827492d11c5bd765a34dbf4d32232482e8825a2282113a379ee32c5e1b2b881f16f691797d18aad30238711c20daba3222ae753235f28f19b37f1c53f06f63d4a26070ffb535493597ca1bbd1c75de877e6b9b99d1cff5eedb5d5e6844f1ce5b07356ab226aefb1071152dea7ee664b5d72899436d928b8ac125da48c6eb";
-  const STRAPI_API_URL = 'http://localhost:1337/api/funding-statistics?pagination[pageSize]=100'; 
+  const STRAPI_API_TOKEN = "5840a35387b0b7e4257bb8fd5cfa7a331ce84d5cd6322fbec56e8fde7b111b365b1a3deab39c0340d7d0b9fa75213d7b580773d2453ab1c2541f31c81c6a8dd8d21fbce6af2cd53d1d544807e7d4dce566ba211310dc343031853b186529c1498fb80405ede5688007007d4c24850451a831c9f0ad188ef3e587ad48034fb2db"
+  const STRAPI_API_URL = 'https://rnd.iitdh.ac.in/strapi/api/funding-statistics?pagination[pageSize]=100'; 
 
   useEffect(() => {
     const fetchData = async () => {
