@@ -7,9 +7,9 @@ export default function Sponsored() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Note: consultancies named collection was created inplace os Sponsors actually this is sponsored projects
-    const STRAPI_API_TOKEN = "ebda610534c9c4d00a1f5511b8f837c6fd751b939a08162f6f0e701058d9e94d000fed2381f0343b878c068a937aa92d6e55eba419324fc978a782111f292d8833099e3ab0fd4d6669b2d8daf3383d0a822559263f12bc5b542f9cec18e5465dbe44795608086eda6efa5575bd07d9f76a39a9acf27ce76f16c2e141a4d588c1"
-    const STRAPI_API_URL = 'http://localhost:1337/api/sponsors?pagination[pageSize]=100';
+    const SPONSOR_TOKEN="c5e1d1e520132e6509aa8a2c1c5b3063469217c9c7d7ec8174a5cb441f8443f0ddefd2430c8f95a66eabb72bba5f0ca79c8aecf17752e912aaaf0d9d07ddf7ae1acdc37972f31e5f3d9419aa54b9c2034756704913fb6ccbd7ad56915c50bd0b8faeccdd30d886a0066c2b1af6aa111dadc1147743f303eaa63373bb09067980"
+    const STRAPI_API_TOKEN = SPONSOR_TOKEN
+    const STRAPI_API_URL = 'https://rnd.iitdh.ac.in/strapi/api/sponsors?pagination[pageSize]=100';
 
     useEffect(() => {
         const fetchData = async () => {
@@ -66,64 +66,62 @@ export default function Sponsored() {
     }
 
     return (
-        <div className="p-6" id="research-and-documents-table">
-          <h1 className='text-3xl font-bold text-center text-gray-800 mb-8'>Sponsored Projects</h1>
-            <div className="overflow-x-auto shadow-lg rounded-lg">
-                <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-purple-800">
-                        <tr>
-                            <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                                Serial No
-                            </th>
-                            <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                                Title
-                            </th>
-                            <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                                Investigator(s)
-                            </th>
-                            <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                                Sponsoring Agency Scheme
-                            </th>
-                            <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                                Value
-                            </th>
-                            <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                                Duration
-                            </th>
-                            <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                                Sanction Date
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                        {doc.map((item) => (
-                            <tr key={item.id}>
-                                 <td className="px-3 py-4 whitespace-normal text-sm font-medium text-gray-900">
-                                    {item.sl_no}
-                                </td>
-                                <td className="px-3 py-4 whitespace-normal text-sm font-medium text-gray-900">
-                                    {item.title}
-                                </td>
-                                <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
-                                    {item.principalInvestigator}
-                                </td>
-                                <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
-                                    {item.industry}
-                                </td>
-                                <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
-                                    {item.values}
-                                </td>
-                                <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
-                                    {item.time}
-                                </td>
-                                <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
-                                    {item.sanctiondate}
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    );
-}
+        <div className="p-4" id="research-and-documents-table">
+  <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">Sponsored Projects</h1>
+  <div className="overflow-x-auto shadow-lg rounded-lg">
+    <table className="min-w-full divide-y divide-gray-200">
+      <thead className="bg-purple-800">
+        <tr>
+          <th className="px-2 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">
+            Serial No
+          </th>
+          <th className="px-2 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">
+            Title
+          </th>
+          <th className="px-2 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">
+            Investigator(s)
+          </th>
+          <th className="px-2 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">
+            Sponsoring Agency Scheme
+          </th>
+          <th className="px-2 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">
+            Value(₹1,00,000)
+          </th>
+          <th className="px-2 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">
+            Duration
+          </th>
+          <th className="px-2 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">
+            Sanction Date
+          </th>
+        </tr>
+      </thead>
+      <tbody className="bg-white divide-y divide-gray-200">
+        {doc.map((item) => (
+          <tr key={item.id}>
+            <td className="px-2 py-2 whitespace-normal text-sm font-medium text-gray-900">
+              {item.sl_no}
+            </td>
+            <td className="px-2 py-2 whitespace-normal text-sm font-medium text-gray-900">
+              {item.title}
+            </td>
+            <td className="px-2 py-2 whitespace-normal text-sm text-gray-700">
+              {item.Investigator}
+            </td>
+            <td className="px-2 py-2 whitespace-normal text-sm text-gray-700">
+              {item.SponsoringAgencyScheme}
+            </td>
+            <td className="px-2 py-2 whitespace-normal text-sm text-gray-700">
+              {item.values}
+            </td>
+            <td className="px-2 py-2 whitespace-normal text-sm text-gray-700">
+              {item.duration}
+            </td>
+            <td className="px-2 py-2 whitespace-normal text-sm text-gray-700">
+              {item.sanctiondate}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>)}

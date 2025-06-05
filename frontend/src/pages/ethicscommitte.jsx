@@ -7,9 +7,9 @@ export default function Ethicscommitte() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Note: consultancies named collection was created inplace os Sponsors actually this is sponsored projects
-    const STRAPI_API_TOKEN = "8cb9116689a985543e1b5290caa6b58ce8da4dab31abb817c70ed2e96282f0d034ebe8504ff2f6fc7222f2efa7822ae51a9a531e1331469d0790e88f4b58285d1a39432618127cb9f7114da65e8594e99dfbb342d3497d0a88efef0625709bafe7adc09b101785abfb09fbc5315fcdd5341bbcd3903bdab9280fa834e2d38db1"
-    const STRAPI_API_URL = 'http://localhost:1337/api/ethicscommittes?pagination[pageSize]=100';
+    
+    const STRAPI_API_TOKEN = "7faccd50d933c3c23d476f4c0544a0905a4c724288be370558454a6b86b4dab62ee92e106bc97c5701df997ae2ce08d08183c2ac394b22345bf4ba785d6bf61d22f00988bcecce5187a4cf44c423e261b82cd23366b298c4d207bb900b162751d5fda0da7f4ef01ad136fb1663d01d31d7d0fdc4e7c6c945bcfb2bde55f5d876"
+    const STRAPI_API_URL = 'https://rnd.iitdh.ac.in/strapi/api/ethicscommittes?pagination[pageSize]=100';
 
     useEffect(() => {
         const fetchData = async () => {
