@@ -1,50 +1,36 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
 
 const CACHE_EXPIRY = 5 * 60 * 1000;
-
 const backendUrl = import.meta.env.VITE_STRAPI_URL;
 
 export default function Funding_statistics() {
   const [fundingData, setFundingData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error,setError] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const cacheKey = 'fundingDataCache';
     const cacheTimestampKey = 'fundingDataCacheTimestamp';
 
-    //console.log(backendUrl);
-
     const loadData = async () => {
-      // Try to get from cache
       const cached = localStorage.getItem(cacheKey);
       const cachedTimestamp = localStorage.getItem(cacheTimestampKey);
 
-      // If cached and not expired
       if (cached && cachedTimestamp && Date.now() - Number(cachedTimestamp) < CACHE_EXPIRY) {
         setFundingData(JSON.parse(cached));
         setLoading(false);
-
-      //   console.log("test1"+fundingData);
       } else {
-        // Fetch from backend
         try {
-          const response = await axios.get(`${backendUrl}/funding?populate=*`);
+          const response = await axios.get(`https://rnd.iitdh.ac.in/strapi/api/funding?populate=*`);
           const items = response.data?.data?.link || [];
-
-          //console.log(items)
-
           setFundingData(items);
 
-
-          // Save to cache
           localStorage.setItem(cacheKey, JSON.stringify(items));
           localStorage.setItem(cacheTimestampKey, Date.now().toString());
         } catch (err) {
-          console.error('Failed to fetch Forms data', err);
+          console.error('Failed to fetch funding data', err);
           setError(err);
         } finally {
           setLoading(false);
@@ -56,47 +42,55 @@ export default function Funding_statistics() {
   }, [backendUrl]);
 
   return (
-  <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8 text-gray-800">
-    <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">
-      Funding Agencies
-    </h1>
+    <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8 text-gray-800">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center text-black">
+        Funding Agencies
+      </h1>
 
-    <div className="overflow-x-auto">
-      {loading ? (
-        <PageSkeleton />
-      ) : error ? (
-        <div className="text-red-500">{error}</div>
-      ) : (
-        <table className="min-w-full table-auto border border-gray-300 shadow-md bg-white">
-          <thead className="bg-gray-300 text-sm sm:text-base">
-            <tr>
-              <th className="p-2 sm:p-3 border">Sl No.</th>
-              <th className="p-2 sm:p-3 border text-left">Agency Name</th>
-            </tr>
-          </thead>
-          <tbody className="text-sm sm:text-base">
-            {fundingData.map((agency, index) => (
-              <tr
-                key={index}
-                className={`text-center ${index % 2 === 0 ? "bg-white" : "bg-gray-200"}`}
-              >
-                <td className="p-2 sm:p-3 border">{index + 1}</td>
-                <td className="p-2 sm:p-3 border text-left">
-                  <a
-                    href={agency.link}
-                    className="text-blue-700 underline hover:text-blue-900"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {agency.name}
-                  </a>
-                </td>
+      <div className="overflow-x-auto">
+        {loading ? (
+          <PageSkeleton />
+        ) : error ? (
+          <div className="flex flex-col items-center justify-center min-h-[40vh] bg-red-50 border border-red-200 rounded-lg shadow p-6 my-8">
+            <h2 className="text-xl font-bold text-red-700 mb-2">Unable to load funding agencies</h2>
+            <p className="text-red-600 mb-2">
+              There was a problem fetching the funding data from the server.
+            </p>
+            <p className="text-sm text-red-500 mb-4">
+              Please check your internet connection or try again later.
+            </p>
+          </div>
+        ) : (
+          <table className="min-w-full table-auto border border-gray-200 shadow-lg bg-white rounded-lg overflow-hidden">
+            <thead>
+              <tr className="bg-purple-700 text-white text-sm sm:text-base">
+                <th className="p-3 text-center border-r border-purple-600 rounded-tl-lg">S.NO</th>
+                <th className="p-3 text-left rounded-tr-lg">NAME</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+            </thead>
+            <tbody className="text-sm sm:text-base">
+              {fundingData.map((agency, index) => (
+                <tr
+                  key={index}
+                  className="text-gray-800 even:bg-gray-100 odd:bg-white"
+                >
+                  <td className="p-3 text-center border">{index + 1}</td>
+                  <td className="p-3 border">
+                    <a
+                      href={agency.wordLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-purple-700 hover:text-purple-900 no-underline"
+                    >
+                      {agency.name}
+                    </a>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
     </div>
-  </div>
-  )
-};
+  );
+}

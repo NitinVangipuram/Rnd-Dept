@@ -35,7 +35,7 @@ const OpportunityCard = ({ scheme, agency, deadline, link }) => (
     </div>
 );
 
-const Opportunities = () => {
+const Home = () => {
     const [opportunities, setOpportunities] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -49,16 +49,17 @@ const Opportunities = () => {
                     'https://opensheet.vercel.app/1t352KbG0gFpu_QK7BVjBrcwLy5Kthq4JmHRy_AtVHUM/Sheet1'
                 );
                 const data = await res.json();
-
+                console.log('Fetched opportunities:', data);
                 const today = new Date();
 
                 const filtered = data.filter(entry => {
-                    const dateStr = entry.Deadline?.trim();
-                    const date = new Date(dateStr);
-                    return dateStr && !isNaN(date) && date >= today;
+                    const deadlineStr = entry.Deadline?.trim();
+                    const deadlineDate = new Date(deadlineStr);
+                    const isRolling = /rolling/i.test(deadlineStr); // case-insensitive match
+                    const isFutureDate = deadlineStr && !isNaN(deadlineDate) && deadlineDate >= today;
+                    return isRolling || isFutureDate;
                 });
 
-                // Cache filtered data and timestamp
                 localStorage.setItem(CACHE_KEY, JSON.stringify(filtered));
                 localStorage.setItem(CACHE_TIMESTAMP_KEY, Date.now().toString());
 
@@ -71,7 +72,6 @@ const Opportunities = () => {
             }
         };
 
-        // Check cache
         const cachedData = localStorage.getItem(CACHE_KEY);
         const cacheTimestamp = localStorage.getItem(CACHE_TIMESTAMP_KEY);
         const now = Date.now();
@@ -113,7 +113,7 @@ const Opportunities = () => {
                             <OpportunityCard
                                 key={idx}
                                 scheme={item.Scheme}
-                                agency={item.Agnecy} 
+                                agency={item.Agnecy}
                                 deadline={item.Deadline}
                                 link={item.Link}
                             />
@@ -125,4 +125,4 @@ const Opportunities = () => {
     );
 };
 
-export default Opportunities;
+export default Home;
