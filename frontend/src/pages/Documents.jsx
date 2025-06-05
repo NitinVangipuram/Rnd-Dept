@@ -7,8 +7,8 @@ export default function Documents() {
   const [doc,setdoc]=useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const STRAPI_API_TOKEN = "1e38760ea6905d7dbd0b1f0a0a9f667c08561eea24d192eb828e8f08be48ef3a4132cab4e72a451e404907eed3f3a00473121ac0d3f5187e247723e603fb80572cdeb895b0c81541af1ab23e332b567bcab6f530ea0b04985ce019b001daf5032a71ba4c16de0c7be6ed8319b1410046942ce04b14637bfa982a853e32e3dc63"
-    const STRAPI_API_URL = 'http://localhost:1337/api/docs?pagination[pageSize]=100'; 
+  const STRAPI_API_TOKEN = "2410ca74a53201cf907be53dbd6e904fd441358ad9da0dd3763f474257e31add2a7591a77930e36c95486173a9ec7d7e0ca1e257c879710c16c174cb0c4b905119226b2a27151c91f2310654a18968385f91716b395b9443c41f923574139bae310f8f0981cbb997e40f2e8b47ae17d339b21926ef8c1ac342caf66016100642"
+    const STRAPI_API_URL = 'https://rnd.iitdh.ac.in/strapi/api/docs?pagination[pageSize]=100'; 
   
     useEffect(() => {
       const fetchData = async () => {
