@@ -1,85 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
 
-const formData = [
-{
-    name: 'Request for the Extension of Duration of Project Staff',
-    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/Request_for_the_Extension_of_Duration_of_Project_Staff.docx',
-  },
-  {
-    name: 'Disbursal Form for Consultancy Project/Course',
-    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/Consultancy_Amt_Disbursal_Form.docx',
-  },
-  {
-    name: 'Asset Retention / Return Form',
-    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/Asset_Retention%20-%20Return%20Form.docx',
-  },
-  {
-    name: 'Form to be submitted for Projects involving extended Foreign Travel',
-    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/Foreign_Travel_Project_Form.docx', // Assuming link format, you can replace with actual if available
-  },
-  {
-    name: 'Project Proposal Submission Form',
-    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/Project_Proposal_Submission_Form.docx',
-  },
-  {
-    name: 'Reimbursement Form',
-    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/Reimbursement_Form.docx',
-  },
-  {
-    name: 'Advance Form',
-    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/Advance_Form.docx',
-  },
-  {
-    name: 'Settlement Form',
-    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/Settlement_Form.docx',
-  },
-  {
-    name: 'TA Form',
-    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/TA_Form.docx',
-  },
-  {
-    name: 'Indent form A - For direct purchases of value up to ₹ 50,000',
-    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/Indent%20from%20A_For%20direct%20purchases%20of%20value%20up%20to%20%E2%82%B9%2050,000.docx',
-  },
-  {
-    name: 'Indent form B - For purchases between ₹ 50,001 to ₹ 10 Lakhs',
-    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/Indent%20form%20B_%20For%20purchases%20between%20%E2%82%B9%2050,001-%20to%20%E2%82%B9%2010%20Lakhs.docx',
-  },
-  {
-    name: 'Indent form C - For purchases above ₹ 10 lakhs',
-    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/Indent%20form%20C_%20For%20purchases%20above%20%E2%82%B9%2010%20lakhs.docx',
-  },
-  {
-    name: 'Verification Report Form',
-    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/Verification_Report.docx',
-  },
-  {
-    name: 'Project Completion Report',
-    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/Project_Completion_Report.docx',
-  },
-  {
-    name: 'Bank Mandate Form with PFMS details',
-    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/Bank_Mandate_Form_PFMS.docx',
-  },
-  {
-    name: 'IIT Dharwad PAN',
-    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/IIT_Dharwad_PAN.docx',
-  },
-  {
-    name: 'IIT Dharwad GST registration',
-    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/IIT_Dharwad_GST_Registration.docx',
-  },
-  {
-    name: 'Consumable Stock Form',
-    wordLink: 'https://intranet.iitdh.ac.in:444/rnd/forms/Consumables%20stock%20register%20format_v3.xlsx',
-  }
-];
-
+const CACHE_EXPIRY = 5 * 60 * 1000;
+const backendUrl = import.meta.env.VITE_STRAPI_URL;
 
 export default function Forms() {
   const [showModal, setShowModal] = useState(false);
   const [selectedDocLink, setSelectedDocLink] = useState('');
   const [rawDocLink, setRawDocLink] = useState('');
+
+  const [formData, setFormData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const cacheKey = 'formsDataCache';
+    const cacheTimestampKey = 'formsDataCacheTimestamp';
+
+    const loadData = async () => {
+      const cached = localStorage.getItem(cacheKey);
+      const cachedTimestamp = localStorage.getItem(cacheTimestampKey);
+
+      if (cached && cachedTimestamp && Date.now() - Number(cachedTimestamp) < CACHE_EXPIRY) {
+        setFormData(JSON.parse(cached));
+        setLoading(false);
+      } else {
+        try {
+          const response = await axios.get(`https://rnd.iitdh.ac.in/strapi/api/form?populate=*`);
+          const items = response.data?.data?.link || [];
+          setFormData(items);
+          localStorage.setItem(cacheKey, JSON.stringify(items));
+          localStorage.setItem(cacheTimestampKey, Date.now().toString());
+        } catch (err) {
+          console.error('Failed to fetch Forms data', err);
+          setError(err);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadData();
+  }, [backendUrl]);
 
   const handleViewClick = (link) => {
     const encodedLink = encodeURIComponent(link);
@@ -93,44 +56,61 @@ export default function Forms() {
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8 text-gray-800">
       <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">R&D Forms</h1>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full table-auto border border-gray-300 shadow-md bg-white">
-          <thead className="bg-gray-200 text-sm sm:text-base">
-            <tr>
-              <th className="p-2 sm:p-3 border">Sl No.</th>
-              <th className="p-2 sm:p-3 border text-left">Form Name</th>
-              <th className="p-2 sm:p-3 border">Word Format</th>
-              <th className="p-2 sm:p-3 border">PDF</th>
-            </tr>
-          </thead>
-          <tbody className="text-sm sm:text-base">
-            {formData.map((form, index) => (
-              <tr key={index} className="text-center hover:bg-gray-50">
-                <td className="p-2 sm:p-3 border">{index + 1}</td>
-                <td className="p-2 sm:p-3 border text-left">{form.name}</td>
-                <td className="p-2 sm:p-3 border">
-                  <a
-                    href={form.wordLink}
-                    className="text-purple-600 underline hover:text-purple-800"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Download
-                  </a>
-                </td>
-                <td className="p-2 sm:p-3 border">
-                  <button
-                    onClick={() => handleViewClick(form.wordLink)}
-                    className="text-blue-600 underline hover:text-blue-800 cursor-pointer"
-                  >
-                    View
-                  </button>
-                </td>
+      {loading ? (
+        <PageSkeleton />
+      ) : error ? (
+        <div className="flex flex-col items-center justify-center min-h-[40vh] bg-red-50 border border-red-200 rounded-lg shadow p-6 my-8">
+          <h2 className="text-xl font-bold text-red-700 mb-2">Unable to load forms</h2>
+          <p className="text-red-600 mb-2">
+            There was a problem fetching the forms from the server.
+          </p>
+          <p className="text-sm text-red-500 mb-4">
+            Please check your internet connection or try again later.
+          </p>
+        </div>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="min-w-full table-auto border border-gray-300 shadow-md bg-white rounded-lg">
+            <thead className="bg-purple-600 text-white text-sm sm:text-base">
+              <tr>
+                <th className="p-3 border-r border-purple-500">Sl No.</th>
+                <th className="p-3 border-r border-purple-500 text-left">Form Name</th>
+                <th className="p-3 border-r border-purple-500">Word Format</th>
+                <th className="p-3">PDF</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody className="text-sm sm:text-base">
+              {formData.map((form, index) => (
+                <tr
+                  key={index}
+                  className="text-center hover:bg-gray-50 even:bg-gray-100 odd:bg-white"
+                >
+                  <td className="p-3 border">{index + 1}</td>
+                  <td className="p-3 border text-left">{form.name}</td>
+                  <td className="p-3 border">
+                    <a
+                      href={form.wordLink}
+                      className="text-purple-600 underline hover:text-purple-800"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Download
+                    </a>
+                  </td>
+                  <td className="p-3 border">
+                    <button
+                      onClick={() => handleViewClick(form.wordLink)}
+                      className="text-blue-600 underline hover:text-blue-800 cursor-pointer"
+                    >
+                      View
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {/* Modal */}
       {showModal && (

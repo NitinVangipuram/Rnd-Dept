@@ -1,107 +1,92 @@
-import React, { useState } from 'react';
-import './documents.css';
-import { useEffect } from 'react';
-import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
-export default function Documents() {
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-  const [doc,setdoc]=useState([]);
+import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
+
+const CACHE_EXPIRY = 5 * 60 * 1000;
+
+const backendUrl = import.meta.env.VITE_STRAPI_URL;
+
+export default function Documents() {
+  const [docsData, setDocsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const STRAPI_API_TOKEN = "2410ca74a53201cf907be53dbd6e904fd441358ad9da0dd3763f474257e31add2a7591a77930e36c95486173a9ec7d7e0ca1e257c879710c16c174cb0c4b905119226b2a27151c91f2310654a18968385f91716b395b9443c41f923574139bae310f8f0981cbb997e40f2e8b47ae17d339b21926ef8c1ac342caf66016100642"
-    const STRAPI_API_URL = 'https://rnd.iitdh.ac.in/strapi/api/docs?pagination[pageSize]=100'; 
-  
-    useEffect(() => {
-      const fetchData = async () => {
+
+  useEffect(() => {
+    const cacheKey = 'docsDataCache';
+    const cacheTimestampKey = 'docsDataCacheTimestamp';
+
+    const loadData = async () => {
+      const cached = localStorage.getItem(cacheKey);
+      const cachedTimestamp = localStorage.getItem(cacheTimestampKey);
+
+      if (cached && cachedTimestamp && Date.now() - Number(cachedTimestamp) < CACHE_EXPIRY) {
+        setDocsData(JSON.parse(cached));
+        setLoading(false);
+      } else {
         try {
-          if (!STRAPI_API_TOKEN) {
-            throw new Error("Strapi API Token is not defined.");
-          }
-  
-          const response = await fetch(STRAPI_API_URL, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${STRAPI_API_TOKEN}`,
-            },
-          });
-  
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-  
-          const jsonData = await response.json();
-  
-          if (!jsonData || !Array.isArray(jsonData.data)) {
-            throw new Error("Invalid data format received from API. Expected 'data' array.");
-          }
-  
-        
-          const transformedData = jsonData.data.map((item) => {
-            return {
-              id: item.id,
-              category: item.category, 
-              name: item.name,   
-              url: item.url,     
-            };
-          });
-  
-          setdoc(transformedData);
+          const response = await axios.get(`https://rnd.iitdh.ac.in/strapi/api/om-docs?populate=*`);
+          const items = response.data?.data || [];
+
+          setDocsData(items);
+
+          localStorage.setItem(cacheKey, JSON.stringify(items));
+          localStorage.setItem(cacheTimestampKey, Date.now().toString());
         } catch (err) {
-          console.error("Failed to fetch documents:", err);
+          console.error('Failed to fetch Forms data', err);
           setError(err);
         } finally {
           setLoading(false);
         }
-      };
-  
-      fetchData();
-    }, [STRAPI_API_TOKEN]);
-  
+      }
+    };
 
-    if (loading) {
-    return (
-      <PageSkeleton/>
-    );
-  }
-  
-  if (error) {
-    return (
-      <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8 text-gray-800 flex flex-col justify-center items-center text-red-600">
-        <p className="text-xl font-semibold">Error: {error.message}</p>
-        <p className="text-sm mt-2">Please ensure your Strapi server is running, your API token is correct, and network is available.</p>
-      </div>
-    );
-  }
+    loadData();
+  }, [backendUrl]);
 
   return (
-    <div className="omanddoc p-6" id="documents">
-      {doc.map((ele) => ( 
-  <div key={ele.id} className="mb-8">
-    <h1 className='text-[black] text-2xl font-bold mb-4'>{ele.category}</h1>
-    <hr className="border border-[#D8BFD8] mb-4" />
-    <ol className="space-y-2">
-      {/* Iterate over the 'name' and 'url' arrays */}
-      {ele.name && ele.name.map((nameItem, index) => (
-        <li key={`${ele.id}-${index}`}> {/* Unique key for each list item */}
-          {/* Check if a corresponding URL exists at the same index */}
-          {ele.url && ele.url[index] ? (
-            <a
-              href={ele.url[index]}
-              target='_blank'
-              rel='noopener noreferrer'
-              className="text-[#8B008B] hover:underline hover:text-[black] text-lg"
+    <div className="min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8 text-gray-800">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-8 text-center">OM and Documents</h1>
+
+      {loading ? (
+        <PageSkeleton />
+      ) : error ? (
+        <div className="flex flex-col items-center justify-center min-h-[40vh] bg-red-50 border border-red-200 rounded-lg shadow p-6 my-8">
+          <h2 className="text-xl font-bold text-red-700 mb-2">Unable to load OM and Documents</h2>
+          <p className="text-red-600 mb-2">
+            There was a problem fetching the documents from the server.
+          </p>
+          <p className="text-sm text-red-500 mb-4">
+            Please check your internet connection or try again later.
+          </p>
+        </div>
+      ) : (
+        <div className="max-w-4xl mx-auto space-y-8">
+          {docsData.map((section, idx) => (
+            <div
+              key={idx}
+              className="bg-white p-5 rounded-2xl shadow-md border border-gray-200"
             >
-              {nameItem}
-            </a>
-          ) : (
-            
-            <span className="text-[black] text-lg">{nameItem}</span>
-          )}
-        </li>
-      ))}
-    </ol>
-  </div>
-))}
+              <h2 className="text-xl font-semibold text-black mb-4">{section.heading}</h2>
+              <ol className="list-decimal ml-6 space-y-2">
+                {section.link.map((item, i) => (
+                  <li key={i}>
+                    <a
+                      href={item.wordLink}
+                      className="text-purple-600 hover:text-purple-800 no-underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ textDecoration: 'none' }}
+                    >
+                      {item.name}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

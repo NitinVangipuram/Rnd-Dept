@@ -8,6 +8,7 @@ import PageSkeleton from './components/LoadingSkeleton/PageSkeleton';
 import Home from './pages/Home';
 import Forms from './pages/Forms';
 
+import ResearchAreas from './pages/ResearchAreas';
 // Lazy load other pages
 const People = lazy(() => import('./pages/People'));
 const Sponsored = lazy(() => import('./pages/Sponsored'));;
@@ -72,7 +73,7 @@ function App() {
               } />
               <Route path="/csr" element={
                 <Suspense fallback={<PageSkeleton />}>
-                  < Csr/>
+                  <Csr/>
                 </Suspense>
               } />
               <Route path="/people" element={
@@ -96,7 +97,7 @@ function App() {
                 </Suspense>
               } />
              
-              <Route path="/search" element={
+             <Route path="/search" element={
                 <Suspense fallback={<PageSkeleton />}>
                   <Searchresults />
                 </Suspense>
@@ -121,6 +122,12 @@ function App() {
             <Route path="/Projects/Csr" element={
                 <Suspense fallback={<PageSkeleton />}>
                   <CSRP/>
+                </Suspense>
+              } />
+
+               <Route path="/research-areas" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <ResearchAreas />
                 </Suspense>
               } />
             </Routes>
