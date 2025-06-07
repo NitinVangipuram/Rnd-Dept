@@ -7,9 +7,9 @@ export default function Sponsored() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const SPONSOR_TOKEN="c5e1d1e520132e6509aa8a2c1c5b3063469217c9c7d7ec8174a5cb441f8443f0ddefd2430c8f95a66eabb72bba5f0ca79c8aecf17752e912aaaf0d9d07ddf7ae1acdc37972f31e5f3d9419aa54b9c2034756704913fb6ccbd7ad56915c50bd0b8faeccdd30d886a0066c2b1af6aa111dadc1147743f303eaa63373bb09067980"
+    const SPONSOR_TOKEN="2842d89dd1039a268c9be63f731c7ae26077c0153e21ddfe1d11c2dc8df8b08f3496151e8fc5e6de7b7947730dc3826df36a4d5696fbf5670277f9f040d04cf97f78b937af5fdb320fe0d0b937d8c9cdf58f86ae15eb3f6b147c919f908645a4e5d87e208bdeed88340a7642beda2d9e220d2c83d2262c7479df5a670b30488c"
     const STRAPI_API_TOKEN = SPONSOR_TOKEN
-    const STRAPI_API_URL = 'https://rnd.iitdh.ac.in/strapi/api/sponsors?pagination[pageSize]=100';
+    const STRAPI_API_URL = 'https://rnd.iitdh.ac.in/strapi/api/Sponsored-projects?pagination[pageSize]=100';
 
     useEffect(() => {
         const fetchData = async () => {
@@ -99,19 +99,19 @@ export default function Sponsored() {
         {doc.map((item) => (
           <tr key={item.id}>
             <td className="px-2 py-2 whitespace-normal text-sm font-medium text-gray-900">
-              {item.sl_no}
+              {item.s_no}
             </td>
             <td className="px-2 py-2 whitespace-normal text-sm font-medium text-gray-900">
-              {item.title}
+              {item.Title}
             </td>
             <td className="px-2 py-2 whitespace-normal text-sm text-gray-700">
               {item.Investigator}
             </td>
             <td className="px-2 py-2 whitespace-normal text-sm text-gray-700">
-              {item.SponsoringAgencyScheme}
+              {item.Agencyscheme}
             </td>
             <td className="px-2 py-2 whitespace-normal text-sm text-gray-700">
-              {item.values}
+              {item.value}
             </td>
             <td className="px-2 py-2 whitespace-normal text-sm text-gray-700">
               {item.duration}
