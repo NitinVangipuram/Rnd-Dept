@@ -7,9 +7,9 @@ export default function Sponsored() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const CONSULTANCY_TOKEN="82dce5396d0337b14b24d017a843c21ef3c1f1adaf683a960237ceaf364cb3c581aa904b62dce6c0e7348df40e4709edc85efdad59ccdef33ab48f4b49f84c060e27a123f30d2bd3c8f89e241163b54e01699c5902d66c79b639abc1b1dbbc1a75b16023d237341ed88c837e4c802011c685d570a1959d8a54ac6ecaf7998326"
+    const CONSULTANCY_TOKEN="2e02b4d1a89d345802d5d8888d572e9ea4869e50b06bf4c30dd8cfe486fca446ebfe837b4a71d25b32557c538106df56b2724726218d746fc4db069cacb4e4c59c1dd7a54ac617facd1b7cad6087f0ff833683071f64dfb0fe65d1950190135ec06d2dea9664df3fe9514e1e50cd663bd40a1fd2add2e84ff65884e5c2313687"
     const STRAPI_API_TOKEN = CONSULTANCY_TOKEN
-    const STRAPI_API_URL = 'https://rnd.iitdh.ac.in/strapi/api/consultancies?pagination[pageSize]=100';
+    const STRAPI_API_URL = 'https://rnd.iitdh.ac.in/strapi/api/Consultancyprojects?pagination[pageSize]=100';
 
     useEffect(() => {
         const fetchData = async () => {
@@ -100,16 +100,16 @@ export default function Sponsored() {
                         {doc.map((item) => (
                             <tr key={item.id}>
                                  <td className="px-3 py-4 whitespace-normal text-sm font-medium text-gray-900">
-                                    {item.sl_no}
+                                    {item.s_no}
                                 </td>
                                 <td className="px-3 py-4 whitespace-normal text-sm font-medium text-gray-900">
-                                    {item.title}
+                                    {item.Titleofproject}
                                 </td>
                                 <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
-                                    {item.principalInvestigator}
+                                    {item.PrincipalInvestigator}
                                 </td>
                                 <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
-                                    {item.industry}
+                                    {item.company}
                                 </td>
                                  <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
                                     {item.sanctiondate}
@@ -119,7 +119,7 @@ export default function Sponsored() {
                                     {item.duration}
                                 </td>
                                   <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
-                                    {item.costofprojects}
+                                    {item.Costofproject}
                                 </td>
                                
                             </tr>
