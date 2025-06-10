@@ -49,7 +49,7 @@ const Home = () => {
                     'https://opensheet.vercel.app/1t352KbG0gFpu_QK7BVjBrcwLy5Kthq4JmHRy_AtVHUM/Sheet1'
                 );
                 const data = await res.json();
-                console.log('Fetched opportunities:', data);
+                // console.log('Fetched opportunities:', data);
                 const today = new Date();
 
                 const filtered = data.filter(entry => {

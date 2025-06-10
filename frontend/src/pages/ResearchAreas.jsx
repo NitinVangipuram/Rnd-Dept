@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import {
+  Typography,
+  TextField,
+  Box
+} from "@mui/material";
+import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
 
 const ResearchAreas = () => {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(true);
   const itemsPerPage = 100;
 
   const fetchData = async (page) => {
+    setLoading(true);
     try {
       const response = await axios.get(
         `https://rnd.iitdh.ac.in/strapi/api/research-areas?populate=*&pagination[page]=${page}&pagination[pageSize]=${itemsPerPage}`
@@ -21,6 +29,8 @@ const ResearchAreas = () => {
       setTotalPages(meta.pageCount || 1);
     } catch (error) {
       console.error('Error fetching research areas:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -40,56 +50,67 @@ const ResearchAreas = () => {
   };
 
   return (
-    <div className="p-4 max-w-screen-lg mx-auto">
-      <h2 className="text-2xl sm:text-3xl font-bold text-center mb-4">RESEARCH AREAS</h2>
-      <input
-        type="text"
-        className="border rounded w-full p-2 mb-4 text-sm sm:text-base"
-        placeholder="Search by Name/Department/Research Areas..."
-        value={search}
-        onChange={(e) => {
-          setSearch(e.target.value);
-          setCurrentPage(1); // reset to page 1 on new search
-        }}
-      />
+    <div className="p-4 max-w-screen-xl mx-auto">
+      <Box sx={{ maxWidth: "95%", mx: "auto", p: 2 }}>
+        <Typography variant="h5" fontWeight="bold" mb={3} align="center">
+          Academics and Research Areas
+        </Typography>
+        <TextField
+          fullWidth
+          label="Search by Name/ Department/ Research Areas"
+          variant="outlined"
+          size="small"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          sx={{ mb: 3 }}
+        />
+      </Box>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full border-collapse">
-          <thead>
-            <tr className="bg-purple-700 text-white text-sm sm:text-base">
-              <th className="border p-2 text-left">Name</th>
-              <th className="border p-2 text-left">Department</th>
-              <th className="border p-2 text-left">Areas of Interest</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredData.length > 0 ? (
-              filteredData.map((prof) => (
-                <tr key={prof.id} className="bg-white hover:bg-gray-50 text-sm sm:text-base">
-                  <td className="border p-2">{prof.ProfName}</td>
-                  <td className="border p-2">{prof.Department}</td>
-                  <td className="border p-2">
-                    <ul className="list-disc ml-4 space-y-0.5">
-                      {prof.AreaofInterest.map((area) => (
-                        <li key={area.id}>{area.Area}</li>
-                      ))}
-                    </ul>
+      <div className="p-4" id="research-areas-table">
+        <div className="overflow-x-auto shadow-lg rounded-lg">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-purple-800">
+              <tr>
+                <th className="px-3 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">Name</th>
+                <th className="px-3 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">Department</th>
+                <th className="px-3 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">Areas of Interest</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {loading ? (
+                <tr>
+                  <td colSpan="3" className="text-center p-6">
+                    <PageSkeleton />
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="3" className="text-center p-4 text-gray-500 text-sm sm:text-base">
-                  No matching research areas found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              ) : filteredData.length > 0 ? (
+                filteredData.map((prof) => (
+                  <tr key={prof.id} className="hover:bg-gray-50">
+                    <td className="px-3 py-2 text-sm text-gray-900">{prof.ProfName}</td>
+                    <td className="px-3 py-2 text-sm text-gray-900">{prof.Department}</td>
+                    <td className="px-3 py-2 text-sm text-gray-900">
+                      <ul className="list-disc ml-4 space-y-0.5">
+                        {prof.AreaofInterest.map((area) => (
+                          <li key={area.id}>{area.Area}</li>
+                        ))}
+                      </ul>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr className="bg-gray-50">
+                  <td colSpan="3" className="px-4 py-6 text-center text-gray-500 text-sm sm:text-base">
+                    No matching research areas found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Pagination Controls */}
-      {totalPages > 1 && (
+      {!loading && totalPages > 1 && (
         <div className="flex justify-center items-center mt-4 flex-wrap gap-2 text-sm sm:text-base">
           <button
             disabled={currentPage === 1}
