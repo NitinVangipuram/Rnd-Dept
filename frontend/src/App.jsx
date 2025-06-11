@@ -20,6 +20,7 @@ const Documents = lazy(() => import('./pages/Documents'));
 const Searchresults = lazy(() => import('./pages/searchresults')); 
 const Csr= lazy(() => import('./pages/Csr')); 
 const Ethics = lazy(() => import('./pages/Ethicscommitte'));
+const Publications = lazy(() => import('./pages/Publications'));
 
 // ScrollToTop logic inside App.jsx
 function ScrollToTop() {
@@ -128,6 +129,12 @@ function App() {
                <Route path="/research-areas" element={
                 <Suspense fallback={<PageSkeleton />}>
                   <ResearchAreas />
+                </Suspense>
+              } />
+
+              <Route path="/publications" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Publications />
                 </Suspense>
               } />
             </Routes>
