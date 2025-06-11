@@ -4,3 +4,26 @@
 .table1 td{
     background-color: #40d6ed;
 }
+
+
+
+
+
+.images{
+    width:100%;
+    height:auto;
+    margin-bottom: 50px;
+}
+
+.statistics{
+    margin-top:2rem;
+    
+}
+
+.statistics section{
+    margin:0px 35px 0px 35px;
+}
+
+.statistics h1{
+    font-size: 30px;
+}
