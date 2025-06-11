@@ -40,7 +40,7 @@ const Home = () => {
     const [opportunities, setOpportunities] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const images = [img1, img2, img3, img4,img5];
+    const images = [img5,img1, img2, img3, img4];
 
     useEffect(() => {
         const fetchOpportunities = async () => {
