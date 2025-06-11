@@ -6,54 +6,31 @@ import {
   Box
 } from "@mui/material";
 
-const CACHE_KEY = 'cachedOpportunities';
-const CACHE_TIMESTAMP_KEY = 'opportunitiesCacheTimestamp';
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
-
 export default function Sponsored() {
-  const [doc, setdoc] = useState([]);
+  const [doc, setDoc] = useState([]);
+  const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [search, setSearch] = useState("");
+
+  const SHEET_API_URL = "https://opensheet.elk.sh/1cVHmxJMGNPD_yGoQ4-_IASm1NYRfW1jpnozaR-PlB2o/Sheet1";
 
   useEffect(() => {
-    const fetchDoc = async () => {
+    const fetchData = async () => {
       try {
-        setLoading(true);
-        const res = await fetch(
-          'https://opensheet.vercel.app/1cVHmxJMGNPD_yGoQ4-_IASm1NYRfW1jpnozaR-PlB2o/Sheet1'
-        );
-        const data = await res.json();
-
-        localStorage.setItem(CACHE_KEY, JSON.stringify(data));
-        localStorage.setItem(CACHE_TIMESTAMP_KEY, Date.now().toString());
-
-        setdoc(data);
+        const response = await fetch(SHEET_API_URL);
+        const jsonData = await response.json();
+        setDoc(jsonData);
       } catch (err) {
-        console.error('Error fetching data:', err);
-        setError('Could not load sponsored projects.');
+        console.error("Failed to fetch data from Google Sheet:", err);
+        setError(err);
       } finally {
         setLoading(false);
       }
     };
 
-    const cachedData = localStorage.getItem(CACHE_KEY);
-    const cacheTimestamp = localStorage.getItem(CACHE_TIMESTAMP_KEY);
-    const now = Date.now();
-
-    if (
-      cachedData &&
-      cacheTimestamp &&
-      now - parseInt(cacheTimestamp, 10) < CACHE_DURATION
-    ) {
-      setdoc(JSON.parse(cachedData));
-      setLoading(false);
-    } else {
-      fetchDoc();
-    }
+    fetchData();
   }, []);
 
-  // Apply search filter
   const filteredDoc = doc.filter(item =>
     [
       item["Serial no."],
@@ -76,9 +53,9 @@ export default function Sponsored() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8 text-gray-800 flex flex-col justify-center items-center text-red-600">
-        <p className="text-xl font-semibold">Error: {error}</p>
-        <p className="text-sm mt-2 text-center">Please check your internet connection or data source.</p>
+      <div className="min-h-screen bg-gray-50 p-4 text-red-600 text-center">
+        <p className="text-xl font-semibold">Error: {error.message}</p>
+        <p className="text-sm mt-2">Please check your internet or sheet sharing settings.</p>
       </div>
     );
   }
@@ -97,51 +74,35 @@ export default function Sponsored() {
         onChange={e => setSearch(e.target.value)}
         sx={{ mb: 3 }}
       />
-
-      <div className="p-4" id="research-and-documents-table">
-        <div className="overflow-x-auto shadow-lg rounded-lg">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-purple-800">
-              <tr>
-                <th className="px-2 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">Serial No</th>
-                <th className="px-2 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">Title</th>
-                <th className="px-2 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">Investigator(s)</th>
-                <th className="px-2 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">Sponsoring Agency</th>
-                <th className="px-2 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">Value (₹1,00,000)</th>
-                <th className="px-2 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">Sanction Date</th>
-                <th className="px-2 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">Duration (years)</th>
+      <div className="overflow-x-auto shadow-lg rounded-lg">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-purple-800 text-white text-sm font-medium">
+            <tr>
+              <th className="px-2 py-2 text-left">Serial No</th>
+              <th className="px-2 py-2 text-left">Title</th>
+              <th className="px-2 py-2 text-left">Investigator(s)</th>
+              <th className="px-2 py-2 text-left">Co-PI</th>
+              <th className="px-2 py-2 text-left">Agency Scheme</th>
+              <th className="px-2 py-2 text-left">Value (₹ Lakhs)</th>
+              <th className="px-2 py-2 text-left">Sanction Date</th>
+              <th className="px-2 py-2 text-left">Duration (Years)</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200 text-sm">
+            {filteredDoc.map((item, index) => (
+              <tr key={index}>
+                <td className="px-2 py-2">{item["Serial no."]}</td>
+                <td className="px-2 py-2">{item["Title"]}</td>
+                <td className="px-2 py-2">{item["Investigator(s)"]}</td>
+                <td className="px-2 py-2">{item["Co-PI"]}</td>
+                <td className="px-2 py-2">{item["Sponsoring Agency-Scheme"]}</td>
+                <td className="px-2 py-2">{item["Value (₹1,00,000)"]}</td>
+                <td className="px-2 py-2">{item["Sanction date"] || "N/A"}</td>
+                <td className="px-2 py-2">{item["Duration (years)"] || "N/A"}</td>
               </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {filteredDoc.length === 0 ? (
-                <tr>
-                  <td colSpan="8" className="px-4 py-6 text-center text-gray-500">
-                    No results found.
-                  </td>
-                </tr>
-              ) : (
-                filteredDoc.map((item, index) => (
-                  <tr key={index}>
-                    <td className="px-2 py-2 text-sm text-gray-900">{item["Serial no."]}</td>
-                    <td className="px-2 py-2 text-sm text-gray-900">{item["Title"]}</td>
-                    <td className="px-2 py-2 text-sm text-gray-700 whitespace-pre-line">
-                      {item["Investigator(s)"]}
-                      {item["Co-PI"]?.trim() && (
-                        <>
-                          {"\n"}<span className="text-gray-700">Co-PI:{'\n'} {item["Co-PI"]}</span>
-                        </>
-                      )}
-                    </td>
-                    <td className="px-2 py-2 text-sm text-gray-700">{item["Sponsoring Agency-Scheme"]}</td>
-                    <td className="px-2 py-2 text-sm text-gray-700">{item["Value (₹1,00,000)"]}</td>
-                    <td className="px-2 py-2 text-sm text-gray-700">{item["Sanction date"]}</td>
-                    <td className="px-2 py-2 text-sm text-gray-700">{item["Duration (years)"]}</td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </div>
     </Box>
   );

@@ -5,6 +5,7 @@ import img1 from '../assets/carousel-images/image-1.png';
 import img2 from '../assets/carousel-images/image-2.png';
 import img3 from '../assets/carousel-images/image-3.png';
 import img4 from '../assets/carousel-images/image-4.png';
+import img5 from '../assets/carousel-images/image4.jpg'
 
 const CACHE_KEY = 'cachedOpportunities';
 const CACHE_TIMESTAMP_KEY = 'opportunitiesCacheTimestamp';
@@ -39,7 +40,7 @@ const Home = () => {
     const [opportunities, setOpportunities] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const images = [img1, img2, img3, img4];
+    const images = [img1, img2, img3, img4,img5];
 
     useEffect(() => {
         const fetchOpportunities = async () => {
