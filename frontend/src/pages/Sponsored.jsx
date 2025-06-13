@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
+import './searchresults.css'
 import {
   Typography,
   TextField,
-  Box
+  Box,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
 } from "@mui/material";
 
 export default function Sponsored() {
@@ -11,6 +16,9 @@ export default function Sponsored() {
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [sortOrder, setSortOrder] = useState(' ');
+  const [filteredDoc,setfilteredDoc]=useState(' ')
+  const [sortedDoc,setSortedDoc]=useState(' ')
 
   const SHEET_API_URL = "https://opensheet.elk.sh/1cVHmxJMGNPD_yGoQ4-_IASm1NYRfW1jpnozaR-PlB2o/Sheet1";
 
@@ -31,7 +39,8 @@ export default function Sponsored() {
     fetchData();
   }, []);
 
-  const filteredDoc = doc.filter(item =>
+  useEffect(()=>{
+   const filtered = doc.filter(item =>
     [
       item["Serial no."],
       item["Title"],
@@ -46,6 +55,49 @@ export default function Sponsored() {
       .toLowerCase()
       .includes(search.toLowerCase())
   );
+  setfilteredDoc(filtered)},[search,doc])
+
+
+
+useEffect(()=>{
+const sorted = [...filteredDoc].sort((a, b) => {
+  const dateA = parseDateDMY(a["Sanction date"]);
+  const dateB = parseDateDMY(b["Sanction date"]);
+
+  const isValidA = dateA instanceof Date && !isNaN(dateA);
+  const isValidB = dateB instanceof Date && !isNaN(dateB);
+
+  
+  if (!isValidA && isValidB) return 1;
+  if (isValidA && !isValidB) return -1;
+  if (!isValidA && !isValidB) return 1; 
+
+  
+  return sortOrder === "asc"
+    ? dateA - dateB
+    : dateB - dateA;
+});
+
+
+    setSortedDoc(sorted);
+  }, [sortOrder, filteredDoc]);
+
+function parseDateDMY(dateStr) {
+  if (!dateStr || dateStr.toLowerCase() === 'n/a') return null;
+
+  
+  const parts = dateStr.split(/[-.]/);  
+
+  if (parts.length !== 3) return null;
+
+  const day = parseInt(parts[0], 10);
+  const month = parseInt(parts[1], 10) - 1;
+  const year = parseInt(parts[2], 10);
+
+  const date = new Date(year, month, day);
+  return isNaN(date.getTime()) ? null : date;
+}
+
 
   if (loading) {
     return <PageSkeleton />;
@@ -65,15 +117,37 @@ export default function Sponsored() {
       <Typography variant="h5" fontWeight="bold" mb={3} align="center">
         Sponsored Projects
       </Typography>
+
+    <div className="bar">
       <TextField
-        fullWidth
         label="Search Sponsored Projects"
         variant="outlined"
         size="small"
+        className='searchfield'
         value={search}
         onChange={e => setSearch(e.target.value)}
-        sx={{ mb: 3 }}
+        sx={{ mb: 2 }}
       />
+ 
+      <FormControl className='formcontrol'  size="small" sx={{ mb: 3 }}>
+        <InputLabel id="sort-by-label">Sort by date</InputLabel>
+        <Select
+          labelId="sort-by-label"
+          id="sort-by"
+          placeholder='sort by sanctiondate'
+          value={sortOrder}
+        
+          label="Sort by Sanction Date"
+          onChange={(e) => setSortOrder(e.target.value)}
+        >
+    
+          <MenuItem value="asc">Oldest to Newest</MenuItem>
+          <MenuItem value="desc">Newest to Oldest</MenuItem>
+        </Select>
+      </FormControl>
+    </div>
+      
+
       <div className="overflow-x-auto shadow-lg rounded-lg">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-purple-800 text-white text-sm font-medium">
@@ -89,7 +163,7 @@ export default function Sponsored() {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200 text-sm">
-            {filteredDoc.map((item, index) => (
+            {sortedDoc.map((item, index) => (
               <tr key={index}>
                 <td className="px-2 py-2">{item["Serial no."]}</td>
                 <td className="px-2 py-2">{item["Title"]}</td>
