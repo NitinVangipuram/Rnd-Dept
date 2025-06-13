@@ -39,7 +39,7 @@ const Navbar = ({ closeMenu }) => {
                         People
                     </NavLink>
                 </li>
-                <MyDropdownNav/>
+                <MyDropdownNav closeMenu={closeMenu} />
                 <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
                     <NavLink
                         to="/Documents"

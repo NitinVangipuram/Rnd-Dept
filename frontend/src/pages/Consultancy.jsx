@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
+import { Link } from 'react-scroll';
 
 
 export default function Sponsored() {
-   const [doc, setdoc] = useState([]);
+    const [doc, setdoc] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const CONSULTANCY_TOKEN="2e02b4d1a89d345802d5d8888d572e9ea4869e50b06bf4c30dd8cfe486fca446ebfe837b4a71d25b32557c538106df56b2724726218d746fc4db069cacb4e4c59c1dd7a54ac617facd1b7cad6087f0ff833683071f64dfb0fe65d1950190135ec06d2dea9664df3fe9514e1e50cd663bd40a1fd2add2e84ff65884e5c2313687"
+    const CONSULTANCY_TOKEN = "2e02b4d1a89d345802d5d8888d572e9ea4869e50b06bf4c30dd8cfe486fca446ebfe837b4a71d25b32557c538106df56b2724726218d746fc4db069cacb4e4c59c1dd7a54ac617facd1b7cad6087f0ff833683071f64dfb0fe65d1950190135ec06d2dea9664df3fe9514e1e50cd663bd40a1fd2add2e84ff65884e5c2313687"
     const STRAPI_API_TOKEN = CONSULTANCY_TOKEN
     const STRAPI_API_URL = 'https://rnd.iitdh.ac.in/strapi/api/Consultancyprojects?pagination[pageSize]=100';
 
@@ -67,7 +68,7 @@ export default function Sponsored() {
 
     return (
         <div className="p-6" id="research-and-documents-table">
-            <h1 className='text-3xl font-bold text-center text-gray-800 mb-8'>Consultancy Projects</h1>
+            <h1 id='consultancy-top' className='text-3xl font-bold text-center text-gray-800 mb-8'>Consultancy Projects</h1>
             <div className="overflow-x-auto shadow-lg rounded-lg">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-purple-800">
@@ -82,24 +83,24 @@ export default function Sponsored() {
                                 Principal Investigator
                             </th>
                             <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                                 Industry
+                                Industry
                             </th>
                             <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                                  Sanction Date
+                                Sanction Date
                             </th>
-    
+
                             <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
                                 Duration
                             </th>
                             <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                             Cost of Project
+                                Cost of Project
                             </th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                         {doc.map((item) => (
                             <tr key={item.id}>
-                                 <td className="px-3 py-4 whitespace-normal text-sm font-medium text-gray-900">
+                                <td className="px-3 py-4 whitespace-normal text-sm font-medium text-gray-900">
                                     {item.s_no}
                                 </td>
                                 <td className="px-3 py-4 whitespace-normal text-sm font-medium text-gray-900">
@@ -111,21 +112,34 @@ export default function Sponsored() {
                                 <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
                                     {item.company}
                                 </td>
-                                 <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
+                                <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
                                     {item.sanctiondate}
                                 </td>
-                              
+
                                 <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
                                     {item.duration}
                                 </td>
-                                  <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
+                                <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
                                     {item.Costofproject}
                                 </td>
-                               
+
                             </tr>
                         ))}
                     </tbody>
                 </table>
+            </div>
+            {/* Back to Top Button */}
+            <div className="cursor-pointer text-center mt-10">
+                <Link
+                    to="consultancy-top"
+                    spy={true}
+                    smooth={true}
+                    offset={-100}
+                    duration={500}
+                    className="inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300"
+                >
+                    Back to Top
+                </Link>
             </div>
         </div>
     );

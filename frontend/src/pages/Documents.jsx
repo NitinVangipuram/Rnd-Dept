@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-scroll';
 
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
 
@@ -45,7 +46,7 @@ export default function Documents() {
   }, [backendUrl]);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8 text-gray-800">
+    <div id='doc-top' className="min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8 text-gray-800">
       <h1 className="text-2xl sm:text-3xl font-bold mb-8 text-center">OM and Documents</h1>
 
       {loading ? (
@@ -87,6 +88,19 @@ export default function Documents() {
           ))}
         </div>
       )}
+      {/* Back to Top Button */}
+                  <div className="cursor-pointer text-center mt-10">
+                      <Link
+                          to="doc-top"
+                          spy={true}
+                          smooth={true}
+                          offset={-100}
+                          duration={500}
+                          className="inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300"
+                      >
+                          Back to Top
+                      </Link>
+                  </div>
     </div>
   );
 }
