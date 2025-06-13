@@ -20,3 +20,18 @@
     color:black;
     text-decoration:underline;
 }
+
+.bar{
+    display: flex;
+    gap:20px;
+
+}
+
+.searchfield{
+
+    width:90%;
+}
+
+.formcontrol{
+    width:30%;
+}

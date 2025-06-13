@@ -1,11 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
+import {
+  Typography,
+  TextField,
+  Box,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
 
+import './searchresults.css'
 
 export default function Sponsored() {
    const [doc, setdoc] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [search,setSearch]=useState('')
+    const [sortOrder,setSortOrder]=useState(' ')
+    const [sortedDoc,setsortedDoc]=useState('')
+    const [filteredDoc,setfilteredDoc]=useState('')
 
     const CONSULTANCY_TOKEN="2e02b4d1a89d345802d5d8888d572e9ea4869e50b06bf4c30dd8cfe486fca446ebfe837b4a71d25b32557c538106df56b2724726218d746fc4db069cacb4e4c59c1dd7a54ac617facd1b7cad6087f0ff833683071f64dfb0fe65d1950190135ec06d2dea9664df3fe9514e1e50cd663bd40a1fd2add2e84ff65884e5c2313687"
     const STRAPI_API_TOKEN = CONSULTANCY_TOKEN
@@ -49,6 +63,69 @@ export default function Sponsored() {
 
         fetchData();
     }, [STRAPI_API_TOKEN]);
+    
+
+
+
+    useEffect(()=>{
+       const filtered = doc.filter(item =>
+        [
+    item.s_no,
+    item.Titleofproject,
+    item.PrincipalInvestigator,
+    item.company,
+    item.sanctiondate,
+    item.duration,
+    item.Costofproject
+]       
+          .join(" ")
+          .toLowerCase()
+          .includes(search.toLowerCase())
+      );
+      setfilteredDoc(filtered)
+    console.log(filtered)},[search,doc])
+    
+    
+    
+    useEffect(()=>{
+    const sorted = [...filteredDoc].sort((a, b) => {
+      const dateA = parseDateDMY(a.sanctiondate);
+      const dateB = parseDateDMY(b.sanctiondate);
+    
+      const isValidA = dateA instanceof Date && !isNaN(dateA);
+      const isValidB = dateB instanceof Date && !isNaN(dateB);
+    
+      
+      if (!isValidA && isValidB) return 1;
+      if (isValidA && !isValidB) return -1;
+      if (!isValidA && !isValidB) return 1; 
+    
+      
+      return sortOrder === "asc"
+        ? dateA - dateB
+        : dateB - dateA;
+    });
+    
+    
+        setsortedDoc(sorted);
+      }, [sortOrder, filteredDoc]);
+    
+    function parseDateDMY(dateStr) {
+      if (!dateStr || dateStr.toLowerCase() === 'n/a') return null;
+    
+      
+      const parts = dateStr.split(/[-.]/);  
+    
+      if (parts.length !== 3) return null;
+    
+      const day = parseInt(parts[0], 10);
+      const month = parseInt(parts[1], 10) - 1;
+      const year = parseInt(parts[2], 10);
+    
+      const date = new Date(year, month, day);
+      return isNaN(date.getTime()) ? null : date;
+    }
+
 
     if (loading) {
         return (
@@ -66,8 +143,39 @@ export default function Sponsored() {
     }
 
     return (
-        <div className="p-6" id="research-and-documents-table">
-            <h1 className='text-3xl font-bold text-center text-gray-800 mb-8'>Consultancy Projects</h1>
+
+         <Box sx={{ maxWidth: "95%", mx: "auto", p: 2 }}>
+              <Typography variant="h5" fontWeight="bold" mb={3} align="center">
+                Consultancy Projects
+              </Typography>
+        
+            <div className="bar">
+              <TextField
+                label="Search Consultancy Projects"
+                variant="outlined"
+                size="small"
+                className='searchfield'
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                sx={{ mb: 2 }}
+              />
+         
+              <FormControl className='formcontrol'  size="small" sx={{ mb: 3 }}>
+                <InputLabel id="sort-by-label">Sort by date</InputLabel>
+                <Select
+                  labelId="sort-by-label"
+                  id="sort-by"
+                  value={sortOrder}
+                  label="Sort by Sanction Date"
+                  onChange={(e) => setSortOrder(e.target.value)}
+                >
+                  <MenuItem value="asc">Oldest to Newest</MenuItem>
+                  <MenuItem value="desc">Newest to Oldest</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+              
+        <div  id="research-and-documents-table">
             <div className="overflow-x-auto shadow-lg rounded-lg">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-purple-800">
@@ -97,7 +205,7 @@ export default function Sponsored() {
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                        {doc.map((item) => (
+                        {sortedDoc.map((item) => (
                             <tr key={item.id}>
                                  <td className="px-3 py-4 whitespace-normal text-sm font-medium text-gray-900">
                                     {item.s_no}
@@ -128,5 +236,6 @@ export default function Sponsored() {
                 </table>
             </div>
         </div>
+        </Box>
     );
 }
