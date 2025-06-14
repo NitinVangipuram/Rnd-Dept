@@ -6,41 +6,18 @@ import img2 from '../assets/carousel-images/image-2.png';
 import img3 from '../assets/carousel-images/image-3.png';
 import img4 from '../assets/carousel-images/image-4.png';
 import img5 from '../assets/carousel-images/image4.jpg'
+import { Link } from 'react-scroll';
 
 const CACHE_KEY = 'cachedOpportunities';
 const CACHE_TIMESTAMP_KEY = 'opportunitiesCacheTimestamp';
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in ms
 
-const OpportunityCard = ({ scheme, agency, deadline, link }) => (
-    <div
-        className="cursor-pointer bg-white shadow-sm hover:shadow-md border border-gray-200 rounded-xl p-5 transition duration-300"
-        onClick={() => link && window.open(link, '_blank')}
-    >
-        <h3 className="text-gray-800 font-semibold text-lg mb-2">
-            🎯 {scheme}
-        </h3>
-
-        <p className="text-sm text-gray-600 mb-1">
-            🏛️ <span className="font-medium">Agency:</span> {agency}
-        </p>
-
-        <p className="text-sm text-gray-600 mb-2">
-            ⏳ <span className="font-medium">Deadline:</span> {deadline}
-        </p>
-
-        {link && (
-            <span className="text-sm text-rose-600 mt-2 inline-block cursor-pointer transform transition-transform duration-200 hover:scale-105">
-                📎 View / Apply
-            </span>
-        )}
-    </div>
-);
 
 const Home = () => {
     const [opportunities, setOpportunities] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const images = [img5,img1, img2, img3, img4];
+    const images = [img5, img1, img2, img3, img4];
 
     useEffect(() => {
         const fetchOpportunities = async () => {
@@ -92,7 +69,7 @@ const Home = () => {
     return (
         <>
             {/* Carousel Section */}
-            <div className="py-6 px-4 md:px-8">
+            <div id='home-top' className="py-6 px-4 md:px-8">
                 <div className="">
                     <AltCarousel images={images} />
                 </div>
@@ -109,18 +86,59 @@ const Home = () => {
                 ) : opportunities.length === 0 ? (
                     <div className="text-gray-500">No current opportunities with upcoming deadlines.</div>
                 ) : (
-                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                        {opportunities.map((item, idx) => (
-                            <OpportunityCard
-                                key={idx}
-                                scheme={item.Scheme}
-                                agency={item.Agnecy}
-                                deadline={item.Deadline}
-                                link={item.Link}
-                            />
-                        ))}
+                    <div className="overflow-x-auto rounded-xl shadow-sm border border-gray-200">
+                        <table className="min-w-full bg-white">
+                            <thead className="bg-gray-100 border-b border-gray-300">
+                                <tr className='bg-purple-600'>
+                                    <th className="text-left text-white font-semibold px-6 py-3">Scheme</th>
+                                    <th className="text-left text-white font-semibold px-6 py-3"> Agency</th>
+                                    <th className="text-left text-white font-semibold px-6 py-3"> Deadline</th>
+                                    <th className="text-left text-white font-semibold px-6 py-3"> Link</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {opportunities.map((item, idx) => (
+                                    <tr
+                                        key={idx}
+                                        className="hover:bg-gray-50 border-b border-gray-200 transition duration-150"
+                                    >
+                                        <td className="px-6 py-4 text-gray-800">{item.Scheme}</td>
+                                        <td className="px-6 py-4 text-gray-600">{item.Agnecy}</td>
+                                        <td className="px-6 py-4 text-gray-600">{item.Deadline}</td>
+                                        <td className="px-6 py-4">
+                                            {item.Link ? (
+                                                <a
+                                                    href={item.Link}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-blue-600 hover:underline font-medium"
+                                                >
+                                                    View / Apply
+                                                </a>
+                                            ) : (
+                                                <span className="text-gray-400">N/A</span>
+                                            )}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
                 )}
+
+            </div>
+            {/* Back to Top Button */}
+            <div className="cursor-pointer text-center mt-10">
+                <Link
+                    to="home-top"
+                    spy={true}
+                    smooth={true}
+                    offset={-100}
+                    duration={500}
+                    className="inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300"
+                >
+                    Back to Top
+                </Link>
             </div>
         </>
     );

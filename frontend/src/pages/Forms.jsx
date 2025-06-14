@@ -4,6 +4,7 @@ import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
 
 const CACHE_EXPIRY = 5 * 60 * 1000;
 const backendUrl = import.meta.env.VITE_STRAPI_URL;
+import { Link } from 'react-scroll';
 
 export default function Forms() {
   const [showModal, setShowModal] = useState(false);
@@ -53,7 +54,7 @@ export default function Forms() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8 text-gray-800">
+    <div id='forms-top' className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8 text-gray-800">
       <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">R&D Forms</h1>
 
       {loading ? (
@@ -150,6 +151,19 @@ export default function Forms() {
           </div>
         </div>
       )}
+                        {/* Back to Top Button */}
+                        <div className="cursor-pointer text-center mt-10">
+                            <Link
+                                to="forms-top"
+                                spy={true}
+                                smooth={true}
+                                offset={-100}
+                                duration={500}
+                                className="inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300"
+                            >
+                                Back to Top
+                            </Link>
+                        </div>
     </div>
   );
 }

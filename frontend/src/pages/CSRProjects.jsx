@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
+import { Link } from 'react-scroll';
 
 export default function CSR() {
     const [doc, setdoc] = useState([]);
@@ -64,7 +65,7 @@ export default function CSR() {
 
     return (
         <div className="p-6" id="research-and-documents-table">
-            <h1 className='text-3xl font-bold text-center text-gray-800 mb-8'>CSR Projects</h1>
+            <h1 id='csrProject-top' className='text-3xl font-bold text-center text-gray-800 mb-8'>CSR Projects</h1>
             <div className="overflow-x-auto shadow-lg rounded-lg">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-purple-800">
@@ -97,6 +98,19 @@ export default function CSR() {
                     </tbody>
                 </table>
             </div>
+                                    {/* Back to Top Button */}
+                                    <div className="cursor-pointer text-center mt-10">
+                                        <Link
+                                            to="csrProject-top"
+                                            spy={true}
+                                            smooth={true}
+                                            offset={-100}
+                                            duration={500}
+                                            className="inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300"
+                                        >
+                                            Back to Top
+                                        </Link>
+                                    </div>
         </div>
     );
 }
