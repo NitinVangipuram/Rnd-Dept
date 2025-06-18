@@ -13,70 +13,70 @@ import {
 import './searchresults.css'
 
 export default function Sponsored() {
-   const [doc, setdoc] = useState([]);
+   const [doc, setDoc] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [search,setSearch]=useState('')
     const [sortOrder,setSortOrder]=useState(' ')
     const [sortedDoc,setsortedDoc]=useState('')
     const [filteredDoc,setfilteredDoc]=useState('')
+    const [entries,setEntries]=useState('')
+    const [value,setValue]=useState('')
 
-    const CONSULTANCY_TOKEN="2e02b4d1a89d345802d5d8888d572e9ea4869e50b06bf4c30dd8cfe486fca446ebfe837b4a71d25b32557c538106df56b2724726218d746fc4db069cacb4e4c59c1dd7a54ac617facd1b7cad6087f0ff833683071f64dfb0fe65d1950190135ec06d2dea9664df3fe9514e1e50cd663bd40a1fd2add2e84ff65884e5c2313687"
-    const STRAPI_API_TOKEN = CONSULTANCY_TOKEN
-    const STRAPI_API_URL = 'https://rnd.iitdh.ac.in/strapi/api/Consultancyprojects?pagination[pageSize]=100';
 
-    useEffect(() => {
+
+const SHEET_API_URL = "https://opensheet.elk.sh/1ET9vwdstPycSC1WUh4DwtHRg7_2axgYwZQgPVtqHfEQ/Sheet1";
+
+
+    
+      useEffect(() => {
         const fetchData = async () => {
-            try {
-                if (!STRAPI_API_TOKEN) {
-                    throw new Error("Strapi API Token is not defined.");
-                }
-                console.log("making request to Strapi API with token")
-
-                const response = await fetch(STRAPI_API_URL, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${STRAPI_API_TOKEN}`,
-                    },
-                });
-
-                if (!response.ok) {
-                    const errorBody = await response.json().catch(() => ({}));
-                    throw new Error(`HTTP error! Status: ${response.status} - ${errorBody.error?.message || response.statusText}`);
-                }
-
-                const jsonData = await response.json();
-
-                if (!jsonData || !Array.isArray(jsonData.data)) {
-                    throw new Error("Invalid data format received from API. Expected 'data' array.");
-                }
-                setdoc(jsonData.data);
-
-            } catch (err) {
-                console.error("Failed to fetch documents:", err);
-                setError(err);
-            } finally {
-                setLoading(false);
-            }
+          try {
+            const response = await fetch(SHEET_API_URL);
+            const jsonData = await response.json();
+            setDoc(jsonData);
+          } catch (err) {
+            console.error("Failed to fetch data from Google Sheet:", err);
+            setError(err);
+          } finally {
+            setLoading(false);
+          }
         };
-
+    
         fetchData();
-    }, [STRAPI_API_TOKEN]);
+      }, []);
     
 
+useEffect(()=>{
+console.log(doc)
+        let sum=0;
+        let count=0;
+
+        doc.map((item)=>{
+          
+            const val = parseFloat(item["Value (₹1,00,000)"]) * 100000;
+            if(val!=NaN)
+            sum+=val
+            
+            count++;
+        })
+        
+        setEntries(count)
+        setValue(sum)
+},[doc])
 
 
     useEffect(()=>{
        const filtered = doc.filter(item =>
         [
-    item.s_no,
-    item.Titleofproject,
-    item.PrincipalInvestigator,
-    item.company,
-    item.sanctiondate,
-    item.duration,
-    item.Costofproject
+    
+      item["Title"],
+      item["Investigator(s)"],
+      item["Co-PI"],
+      item["Sponsoring Organization"],
+      item["Value (₹1,00,000)"],
+      item["Sanction date"],
+      item["Duration (years)"]
 ]       
           .join(" ")
           .toLowerCase()
@@ -89,8 +89,8 @@ export default function Sponsored() {
     
     useEffect(()=>{
     const sorted = [...filteredDoc].sort((a, b) => {
-      const dateA = parseDateDMY(a.sanctiondate);
-      const dateB = parseDateDMY(b.sanctiondate);
+      const dateA = parseDateMDY(a["Sanction date"]);
+      const dateB = parseDateMDY(b["Sanction date"]);
     
       const isValidA = dateA instanceof Date && !isNaN(dateA);
       const isValidB = dateB instanceof Date && !isNaN(dateB);
@@ -108,7 +108,24 @@ export default function Sponsored() {
     
     
         setsortedDoc(sorted);
+        
       }, [sortOrder, filteredDoc]);
+
+    function parseDateMDY(dateStr) {
+  if (!dateStr || dateStr.toLowerCase() === 'n/a') return null;
+
+  const parts = dateStr.split(/[-.]/);  
+
+  if (parts.length !== 3) return null;
+
+  const month = parseInt(parts[0], 10) - 1; // Month first
+  const day = parseInt(parts[1], 10);
+  const year = parseInt(parts[2], 10);
+
+  const date = new Date(year, month, day);
+  return isNaN(date.getTime()) ? null : date;
+}
+
     
     function parseDateDMY(dateStr) {
       if (!dateStr || dateStr.toLowerCase() === 'n/a') return null;
@@ -148,6 +165,11 @@ export default function Sponsored() {
               <Typography variant="h5" fontWeight="bold" mb={3} align="center">
                 Consultancy Projects
               </Typography>
+
+            <ul className="project-summary">
+                <li><b>Total Projects:</b>{entries}</li>
+                <li><b>Total Value of Project:</b>₹{value.toLocaleString('en-IN')} </li>
+            </ul>
         
             <div className="bar">
               <TextField
@@ -181,9 +203,6 @@ export default function Sponsored() {
                     <thead className="bg-purple-800">
                         <tr>
                             <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                                Serial No
-                            </th>
-                            <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
                                 Title of Project
                             </th>
                             <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
@@ -204,35 +223,31 @@ export default function Sponsored() {
                             </th>
                         </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                        {sortedDoc.map((item) => (
-                            <tr key={item.id}>
-                                 <td className="px-3 py-4 whitespace-normal text-sm font-medium text-gray-900">
-                                    {item.s_no}
-                                </td>
-                                <td className="px-3 py-4 whitespace-normal text-sm font-medium text-gray-900">
-                                    {item.Titleofproject}
-                                </td>
-                                <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
-                                    {item.PrincipalInvestigator}
-                                </td>
-                                <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
-                                    {item.company}
-                                </td>
-                                 <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
-                                    {item.sanctiondate}
-                                </td>
-                              
-                                <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
-                                    {item.duration}
-                                </td>
-                                  <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
-                                    {item.Costofproject}
-                                </td>
-                               
-                            </tr>
-                        ))}
-                    </tbody>
+                   <tbody className="bg-white divide-y divide-gray-200">
+  {sortedDoc.map((item, index) => (
+    <tr key={index}>
+      <td className="px-3 py-4 whitespace-normal text-sm font-medium text-gray-900">
+        {item["Title"]}
+      </td>
+      <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
+        {item["Investigator(s)"]}
+      </td>
+      <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
+        {item["Sponsoring Organization"]}
+      </td>
+      <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
+        {item["Sanction date"]}
+      </td>
+      <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
+        {item["Duration (years)"]}
+      </td>
+      <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
+        ₹{(parseFloat(item["Value (₹1,00,000)"]) * 100000).toLocaleString("en-IN")}
+      </td>
+    </tr>
+  ))}
+</tbody>
+
                 </table>
             </div>
         </div>

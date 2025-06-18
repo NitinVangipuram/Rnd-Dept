@@ -103,7 +103,17 @@ function App() {
                   <Searchresults />
                 </Suspense>
               } />
-              <Route path="/ethicscommittee" element={
+              <Route path="/Committees/ethicscommittee" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Ethics />
+                </Suspense>
+              } />
+              <Route path="/Committees/biosaftey" element={
+                <Suspense fallback={<PageSkeleton />}>
+                 <PageSkeleton/>
+                </Suspense>
+              } />
+              <Route path="/Committees/ipr" element={
                 <Suspense fallback={<PageSkeleton />}>
                   <Ethics />
                 </Suspense>
