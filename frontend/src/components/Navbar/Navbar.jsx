@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import MyDropdownNav from '../MyDropdownNav/MyDropdownNav';
+import Ethics from '../MyDropdownNav/ethicsdropdown';
 
 const Navbar = ({ closeMenu }) => {
     const handleLinkClick = () => {
@@ -39,7 +40,8 @@ const Navbar = ({ closeMenu }) => {
                         People
                     </NavLink>
                 </li>
-                <MyDropdownNav closeMenu={closeMenu} />
+                <MyDropdownNav/>
+                <Ethics/>
                 <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
                     <NavLink
                         to="/Documents"
@@ -83,6 +85,7 @@ const Navbar = ({ closeMenu }) => {
                         CSR Donations
                     </NavLink>
                 </li>
+                
                 <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
                     <NavLink
                         to="/forms"
@@ -101,15 +104,7 @@ const Navbar = ({ closeMenu }) => {
                         Academics and Research Areas
                     </NavLink>
                 </li>
-                <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
-                    <NavLink
-                        to="/ethicscommittee"
-                        className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
-                        onClick={handleLinkClick}
-                    >
-                        Institutional Ethics Committee
-                    </NavLink>
-                </li>
+               
                 <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
                     <NavLink
                         to="/publications"

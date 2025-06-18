@@ -19,6 +19,8 @@ export default function Sponsored() {
   const [sortOrder, setSortOrder] = useState(' ');
   const [filteredDoc,setfilteredDoc]=useState(' ')
   const [sortedDoc,setSortedDoc]=useState(' ')
+  const [entries,setEntries]=useState('')
+  const [value,setValue]=useState('')
 
   const SHEET_API_URL = "https://opensheet.elk.sh/1cVHmxJMGNPD_yGoQ4-_IASm1NYRfW1jpnozaR-PlB2o/Sheet1";
 
@@ -58,6 +60,24 @@ export default function Sponsored() {
   setfilteredDoc(filtered)},[search,doc])
 
 
+useEffect(()=>{
+console.log(doc)
+        var sum=0;
+        let count=0;
+
+        doc.map((item)=>{
+          
+            
+  const val= parseInt(item["Value (₹1,00,000)"])*100000;
+  console.log(val,typeof(val))
+if(!isNaN(val))
+sum+=val
+            count++;
+        })
+        console.log(sum)
+        setEntries(count)
+        setValue(sum)
+},[doc])
 
 useEffect(()=>{
 const sorted = [...filteredDoc].sort((a, b) => {
@@ -117,6 +137,11 @@ function parseDateDMY(dateStr) {
       <Typography variant="h5" fontWeight="bold" mb={3} align="center">
         Sponsored Projects
       </Typography>
+       <ul className="project-summary">
+                <li><b>Total Projects:</b>{entries}</li>
+                <li><b>Total Value of Project:</b>₹{value.toLocaleString('en-IN')} </li>
+            </ul>
+        
 
     <div className="bar">
       <TextField
@@ -152,7 +177,6 @@ function parseDateDMY(dateStr) {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-purple-800 text-white text-sm font-medium">
             <tr>
-              <th className="px-2 py-2 text-left">Serial No</th>
               <th className="px-2 py-2 text-left">Title</th>
               <th className="px-2 py-2 text-left">Investigator(s)</th>
               <th className="px-2 py-2 text-left">Co-PI</th>
@@ -165,7 +189,6 @@ function parseDateDMY(dateStr) {
           <tbody className="bg-white divide-y divide-gray-200 text-sm">
             {sortedDoc.map((item, index) => (
               <tr key={index}>
-                <td className="px-2 py-2">{item["Serial no."]}</td>
                 <td className="px-2 py-2">{item["Title"]}</td>
                 <td className="px-2 py-2">{item["Investigator(s)"]}</td>
                 <td className="px-2 py-2">{item["Co-PI"]}</td>

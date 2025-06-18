@@ -8,6 +8,34 @@
     font-size: 30px;
 }
 
+
+.project-summary {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  color: #333;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  display: flex;
+  border-radius: 6px;
+  width:100%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.project-summary li {
+  padding: 12px 20px;
+  font-size: 20px;
+  color: blue;
+  border-bottom: 1px solid #eee;
+}
+
+
+li b{
+    color:black;
+}
+
 .searchresults a{
     color: blue;
 
