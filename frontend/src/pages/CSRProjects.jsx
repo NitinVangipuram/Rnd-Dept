@@ -64,7 +64,17 @@ export default function CSR() {
 
     return (
         <div className="p-6" id="research-and-documents-table">
-            <h1 className='text-3xl font-bold text-center text-gray-800 mb-8'>CSR Projects</h1>
+            <h1 className='text-3xl font-bold text-center text-gray-800 mb-4'>CSR Projects</h1>
+            <div className="mb-4 text-center">
+                <a
+                href="https://drive.google.com/drive/u/2/folders/1EQ8rYC1ccBZHYn7UreO3Pn9TIUoCHF_Y"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-purple-900 text-purple-700 text-sm sm:text-base font-medium"
+                >
+                View as document
+                </a>
+            </div>
             <div className="overflow-x-auto shadow-lg rounded-lg">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-purple-800">
