@@ -6,6 +6,7 @@ import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import PageSkeleton from './components/LoadingSkeleton/PageSkeleton';
 import Home from './pages/Home';
+
 import Forms from './pages/Forms';
 
 import ResearchAreas from './pages/ResearchAreas';
@@ -19,7 +20,8 @@ const Office = lazy(() => import('./pages/Office_statistics'));
 const Documents = lazy(() => import('./pages/Documents'));
 const Searchresults = lazy(() => import('./pages/searchresults')); 
 const Csr= lazy(() => import('./pages/Csr')); 
-const Ethics = lazy(() => import('./pages/Ethicscommitte'));
+const Ipr = lazy(() => import('./pages/iprcommittee'));
+const Ethics = lazy(() => import('./pages/ethicscommitte'));
 const Publications = lazy(() => import('./pages/Publications'));
 
 // ScrollToTop logic inside App.jsx
@@ -115,7 +117,7 @@ function App() {
               } />
               <Route path="/Committees/ipr" element={
                 <Suspense fallback={<PageSkeleton />}>
-                  <Ethics />
+                  <Ipr />
                 </Suspense>
               } />
             <Route path="/Projects/Consultancy" element={
