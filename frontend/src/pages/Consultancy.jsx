@@ -12,7 +12,7 @@ import {
 
 import './searchresults.css'
 
-export default function Sponsored() {
+export default function Consultancy() {
    const [doc, setDoc] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
