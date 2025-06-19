@@ -52,8 +52,8 @@ export default function Csr() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8 text-gray-800">
-      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">CSR Information</h1>
-
+      <h1 className="text-3xl sm:text-3xl font-bold mb-6 text-center">CSR Information</h1>
+      
       {loading ? (
         <PageSkeleton />
       ) : error ? (
@@ -67,24 +67,24 @@ export default function Csr() {
           </p>
         </div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full table-auto border border-gray-300 shadow-md bg-white rounded-lg">
-            <thead className="bg-purple-600 text-white text-sm sm:text-base">
+        <div className="overflow-x-auto shadow-lg rounded-lg">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-purple-800">
               <tr>
-                <th className="p-3 border-r border-purple-500">Sl No.</th>
-                <th className="p-3 border-r border-purple-500 text-left">Form Name</th>
-                <th className="p-3">View PDF</th>
+                <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">Sl No.</th>
+                <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider text-left">Form Name</th>
+                <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">View PDF</th>
               </tr>
             </thead>
-            <tbody className="text-sm sm:text-base">
+            <tbody className="bg-white divide-y divide-gray-200">
               {csrData.map((form, index) => (
                 <tr
                   key={index}
-                  className="text-center hover:bg-gray-50 even:bg-gray-100 odd:bg-white"
+                  className="hover:bg-gray-50"
                 >
-                  <td className="p-3 border">{index + 1}</td>
-                  <td className="p-3 border text-left">{form.name}</td>
-                  <td className="p-3 border">
+                  <td className="px-3 py-4 whitespace-normal text-sm font-medium text-gray-900 text-left">{index + 1}</td>
+                  <td className="px-3 py-4 whitespace-normal text-sm font-medium text-gray-900 text-left">{form.name}</td>
+                  <td className="px-3 py-4 whitespace-normal text-sm text-blue-700 text-left">
                     <button
                       onClick={() => handleViewClick(form.wordLink)}
                       className="text-blue-600 underline hover:text-blue-800 cursor-pointer"
