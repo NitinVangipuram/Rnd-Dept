@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
-const MyDropdownNav = ({closeMenu}) => {
+const Ethics = () => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
     const location = useLocation();
@@ -25,8 +25,8 @@ const MyDropdownNav = ({closeMenu}) => {
     }, []);
 
     // Function to close the dropdown when a link within it is clicked
-     const handleLinkClick = () => {
-        if (closeMenu) closeMenu();
+    const handleLinkClick = () => {
+        setIsOpen(false);
     };
 
     return (
@@ -48,7 +48,7 @@ const MyDropdownNav = ({closeMenu}) => {
                 aria-haspopup="true"
                 aria-expanded={isOpen}
             >
-                <span>Projects</span>
+                <span>Committees</span>
                 <span className="flex-grow"></span> {/* This span pushes the SVG to the right */}
                 <svg
                     className={`
@@ -68,7 +68,7 @@ const MyDropdownNav = ({closeMenu}) => {
                 <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white  z-20">
                     <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                         <NavLink
-                            to="/Projects/Csr"
+                            to="/Committees/biosaftey"
                             className={({ isActive }) => `
                                 py-2 pl-3 pr-3 font-medium block w-full text-gray-700 hover:text-[blue] hover:bg-slate-100 rounded-lg
                 
@@ -76,21 +76,11 @@ const MyDropdownNav = ({closeMenu}) => {
                             onClick={handleLinkClick}
                             role="menuitem"
                         >
-                            CSR Projects
+                            BioSaftey Committee
+            
                         </NavLink>
-                        <NavLink
-                            to="/Projects/Sponsored"
-                            className={({ isActive }) => `
-                                py-2 pl-3 pr-3 font-medium block w-full text-gray-700 hover:text-[blue] hover:bg-slate-100 rounded-lg
-        
-                            `}
-                            onClick={handleLinkClick}
-                            role="menuitem"
-                        >
-                          Sponsored Projects
-                        </NavLink>
-                        <NavLink
-                            to="/Projects/Consultancy"
+                            <NavLink
+                            to="/Committees/ethicscommittee"
                             className={({ isActive }) => `
                                 py-2 pl-3 pr-3 font-medium block w-full text-gray-700 hover:bg-slate-100 hover:text-[blue] rounded-lg
 
@@ -98,8 +88,21 @@ const MyDropdownNav = ({closeMenu}) => {
                             onClick={handleLinkClick}
                             role="menuitem"
                         >
-                            Consultancy Projects
+                            Institutional Ethics Committee
                         </NavLink>
+                        <NavLink
+                            to="/Committees/ipr"
+                            className={({ isActive }) => `
+                                py-2 pl-3 pr-3 font-medium block w-full text-gray-700 hover:text-[blue] hover:bg-slate-100 rounded-lg
+        
+                            `}
+                            onClick={handleLinkClick}
+                            role="menuitem"
+                        >
+                          
+                          IPR Committee
+                        </NavLink>
+                     
                     </div>
                 </div>
             )}
@@ -107,4 +110,4 @@ const MyDropdownNav = ({closeMenu}) => {
     );
 };
 
-export default MyDropdownNav;
+export default Ethics;

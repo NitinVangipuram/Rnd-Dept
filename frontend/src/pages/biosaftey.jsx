@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
-import { Link } from 'react-scroll';
 
-export default function CSR() {
-    const [doc, setdoc] = useState([]);
+
+export default function Ethicscommitte() {
+   const [doc, setdoc] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const STRAPI_API_TOKEN = "756aec3b3ed14f6ababdd892366b869b7a2936ac68962ee029a1082add1bd5d2493c000c59dfa2c44c25ee85e9afc0ee434b1b0a95a6050d8ef3159f40034a39d0d96e8b182c4c038506775878074ba42df4b973150db4d38d0c25d266ac80e4d4dd40fd0f321386e0fb45474adedbe73d6c4e119cd76708d1526af1f40c4e3c"
-    const STRAPI_API_URL = 'https://rnd.iitdh.ac.in/strapi/api/csrprojects';
+    
+    const STRAPI_API_TOKEN = "7faccd50d933c3c23d476f4c0544a0905a4c724288be370558454a6b86b4dab62ee92e106bc97c5701df997ae2ce08d08183c2ac394b22345bf4ba785d6bf61d22f00988bcecce5187a4cf44c423e261b82cd23366b298c4d207bb900b162751d5fda0da7f4ef01ad136fb1663d01d31d7d0fdc4e7c6c945bcfb2bde55f5d876"
+    const STRAPI_API_URL = 'https://rnd.iitdh.ac.in/strapi/api/ethicscommittes?pagination[pageSize]=100';
 
     useEffect(() => {
         const fetchData = async () => {
@@ -16,6 +17,7 @@ export default function CSR() {
                 if (!STRAPI_API_TOKEN) {
                     throw new Error("Strapi API Token is not defined.");
                 }
+                console.log("making request to Strapi API with token")
 
                 const response = await fetch(STRAPI_API_URL, {
                     method: 'GET',
@@ -65,62 +67,50 @@ export default function CSR() {
 
     return (
         <div className="p-6" id="research-and-documents-table">
-            <h1 id='csrProject-top' className='text-3xl font-bold text-center text-gray-800 mb-4'>CSR Projects</h1>
-            <div className="mb-4 text-center">
-                <a
-                href="https://drive.google.com/drive/u/2/folders/1EQ8rYC1ccBZHYn7UreO3Pn9TIUoCHF_Y"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline hover:text-purple-900 text-purple-700 text-sm sm:text-base font-medium"
-                >
-                View as document
-                </a>
-            </div>
+            <h1 className='text-3xl font-bold text-center text-gray-800 mb-8'>
+                Institutional Ethics Committee (IEC)</h1>
+                <br />
+            <p className="text-lg text-gray-700 mb-6 text-center">
+                The Institutional Ethics Committee (IEC) is responsible for ensuring that all research involving human participants is conducted ethically and in compliance with relevant regulations. This includes reviewing research proposals, monitoring ongoing studies, and ensuring the rights and welfare of participants are protected.</p>
             <div className="overflow-x-auto shadow-lg rounded-lg">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-purple-800">
                         <tr>
-                            <th scope="col" className="px-6 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                                Title
+                            <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
+                                S.No
                             </th>
-                            <th scope="col" className="px-6 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                                Investigator(s)
+                            <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
+                                Name
                             </th>
-                            <th scope="col" className="px-6 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                                Sponsoring Agency
+                            <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
+                                Current Organization
                             </th>
+                            <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
+                            Role
+                            </th>
+                                            
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                         {doc.map((item) => (
                             <tr key={item.id}>
-                                <td className="px-6 py-4 whitespace-normal text-sm font-medium text-gray-900">
-                                    {item.title}
+                                 <td className="px-3 py-4 whitespace-normal text-sm font-medium text-gray-900">
+                                    {item.sl_no}
                                 </td>
-                                <td className="px-6 py-4 whitespace-normal text-sm text-gray-700">
-                                    {item.investigator}
+                                <td className="px-3 py-4 whitespace-normal text-sm font-medium text-gray-900">
+                                    {item.Name}
                                 </td>
-                                <td className="px-6 py-4 whitespace-normal text-sm text-gray-700">
-                                    {item.sponsoringAgency}
+                                <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
+                                    {item.currentorganization}
+                                </td>
+                                <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
+                                    {item.role}
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
-                                    {/* Back to Top Button */}
-                                    <div className="cursor-pointer text-center mt-10">
-                                        <Link
-                                            to="csrProject-top"
-                                            spy={true}
-                                            smooth={true}
-                                            offset={-100}
-                                            duration={500}
-                                            className="inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300"
-                                        >
-                                            Back to Top
-                                        </Link>
-                                    </div>
         </div>
     );
 }

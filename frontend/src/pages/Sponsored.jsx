@@ -1,127 +1,206 @@
 import React, { useState, useEffect } from 'react';
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
-
+import './searchresults.css'
+import {
+  Typography,
+  TextField,
+  Box,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
 
 export default function Sponsored() {
-   const [doc, setdoc] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+  const [doc, setDoc] = useState([]);
+  const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [sortOrder, setSortOrder] = useState(' ');
+  const [filteredDoc,setfilteredDoc]=useState(' ')
+  const [sortedDoc,setSortedDoc]=useState(' ')
+  const [entries,setEntries]=useState('')
+  const [value,setValue]=useState('')
 
-    const SPONSOR_TOKEN="2842d89dd1039a268c9be63f731c7ae26077c0153e21ddfe1d11c2dc8df8b08f3496151e8fc5e6de7b7947730dc3826df36a4d5696fbf5670277f9f040d04cf97f78b937af5fdb320fe0d0b937d8c9cdf58f86ae15eb3f6b147c919f908645a4e5d87e208bdeed88340a7642beda2d9e220d2c83d2262c7479df5a670b30488c"
-    const STRAPI_API_TOKEN = SPONSOR_TOKEN
-    const STRAPI_API_URL = 'https://rnd.iitdh.ac.in/strapi/api/Sponsored-projects?pagination[pageSize]=100';
+  const SHEET_API_URL = "https://opensheet.elk.sh/1cVHmxJMGNPD_yGoQ4-_IASm1NYRfW1jpnozaR-PlB2o/Sheet1";
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                if (!STRAPI_API_TOKEN) {
-                    throw new Error("Strapi API Token is not defined.");
-                }
-                console.log("making request to Strapi API with token")
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(SHEET_API_URL);
+        const jsonData = await response.json();
+        setDoc(jsonData);
+      } catch (err) {
+        console.error("Failed to fetch data from Google Sheet:", err);
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-                const response = await fetch(STRAPI_API_URL, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${STRAPI_API_TOKEN}`,
-                    },
-                });
+    fetchData();
+  }, []);
 
-                if (!response.ok) {
-                    const errorBody = await response.json().catch(() => ({}));
-                    throw new Error(`HTTP error! Status: ${response.status} - ${errorBody.error?.message || response.statusText}`);
-                }
+  useEffect(()=>{
+   const filtered = doc.filter(item =>
+    [
+      item["Serial no."],
+      item["Title"],
+      item["Investigator(s)"],
+      item["Co-PI"],
+      item["Sponsoring Agency-Scheme"],
+      item["Value (₹1,00,000)"],
+      item["Sanction date"],
+      item["Duration (years)"]
+    ]
+      .join(" ")
+      .toLowerCase()
+      .includes(search.toLowerCase())
+  );
+  setfilteredDoc(filtered)},[search,doc])
 
-                const jsonData = await response.json();
 
-                if (!jsonData || !Array.isArray(jsonData.data)) {
-                    throw new Error("Invalid data format received from API. Expected 'data' array.");
-                }
-                setdoc(jsonData.data);
+useEffect(()=>{
+console.log(doc)
+        var sum=0;
+        let count=0;
 
-            } catch (err) {
-                console.error("Failed to fetch documents:", err);
-                setError(err);
-            } finally {
-                setLoading(false);
-            }
-        };
+        doc.map((item)=>{
+          
+            
+  const val= parseInt(item["Value (₹1,00,000)"])*100000;
+  console.log(val,typeof(val))
+if(!isNaN(val))
+sum+=val
+            count++;
+        })
+        console.log(sum)
+        setEntries(count)
+        setValue(sum)
+},[doc])
 
-        fetchData();
-    }, [STRAPI_API_TOKEN]);
+useEffect(()=>{
+const sorted = [...filteredDoc].sort((a, b) => {
+  const dateA = parseDateDMY(a["Sanction date"]);
+  const dateB = parseDateDMY(b["Sanction date"]);
 
-    if (loading) {
-        return (
-            <PageSkeleton />
-        );
-    }
+  const isValidA = dateA instanceof Date && !isNaN(dateA);
+  const isValidB = dateB instanceof Date && !isNaN(dateB);
 
-    if (error) {
-        return (
-            <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8 text-gray-800 flex flex-col justify-center items-center text-red-600">
-                <p className="text-xl font-semibold">Error: {error.message}</p>
-                <p className="text-sm mt-2 text-center">Please ensure your Strapi server is running, your API token is correct, and network is available.</p>
-            </div>
-        );
-    }
+  
+  if (!isValidA && isValidB) return 1;
+  if (isValidA && !isValidB) return -1;
+  if (!isValidA && !isValidB) return 1; 
 
+  
+  return sortOrder === "asc"
+    ? dateA - dateB
+    : dateB - dateA;
+});
+
+
+    setSortedDoc(sorted);
+  }, [sortOrder, filteredDoc]);
+
+function parseDateDMY(dateStr) {
+  if (!dateStr || dateStr.toLowerCase() === 'n/a') return null;
+
+  
+  const parts = dateStr.split(/[-.]/);  
+
+  if (parts.length !== 3) return null;
+
+  const day = parseInt(parts[0], 10);
+  const month = parseInt(parts[1], 10) - 1;
+  const year = parseInt(parts[2], 10);
+
+  const date = new Date(year, month, day);
+  return isNaN(date.getTime()) ? null : date;
+}
+
+
+  if (loading) {
+    return <PageSkeleton />;
+  }
+
+  if (error) {
     return (
-        <div className="p-4" id="research-and-documents-table">
-  <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">Sponsored Projects</h1>
-  <div className="overflow-x-auto shadow-lg rounded-lg">
-    <table className="min-w-full divide-y divide-gray-200">
-      <thead className="bg-purple-800">
-        <tr>
-          <th className="px-2 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">
-            Serial No
-          </th>
-          <th className="px-2 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">
-            Title
-          </th>
-          <th className="px-2 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">
-            Investigator(s)
-          </th>
-          <th className="px-2 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">
-            Sponsoring Agency Scheme
-          </th>
-          <th className="px-2 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">
-            Value(₹1,00,000)
-          </th>
-          <th className="px-2 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">
-            Duration
-          </th>
-          <th className="px-2 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">
-            Sanction Date
-          </th>
-        </tr>
-      </thead>
-      <tbody className="bg-white divide-y divide-gray-200">
-        {doc.map((item) => (
-          <tr key={item.id}>
-            <td className="px-2 py-2 whitespace-normal text-sm font-medium text-gray-900">
-              {item.s_no}
-            </td>
-            <td className="px-2 py-2 whitespace-normal text-sm font-medium text-gray-900">
-              {item.Title}
-            </td>
-            <td className="px-2 py-2 whitespace-normal text-sm text-gray-700">
-              {item.Investigator}
-            </td>
-            <td className="px-2 py-2 whitespace-normal text-sm text-gray-700">
-              {item.Agencyscheme}
-            </td>
-            <td className="px-2 py-2 whitespace-normal text-sm text-gray-700">
-              {item.value}
-            </td>
-            <td className="px-2 py-2 whitespace-normal text-sm text-gray-700">
-              {item.duration}
-            </td>
-            <td className="px-2 py-2 whitespace-normal text-sm text-gray-700">
-              {item.sanctiondate}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-</div>)}
+      <div className="min-h-screen bg-gray-50 p-4 text-red-600 text-center">
+        <p className="text-xl font-semibold">Error: {error.message}</p>
+        <p className="text-sm mt-2">Please check your internet or sheet sharing settings.</p>
+      </div>
+    );
+  }
+
+  return (
+    <Box sx={{ maxWidth: "95%", mx: "auto", p: 2 }}>
+      <Typography variant="h5" fontWeight="bold" mb={3} align="center">
+        Sponsored Projects
+      </Typography>
+       <ul className="project-summary">
+                <li><b>Total Projects:</b>{entries}</li>
+                <li><b>Total Value of Project:</b>₹{value.toLocaleString('en-IN')} </li>
+            </ul>
+        
+
+    <div className="bar">
+      <TextField
+        label="Search Sponsored Projects"
+        variant="outlined"
+        size="small"
+        className='searchfield'
+        value={search}
+        onChange={e => setSearch(e.target.value)}
+        sx={{ mb: 2 }}
+      />
+ 
+      <FormControl className='formcontrol'  size="small" sx={{ mb: 3 }}>
+        <InputLabel id="sort-by-label">Sort by date</InputLabel>
+        <Select
+          labelId="sort-by-label"
+          id="sort-by"
+          placeholder='sort by sanctiondate'
+          value={sortOrder}
+        
+          label="Sort by Sanction Date"
+          onChange={(e) => setSortOrder(e.target.value)}
+        >
+    
+          <MenuItem value="asc">Oldest to Newest</MenuItem>
+          <MenuItem value="desc">Newest to Oldest</MenuItem>
+        </Select>
+      </FormControl>
+    </div>
+      
+
+      <div className="overflow-x-auto shadow-lg rounded-lg">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-purple-800 text-white text-sm font-medium">
+            <tr>
+              <th className="px-2 py-2 text-left">Title</th>
+              <th className="px-2 py-2 text-left">Investigator(s)</th>
+              <th className="px-2 py-2 text-left">Co-PI</th>
+              <th className="px-2 py-2 text-left">Agency Scheme</th>
+              <th className="px-2 py-2 text-left">Value (₹ Lakhs)</th>
+              <th className="px-2 py-2 text-left">Sanction Date</th>
+              <th className="px-2 py-2 text-left">Duration (Years)</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200 text-sm">
+            {sortedDoc.map((item, index) => (
+              <tr key={index}>
+                <td className="px-2 py-2">{item["Title"]}</td>
+                <td className="px-2 py-2">{item["Investigator(s)"]}</td>
+                <td className="px-2 py-2">{item["Co-PI"]}</td>
+                <td className="px-2 py-2">{item["Sponsoring Agency-Scheme"]}</td>
+                <td className="px-2 py-2">{item["Value (₹1,00,000)"]}</td>
+                <td className="px-2 py-2">{item["Sanction date"] || "N/A"}</td>
+                <td className="px-2 py-2">{item["Duration (years)"] || "N/A"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </Box>
+  );
+}

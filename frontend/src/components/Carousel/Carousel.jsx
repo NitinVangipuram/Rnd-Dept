@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import logo1 from '../../assets/carousel-images/Academic-About.e6a203bff9b9d7dd0d81.jpg';
 import logo2 from '../../assets/carousel-images/banner-01.jpg';
 import logo3 from '../../assets/carousel-images/campus.jpg';
+import logo4 from '../../assets/carousel-images/image4.jpg'
 
 const Carousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const images = [logo1, logo2, logo3]; // Store the images in an array
+  const images = [logo1, logo2, logo3,logo4]; // Store the images in an array
 
   const handleNext = () => {
     setCurrentSlide((prevSlide) => (prevSlide + 1) % images.length);
