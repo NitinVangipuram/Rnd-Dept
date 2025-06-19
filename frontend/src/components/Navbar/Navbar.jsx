@@ -114,6 +114,15 @@ const Navbar = ({ closeMenu }) => {
                         Publications
                     </NavLink>
                 </li>
+                <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
+                    <NavLink
+                        to="https://docs.google.com/document/d/1erNNTzZQF3MTEzao2Sr2hRA7wp_HwohI9Ah9yiAzjPU/edit?tab=t.0"
+                        className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
+                        onClick={handleLinkClick}
+                    >
+                        Message from Dean
+                    </NavLink>
+                </li>
             </ul>
         </nav>
     );
