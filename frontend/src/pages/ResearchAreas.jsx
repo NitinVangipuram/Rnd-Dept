@@ -1,26 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import {
+  Typography,
+  TextField,
+  Box,
+  MenuItem,
+} from '@mui/material';
+import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
+import { Link } from 'react-scroll';
+
+const normalize = (str) => str?.toLowerCase().replace(/\s+/g, '') || '';
 
 const ResearchAreas = () => {
   const [data, setData] = useState([]);
-  const [search, setSearch] = useState('');
+  const [nameSearch, setNameSearch] = useState('');
+  const [selectedDept, setSelectedDept] = useState('');
+  const [topicSearch, setTopicSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(true);
   const itemsPerPage = 100;
 
   const fetchData = async (page) => {
+    setLoading(true);
     try {
       const response = await axios.get(
         `https://rnd.iitdh.ac.in/strapi/api/research-areas?populate=*&pagination[page]=${page}&pagination[pageSize]=${itemsPerPage}`
       );
-
       const result = response.data?.data || [];
       const meta = response.data?.meta?.pagination || {};
-
       setData(result);
       setTotalPages(meta.pageCount || 1);
     } catch (error) {
       console.error('Error fetching research areas:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -28,11 +42,21 @@ const ResearchAreas = () => {
     fetchData(currentPage);
   }, [currentPage]);
 
-  const filteredData = data.filter((item) =>
-    item.ProfName?.toLowerCase().includes(search.toLowerCase()) ||
-    item.Department?.toLowerCase().includes(search.toLowerCase()) ||
-    item.AreaofInterest?.some((area) => area.Area?.toLowerCase().includes(search.toLowerCase()))
-  );
+  const uniqueDepartments = [
+    ...new Set(data.map((item) => item.Department).filter(Boolean)),
+  ];
+
+  const filteredData = data.filter((item) => {
+    const nameMatch = normalize(item.ProfName).includes(normalize(nameSearch));
+    const deptMatch = selectedDept ? item.Department === selectedDept : true;
+    const topicMatch = topicSearch
+      ? item.AreaofInterest?.some((area) =>
+          normalize(area.Area).includes(normalize(topicSearch))
+        )
+      : true;
+
+    return nameMatch && deptMatch && topicMatch;
+  });
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -40,56 +64,114 @@ const ResearchAreas = () => {
   };
 
   return (
-    <div className="p-4 max-w-screen-lg mx-auto">
-      <h2 className="text-2xl sm:text-3xl font-bold text-center mb-4">RESEARCH AREAS</h2>
-      <input
-        type="text"
-        className="border rounded w-full p-2 mb-4 text-sm sm:text-base"
-        placeholder="Search by Name/Department/Research Areas..."
-        value={search}
-        onChange={(e) => {
-          setSearch(e.target.value);
-          setCurrentPage(1); // reset to page 1 on new search
-        }}
-      />
+    <div id='research-top' className="p-4 max-w-screen-xl mx-auto">
+      <Box sx={{ maxWidth: '95%', mx: 'auto', p: 2 }}>
+        <Typography variant="h5" fontWeight="bold" mb={3} align="center">
+          Academics and Research Areas
+        </Typography>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full border-collapse">
-          <thead>
-            <tr className="bg-purple-700 text-white text-sm sm:text-base">
-              <th className="border p-2 text-left">Name</th>
-              <th className="border p-2 text-left">Department</th>
-              <th className="border p-2 text-left">Areas of Interest</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredData.length > 0 ? (
-              filteredData.map((prof) => (
-                <tr key={prof.id} className="bg-white hover:bg-gray-50 text-sm sm:text-base">
-                  <td className="border p-2">{prof.ProfName}</td>
-                  <td className="border p-2">{prof.Department}</td>
-                  <td className="border p-2">
-                    <ul className="list-disc ml-4 space-y-0.5">
-                      {prof.AreaofInterest.map((area) => (
-                        <li key={area.id}>{area.Area}</li>
-                      ))}
-                    </ul>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', sm: 'row' },
+            gap: 2,
+            mb: 3,
+          }}
+        >
+          <TextField
+            fullWidth
+            label="Search by Name"
+            variant="outlined"
+            size="small"
+            value={nameSearch}
+            onChange={(e) => setNameSearch(e.target.value)}
+          />
+
+          <TextField
+            fullWidth
+            select
+            label="Filter by Department"
+            value={selectedDept}
+            onChange={(e) => setSelectedDept(e.target.value)}
+            variant="outlined"
+            size="small"
+          >
+            <MenuItem value="">All Departments</MenuItem>
+            {uniqueDepartments.map((dept, idx) => (
+              <MenuItem key={idx} value={dept}>
+                {dept}
+              </MenuItem>
+            ))}
+          </TextField>
+
+          <TextField
+            fullWidth
+            label="Search by Research Topic"
+            variant="outlined"
+            size="small"
+            value={topicSearch}
+            onChange={(e) => setTopicSearch(e.target.value)}
+          />
+        </Box>
+      </Box>
+
+      <div className="p-4" id="research-areas-table">
+        <div className="overflow-x-auto shadow-lg rounded-lg">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-purple-800">
+              <tr>
+                <th className="px-3 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">
+                  Name
+                </th>
+                <th className="px-3 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">
+                  Department
+                </th>
+                <th className="px-3 py-2 text-left text-sm font-medium text-white uppercase tracking-wider">
+                  Areas of Interest
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {loading ? (
+                <tr>
+                  <td colSpan="3" className="text-center p-6">
+                    <PageSkeleton />
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="3" className="text-center p-4 text-gray-500 text-sm sm:text-base">
-                  No matching research areas found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              ) : filteredData.length > 0 ? (
+                filteredData.map((prof) => (
+                  <tr key={prof.id} className="hover:bg-gray-50">
+                    <td className="px-3 py-2 text-sm text-gray-900">
+                      {prof.ProfName}
+                    </td>
+                    <td className="px-3 py-2 text-sm text-gray-900">
+                      {prof.Department}
+                    </td>
+                    <td className="px-3 py-2 text-sm text-gray-900">
+                      <ul className="list-disc ml-4 space-y-0.5">
+                        {prof.AreaofInterest.map((area) => (
+                          <li key={area.id}>{area.Area}</li>
+                        ))}
+                      </ul>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr className="bg-gray-50">
+                  <td
+                    colSpan="3"
+                    className="px-4 py-6 text-center text-gray-500 text-sm sm:text-base"
+                  >
+                    No matching research areas found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      {/* Pagination Controls */}
-      {totalPages > 1 && (
+      {!loading && totalPages > 1 && (
         <div className="flex justify-center items-center mt-4 flex-wrap gap-2 text-sm sm:text-base">
           <button
             disabled={currentPage === 1}
@@ -104,7 +186,9 @@ const ResearchAreas = () => {
               key={page}
               onClick={() => handlePageChange(page)}
               className={`cursor-pointer px-3 py-1 rounded border ${
-                page === currentPage ? 'bg-purple-600 text-white' : 'bg-gray-100 hover:bg-gray-200'
+                page === currentPage
+                  ? 'bg-purple-600 text-white'
+                  : 'bg-gray-100 hover:bg-gray-200'
               }`}
             >
               {page}
@@ -120,6 +204,19 @@ const ResearchAreas = () => {
           </button>
         </div>
       )}
+                  {/* Back to Top Button */}
+                  <div className="cursor-pointer text-center mt-10">
+                      <Link
+                          to="research-top"
+                          spy={true}
+                          smooth={true}
+                          offset={-100}
+                          duration={500}
+                          className="inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300"
+                      >
+                          Back to Top
+                      </Link>
+                  </div>
     </div>
   );
 };
