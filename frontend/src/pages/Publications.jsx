@@ -56,6 +56,12 @@ export default function PublicationsList() {
             mb: 3 
         }}
       />
+      <Typography variant="subtitle1" color="text.primary" mb={2} align="right">
+        Total Publications:{" "}
+        <span style={{ color: "#7e22ce", fontWeight: 700, fontSize: "1.15em" }}>
+          {filteredPublications.length}
+        </span>
+      </Typography>
       {loading ? (
         <PageSkeleton />
         ) : (
