@@ -10,6 +10,7 @@ import Home from './pages/Home';
 import Forms from './pages/Forms';
 
 import ResearchAreas from './pages/ResearchAreas';
+import Message from './pages/Message';
 // Lazy load other pages
 const People = lazy(() => import('./pages/People'));
 const Sponsored = lazy(() => import('./pages/Sponsored'));;
@@ -147,6 +148,11 @@ function App() {
               <Route path="/publications" element={
                 <Suspense fallback={<PageSkeleton />}>
                   <Publications />
+                </Suspense>
+              } />
+              <Route path="/message" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Message />
                 </Suspense>
               } />
             </Routes>
