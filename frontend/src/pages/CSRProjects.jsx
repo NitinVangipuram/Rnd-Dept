@@ -8,7 +8,6 @@ export default function CSR() {
     // const [loading, setLoading] = useState(true);
     // const [error, setError] = useState(null);
 
-    // const STRAPI_API_TOKEN = "756aec3b3ed14f6ababdd892366b869b7a2936ac68962ee029a1082add1bd5d2493c000c59dfa2c44c25ee85e9afc0ee434b1b0a95a6050d8ef3159f40034a39d0d96e8b182c4c038506775878074ba42df4b973150db4d38d0c25d266ac80e4d4dd40fd0f321386e0fb45474adedbe73d6c4e119cd76708d1526af1f40c4e3c"
     // const STRAPI_API_URL = 'https://rnd.iitdh.ac.in/strapi/api/csrprojects';
 
     // useEffect(() => {
