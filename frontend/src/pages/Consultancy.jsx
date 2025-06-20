@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-scroll';
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
 import {
   Typography,
@@ -162,7 +163,7 @@ console.log(doc)
     return (
 
          <Box sx={{ maxWidth: "95%", mx: "auto", p: 2 }}>
-              <Typography variant="h5" fontWeight="bold" mb={3} align="center">
+              <Typography id="consultancy-top" variant="h5" fontWeight="bold" mb={3} align="center">
                 Consultancy Projects
               </Typography>
 
@@ -209,17 +210,17 @@ console.log(doc)
                                 Principal Investigator
                             </th>
                             <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                                 Industry
+                                Industry
                             </th>
                             <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                                  Sanction Date
+                                Sanction Date
                             </th>
-    
+
                             <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
                                 Duration
                             </th>
                             <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                             Cost of Project
+                                Cost of Project
                             </th>
                         </tr>
                     </thead>
@@ -249,6 +250,19 @@ console.log(doc)
 </tbody>
 
                 </table>
+            </div>
+            {/* Back to Top Button */}
+            <div className="cursor-pointer text-center mt-10">
+                <Link
+                    to="consultancy-top"
+                    spy={true}
+                    smooth={true}
+                    offset={-100}
+                    duration={500}
+                    className="inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300"
+                >
+                    Back to Top
+                </Link>
             </div>
         </div>
         </Box>
