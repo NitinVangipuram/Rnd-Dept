@@ -10,7 +10,7 @@ import { Link } from 'react-scroll';
 
 const CACHE_KEY = 'cachedOpportunities';
 const CACHE_TIMESTAMP_KEY = 'opportunitiesCacheTimestamp';
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in ms
+const CACHE_DURATION = 1 * 1 * 1000; // 5 minutes in ms
 
 
 const Home = () => {
@@ -33,11 +33,13 @@ const Home = () => {
                 const filtered = data.filter(entry => {
                     const deadlineStr = entry.Deadline?.trim();
                     const deadlineDate = new Date(deadlineStr);
+                     deadlineDate.setDate(deadlineDate.getDate() + 1); 
                     const isRolling = /rolling/i.test(deadlineStr); // case-insensitive match
                     const isFutureDate = deadlineStr && !isNaN(deadlineDate) && deadlineDate >= today;
                     return isRolling || isFutureDate;
                 });
-
+                
+                console.log('Filtered opportunities:', filtered);
                 localStorage.setItem(CACHE_KEY, JSON.stringify(filtered));
                 localStorage.setItem(CACHE_TIMESTAMP_KEY, Date.now().toString());
 
