@@ -3,7 +3,6 @@ import { NavLink } from 'react-router-dom';
 import MyDropdownNav from '../MyDropdownNav/MyDropdownNav';
 import Ethics from '../MyDropdownNav/ethicsdropdown';
 import Stats from '../MyDropdownNav/statsdropdown';
-
 const Navbar = ({ closeMenu }) => {
     const handleLinkClick = () => {
         if (closeMenu) closeMenu();
@@ -41,7 +40,7 @@ const Navbar = ({ closeMenu }) => {
                         People
                     </NavLink>
                 </li>
-                <Ethics/>
+                
                 <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
                     <NavLink
                         to="/Documents"
@@ -53,7 +52,10 @@ const Navbar = ({ closeMenu }) => {
 
                     </NavLink>
                 </li>
-                <Stats/>
+                <MyDropdownNav/>
+               <Stats/>
+               <Ethics/>
+
                 <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
                     <NavLink
                         to="/csr"

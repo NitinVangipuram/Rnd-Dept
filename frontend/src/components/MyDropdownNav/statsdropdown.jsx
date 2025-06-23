@@ -67,32 +67,30 @@ const Stats = () => {
             {isOpen && (
                 <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white  z-20">
                     <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                        <MyDropdownNav />
                         <NavLink
 
-                            to="/OfficeStatistics"
+                            to="/statistics/projects"
 
                             className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
                             onClick={handleLinkClick}
                         >
-                            Office Statistics
+                            Projects
                         </NavLink>
                         <NavLink
-                            to="/publications"
+
+                            to="/statistics/Office"
+
+                            className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
+                            onClick={handleLinkClick}
+                        >
+                            Office
+                        </NavLink>
+                        <NavLink
+                            to="/statistics/publications"
                             className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
                             onClick={handleLinkClick}
                         >
                             Publications
-                        </NavLink>
-                        <NavLink
-
-                            to="/FundingStatistics"
-
-
-                            className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
-                            onClick={handleLinkClick}
-                        >
-                            Statistics
                         </NavLink>
 
                     </div>
