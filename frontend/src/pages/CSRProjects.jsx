@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
 import { Link } from 'react-scroll';
 import axios from 'axios';
+import './searchresults.css'
 
 export default function CSR() {
     // const [doc, setdoc] = useState([]);
@@ -51,6 +52,8 @@ export default function CSR() {
     const [info,setInfo] = useState([]);
     const [loading,setLoading] = useState(true);
     const [error,setError] = useState(null);
+    const [entries,setEntries]=useState('')
+    const [value,setValue]=useState('')
 
     useEffect(() => {
         const fetchData = async () => {
@@ -68,11 +71,47 @@ export default function CSR() {
         fetchData();
     }, []);
 
+
+    useEffect(()=>{
+            let sum=0;
+            let count=0;
+    
+            info.map((item)=>{
+              
+                const val = parseFloat(item["Value (₹1,00,000)"]) * 100000;
+                if(val!=NaN)
+                sum+=val
+                
+                count++;
+            })
+            
+            setEntries(count)
+            setValue(sum)
+    },[info])
+    
+    
     if (loading) {
         return (
             <PageSkeleton />
         );
     }
+
+    function parseDateDMY(dateStr) {
+      if (!dateStr || dateStr.toLowerCase() === 'n/a') return null;
+    
+      
+      const parts = dateStr.split(/[-.]/);  
+    
+      if (parts.length !== 3) return null;
+    
+      const day = parseInt(parts[0], 10);
+      const month = parseInt(parts[1], 10) - 1;
+      const year = parseInt(parts[2], 10);
+    
+      const date = new Date(year, month, day);
+      return isNaN(date.getTime()) ? null : date;
+    }
+
 
     if (error) {
         return (
@@ -86,6 +125,11 @@ export default function CSR() {
     return (
         <div className="p-6" id="research-and-documents-table">
             <h1 id='csrProject-top' className='text-3xl font-bold text-center text-gray-800 mb-6'>CSR Projects</h1>
+            
+            <ul className="project-summary">
+                <li><b>Total Projects:</b>{entries}</li>
+                <li><b>Total Value of Project:</b>₹{value.toLocaleString('en-IN')} </li>
+            </ul>
             <div className="overflow-x-auto shadow-lg rounded-lg">
                 <table className="min-w-full divide-y divide-gray-200">
                     {info.length > 0 && (
