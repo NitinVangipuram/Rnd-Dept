@@ -1,102 +1,181 @@
 import React, { useState, useEffect } from 'react';
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
+import { Link } from 'react-scroll';
+import axios from 'axios';
+import './searchresults.css'
 
 export default function CSR() {
-    const [doc, setdoc] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    // const [doc, setdoc] = useState([]);
+    // const [loading, setLoading] = useState(true);
+    // const [error, setError] = useState(null);
 
-    const STRAPI_API_TOKEN = "756aec3b3ed14f6ababdd892366b869b7a2936ac68962ee029a1082add1bd5d2493c000c59dfa2c44c25ee85e9afc0ee434b1b0a95a6050d8ef3159f40034a39d0d96e8b182c4c038506775878074ba42df4b973150db4d38d0c25d266ac80e4d4dd40fd0f321386e0fb45474adedbe73d6c4e119cd76708d1526af1f40c4e3c"
-    const STRAPI_API_URL = 'https://rnd.iitdh.ac.in/strapi/api/csrprojects';
+    // const STRAPI_API_URL = 'https://rnd.iitdh.ac.in/strapi/api/csrprojects';
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             if (!STRAPI_API_TOKEN) {
+    //                 throw new Error("Strapi API Token is not defined.");
+    //             }
+
+    //             const response = await fetch(STRAPI_API_URL, {
+    //                 method: 'GET',
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                     'Authorization': `Bearer ${STRAPI_API_TOKEN}`,
+    //                 },
+    //             });
+
+    //             if (!response.ok) {
+    //                 const errorBody = await response.json().catch(() => ({}));
+    //                 throw new Error(`HTTP error! Status: ${response.status} - ${errorBody.error?.message || response.statusText}`);
+    //             }
+
+    //             const jsonData = await response.json();
+
+    //             if (!jsonData || !Array.isArray(jsonData.data)) {
+    //                 throw new Error("Invalid data format received from API. Expected 'data' array.");
+    //             }
+    //             setdoc(jsonData.data);
+
+    //         } catch (err) {
+    //             console.error("Failed to fetch documents:", err);
+    //             setError(err);
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     };
+
+    //     fetchData();
+    // }, [STRAPI_API_TOKEN]);
+
+    const [info,setInfo] = useState([]);
+    const [loading,setLoading] = useState(true);
+    const [error,setError] = useState(null);
+    const [entries,setEntries]=useState('')
+    const [value,setValue]=useState('')
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                if (!STRAPI_API_TOKEN) {
-                    throw new Error("Strapi API Token is not defined.");
-                }
-
-                const response = await fetch(STRAPI_API_URL, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${STRAPI_API_TOKEN}`,
-                    },
-                });
-
-                if (!response.ok) {
-                    const errorBody = await response.json().catch(() => ({}));
-                    throw new Error(`HTTP error! Status: ${response.status} - ${errorBody.error?.message || response.statusText}`);
-                }
-
-                const jsonData = await response.json();
-
-                if (!jsonData || !Array.isArray(jsonData.data)) {
-                    throw new Error("Invalid data format received from API. Expected 'data' array.");
-                }
-                setdoc(jsonData.data);
-
-            } catch (err) {
-                console.error("Failed to fetch documents:", err);
-                setError(err);
+                setLoading(true);
+                const res = await axios.get("https://opensheet.vercel.app/1aGpQlcEX4hw_L4nAhOxTC07KK0yXe0QqoKW3s7TRAaM/Sheet1");
+                setInfo(res.data); // reverse for latest first, optional
+            } catch (error) {
+                console.error(error); // optional logging
             } finally {
                 setLoading(false);
             }
         };
 
         fetchData();
-    }, [STRAPI_API_TOKEN]);
+    }, []);
 
+
+    useEffect(()=>{
+            let sum=0;
+            let count=0;
+    
+            info.map((item)=>{
+              
+                const val = parseFloat(item["Value (₹1,00,000)"]) * 100000;
+                if(val!=NaN)
+                sum+=val
+                
+                count++;
+            })
+            
+            setEntries(count)
+            setValue(sum)
+    },[info])
+    
+    
     if (loading) {
         return (
             <PageSkeleton />
         );
     }
 
+    function parseDateDMY(dateStr) {
+      if (!dateStr || dateStr.toLowerCase() === 'n/a') return null;
+    
+      
+      const parts = dateStr.split(/[-.]/);  
+    
+      if (parts.length !== 3) return null;
+    
+      const day = parseInt(parts[0], 10);
+      const month = parseInt(parts[1], 10) - 1;
+      const year = parseInt(parts[2], 10);
+    
+      const date = new Date(year, month, day);
+      return isNaN(date.getTime()) ? null : date;
+    }
+
+
     if (error) {
         return (
             <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8 text-gray-800 flex flex-col justify-center items-center text-red-600">
                 <p className="text-xl font-semibold">Error: {error.message}</p>
-                <p className="text-sm mt-2 text-center">Please ensure your Strapi server is running, your API token is correct, and network is available.</p>
+                {/* <p className="text-sm mt-2 text-center">Please ensure your Strapi server is running, your API token is correct, and network is available.</p> */}
             </div>
         );
     }
 
     return (
         <div className="p-6" id="research-and-documents-table">
-            <h1 className='text-3xl font-bold text-center text-gray-800 mb-8'>CSR Projects</h1>
+            <h1 id='csrProject-top' className='text-3xl font-bold text-center text-gray-800 mb-6'>CSR Projects</h1>
+            
+            <ul className="project-summary">
+                <li><b>Total Projects:</b>{entries}</li>
+                <li><b>Total Value of Project:</b>₹{value.toLocaleString('en-IN')} </li>
+            </ul>
             <div className="overflow-x-auto shadow-lg rounded-lg">
                 <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-purple-800">
-                        <tr>
-                            <th scope="col" className="px-6 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                                Title
-                            </th>
-                            <th scope="col" className="px-6 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                                Investigator(s)
-                            </th>
-                            <th scope="col" className="px-6 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                                Sponsoring Agency
-                            </th>
-                        </tr>
-                    </thead>
+                    {info.length > 0 && (
+                        <thead className="bg-purple-800">
+                            <tr>
+                                {Object.keys(info[0]).map((key) => (
+                                    <th
+                                        key={key}
+                                        className="px-6 py-2 text-left text-sm font-medium text-white uppercase tracking-wider"
+                                    >
+                                        {key}
+                                    </th>
+                                ))}
+                            </tr>
+                        </thead>
+                    )}
                     <tbody className="bg-white divide-y divide-gray-200">
-                        {doc.map((item) => (
-                            <tr key={item.id}>
-                                <td className="px-6 py-4 whitespace-normal text-sm font-medium text-gray-900">
-                                    {item.title}
-                                </td>
-                                <td className="px-6 py-4 whitespace-normal text-sm text-gray-700">
-                                    {item.investigator}
-                                </td>
-                                <td className="px-6 py-4 whitespace-normal text-sm text-gray-700">
-                                    {item.sponsoringAgency}
-                                </td>
+                        {info.map((item, idx) => (
+                            <tr key={idx}>
+                                {Object.keys(info[0]).map((key, i) => (
+                                    <td
+                                        key={i}
+                                        className="px-6 py-4 whitespace-normal text-sm text-gray-700"
+                                    >
+                                        {item[key]}
+                                    </td>
+                                ))}
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
+
+                                    {/* Back to Top Button */}
+                                    <div className="cursor-pointer text-center mt-10">
+                                        <Link
+                                            to="csrProject-top"
+                                            spy={true}
+                                            smooth={true}
+                                            offset={-100}
+                                            duration={500}
+                                            className="inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300"
+                                        >
+                                            Back to Top
+                                        </Link>
+                                    </div>
         </div>
     );
 }

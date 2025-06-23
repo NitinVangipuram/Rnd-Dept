@@ -8,8 +8,9 @@ import PageSkeleton from './components/LoadingSkeleton/PageSkeleton';
 import Home from './pages/Home';
 
 import Forms from './pages/Forms';
-
+import Statsofprojects from './pages/statsofprojects';
 import ResearchAreas from './pages/ResearchAreas';
+import Statsofpublications from './pages/statsofpublications';
 // Lazy load other pages
 const People = lazy(() => import('./pages/People'));
 const Sponsored = lazy(() => import('./pages/Sponsored'));;
@@ -19,7 +20,6 @@ const Funding = lazy(() => import('./pages/Funding_statistics'));
 const Office = lazy(() => import('./pages/Office_statistics'));
 const Documents = lazy(() => import('./pages/Documents'));
 const Searchresults = lazy(() => import('./pages/searchresults')); 
-const Csr= lazy(() => import('./pages/Csr')); 
 const Ipr = lazy(() => import('./pages/iprcommittee'));
 const Ethics = lazy(() => import('./pages/ethicscommitte'));
 const Publications = lazy(() => import('./pages/Publications'));
@@ -76,7 +76,7 @@ function App() {
               } />
               <Route path="/csr" element={
                 <Suspense fallback={<PageSkeleton />}>
-                  <Csr/>
+                  <CSRP/>
                 </Suspense>
               } />
               <Route path="/people" element={
@@ -89,7 +89,7 @@ function App() {
                   <Funding />
                 </Suspense>
               } />
-              <Route path="/OfficeStatistics" element={
+              <Route path="/statistics/Office" element={
                 <Suspense fallback={<PageSkeleton />}>
                   <Office />
                 </Suspense>
@@ -147,6 +147,17 @@ function App() {
               <Route path="/publications" element={
                 <Suspense fallback={<PageSkeleton />}>
                   <Publications />
+                </Suspense>
+              } />
+
+              <Route path="/statistics/projects" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Statsofprojects />
+                </Suspense>
+              } />
+                <Route path="/statistics/publications" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Statsofpublications />
                 </Suspense>
               } />
             </Routes>
