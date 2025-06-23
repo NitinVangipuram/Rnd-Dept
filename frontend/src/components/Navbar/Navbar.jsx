@@ -40,8 +40,7 @@ const Navbar = ({ closeMenu }) => {
                         People
                     </NavLink>
                 </li>
-                <MyDropdownNav/>
-                <Ethics/>
+                
                 <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
                     <NavLink
                         to="/Documents"
@@ -53,7 +52,9 @@ const Navbar = ({ closeMenu }) => {
 
                     </NavLink>
                 </li>
+                <MyDropdownNav/>
                <Stats/>
+               <Ethics/>
 
                 <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
                     <NavLink
@@ -84,13 +85,14 @@ const Navbar = ({ closeMenu }) => {
                     </NavLink>
                 </li>
                
+            
                 <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
                     <NavLink
-                        to="/publications"
+                        to="/message"
                         className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
                         onClick={handleLinkClick}
                     >
-                        Publications
+                        Message from Dean
                     </NavLink>
                 </li>
             </ul>

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
-const MyDropdownNav = () => {
+const MyDropdownNav = ({closeMenu}) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
     const location = useLocation();
@@ -25,8 +25,8 @@ const MyDropdownNav = () => {
     }, []);
 
     // Function to close the dropdown when a link within it is clicked
-    const handleLinkClick = () => {
-        setIsOpen(false);
+     const handleLinkClick = () => {
+        if (closeMenu) closeMenu();
     };
 
     return (

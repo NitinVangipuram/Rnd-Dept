@@ -2,6 +2,7 @@ import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import searchData from '../searchData.jsx';
 import './searchresults.css'; // Keep this if you already use it elsewhere
+import { Link } from 'react-scroll';
 
 export default function Searchresults() {
   const [searchParams] = useSearchParams();
@@ -20,7 +21,7 @@ export default function Searchresults() {
   }, {});
 
   return (
-    <div className='searchresults'>
+    <div id='search-top' className='searchresults'>
       <h1 className="text-xl font-semibold mb-4">Search query: {query}</h1>
       {filteredResults.length > 0 ? (
         Object.entries(groupedResults).map(([page, items]) => (
@@ -41,6 +42,19 @@ export default function Searchresults() {
       ) : (
         <p className="text-gray-600">No matching results found.</p>
       )}
+            {/* Back to Top Button */}
+            <div className="cursor-pointer text-center mt-10 ">
+              <Link
+                to="search-top"
+                spy={true}
+                smooth={true}
+                offset={-100}
+                duration={500}
+                className="!text-white !no-underline inline-block bg-indigo-600 px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300"
+              >
+                Back to Top
+              </Link>
+            </div>
     </div>
   );
 }

@@ -11,6 +11,7 @@ import Forms from './pages/Forms';
 import Statsofprojects from './pages/statsofprojects';
 import ResearchAreas from './pages/ResearchAreas';
 import Statsofpublications from './pages/statsofpublications';
+import Message from './pages/Message';
 // Lazy load other pages
 const People = lazy(() => import('./pages/People'));
 const Sponsored = lazy(() => import('./pages/Sponsored'));;
@@ -158,6 +159,11 @@ function App() {
                 <Route path="/statistics/publications" element={
                 <Suspense fallback={<PageSkeleton />}>
                   <Statsofpublications />
+                      </Suspense>
+              } />
+              <Route path="/message" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Message />
                 </Suspense>
               } />
             </Routes>

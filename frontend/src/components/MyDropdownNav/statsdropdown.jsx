@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import MyDropdownNav from './MyDropdownNav';
 const Stats = () => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
