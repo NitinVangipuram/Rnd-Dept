@@ -10,7 +10,7 @@ import { Link } from 'react-scroll';
 
 const CACHE_KEY = 'cachedOpportunities';
 const CACHE_TIMESTAMP_KEY = 'opportunitiesCacheTimestamp';
-const CACHE_DURATION = 1 * 1 * 1000; // 5 minutes in ms
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in ms
 
 
 const Home = () => {
