@@ -33,6 +33,15 @@ const Navbar = ({ closeMenu }) => {
                 </li>
                 <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
                     <NavLink
+                        to="/message"
+                        className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
+                        onClick={handleLinkClick}
+                    >
+                        Message from Dean
+                    </NavLink>
+                </li>
+                <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
+                    <NavLink
                         to="/people"
                         className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
                         onClick={handleLinkClick}
@@ -82,17 +91,6 @@ const Navbar = ({ closeMenu }) => {
                         onClick={handleLinkClick}
                     >
                         Academics and Research Areas
-                    </NavLink>
-                </li>
-               
-            
-                <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
-                    <NavLink
-                        to="/message"
-                        className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
-                        onClick={handleLinkClick}
-                    >
-                        Message from Dean
                     </NavLink>
                 </li>
             </ul>
