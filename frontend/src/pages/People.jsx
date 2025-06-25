@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
 
-const API_URL = "https://rnd.iitdh.ac.in/strapi/api/people?populate=*"; // Change if deployed
+const API_URL = "https://rnd.iitdh.ac.in/strapi/api/people?populate=*&sort=createdAt:desc";
 
 // Navigation Card Component
 const NavCard = ({ title, icon, targetId }) => {
