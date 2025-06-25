@@ -100,6 +100,17 @@ const MyDropdownNav = ({closeMenu}) => {
                         >
                             Consultancy Projects
                         </NavLink>
+                        <NavLink
+                            to="/Projects/Fellowships"
+                            className={({ isActive }) => `
+                                py-2 pl-3 pr-3 font-medium block w-full text-gray-700 hover:bg-slate-100 hover:text-[blue] rounded-lg
+
+                            `}
+                            onClick={handleLinkClick}
+                            role="menuitem"
+                        >
+                            Fellowships
+                        </NavLink>
                     </div>
                 </div>
             )}
