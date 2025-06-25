@@ -2,76 +2,24 @@ import React, { useState, useEffect } from 'react';
 
 const CustomCarousel = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [touchStart, setTouchStart] = useState(0);
-  const [touchEnd, setTouchEnd] = useState(0);
-  const length = images.length;
 
-  // Auto-advance slides every 5 seconds
   useEffect(() => {
     const timer = setInterval(() => {
-      goToNext();
+      setCurrentIndex((prev) => (prev + 1) % images.length);
     }, 5000);
-    
     return () => clearInterval(timer);
-  }, [currentIndex]);
-
-  const goToSlide = (index) => {
-    setCurrentIndex(index);
-  };
-
-  const goToNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % length);
-  };
-
-  const goToPrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + length) % length);
-  };
-
-  // Handle touch events for swipe functionality
-  const handleTouchStart = (e) => {
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-  
-  const handleTouchMove = (e) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-  
-  const handleTouchEnd = () => {
-    if (touchStart - touchEnd > 50) {
-      // Swipe left
-      goToNext();
-    }
-    
-    if (touchStart - touchEnd < -50) {
-      // Swipe right
-      goToPrev();
-    }
-  };
+  }, [images.length]);
 
   return (
-    <div 
-      className="relative rounded-lg overflow-hidden shadow-md max-w-full"
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-    >
+    <div className="relative rounded-lg overflow-hidden shadow-md max-w-full">
       {/* Carousel wrapper */}
-      <div 
-        className="relative overflow-hidden"
-        style={{paddingTop:'33.33%'}}
-      >
+      <div className="relative overflow-hidden">
         {images.map((src, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-              index === currentIndex ? 'opacity-100' : 'opacity-0'
-            }`}
-          >
+          <div key={index} className={index === currentIndex ? 'block' : 'hidden'}>
             <img
               src={src}
               alt={`Slide ${index + 1}`}
-              className="absolute w-full h-full object-cover"
-              style={{ transform: 'translate(-50%, -50%)', top: '50%', left: '50%' }}
+              className="block w-full h-[350px] mx-auto rounded-lg"
             />
           </div>
         ))}
@@ -83,18 +31,20 @@ const CustomCarousel = ({ images }) => {
           <button
             key={index}
             type="button"
-            className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full ${currentIndex === index ? 'bg-white' : 'bg-gray-300'}`}
+            className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full ${
+              currentIndex === index ? 'bg-white' : 'bg-gray-300'
+            }`}
             aria-label={`Slide ${index + 1}`}
-            onClick={() => goToSlide(index)}
+            onClick={() => setCurrentIndex(index)}
           />
         ))}
       </div>
 
-      {/* Slider controls - hidden on very small screens */}
+      {/* Slider controls */}
       <button
         type="button"
         className="hidden sm:flex absolute top-0 left-0 z-30 items-center justify-center h-full px-2 sm:px-4 cursor-pointer group focus:outline-none"
-        onClick={goToPrev}
+        onClick={() => setCurrentIndex((prev) => (prev - 1 + images.length) % images.length)}
       >
         <span className="inline-flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-2 group-focus:ring-white">
           <svg
@@ -111,7 +61,7 @@ const CustomCarousel = ({ images }) => {
       <button
         type="button"
         className="hidden sm:flex absolute top-0 right-0 z-30 items-center justify-center h-full px-2 sm:px-4 cursor-pointer group focus:outline-none"
-        onClick={goToNext}
+        onClick={() => setCurrentIndex((prev) => (prev + 1) % images.length)}
       >
         <span className="inline-flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-2 group-focus:ring-white">
           <svg

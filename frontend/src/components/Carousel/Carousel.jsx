@@ -4,9 +4,10 @@ import logo2 from '../../assets/carousel-images/banner-01.jpg';
 import logo3 from '../../assets/carousel-images/campus.jpg';
 import logo4 from '../../assets/carousel-images/image4.jpg'
 
+
 const Carousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const images = [logo1, logo2, logo3,logo4]; // Store the images in an array
+  const images = [logo1, logo2, logo3, logo4];
 
   const handleNext = () => {
     setCurrentSlide((prevSlide) => (prevSlide + 1) % images.length);
@@ -19,11 +20,11 @@ const Carousel = () => {
   return (
     <div
       id="carouselExample"
-      className="relative mx-auto max-w-3xl h-40" // Limited width and height
+      className="relative mx-auto max-w-none inline-block" // inline-block to shrink-wrap content
       data-carousel="slide"
     >
       {/* Carousel indicators */}
-      <div className="absolute top-0 left-0 z-30 flex space-x-3 justify-center p-4">
+      <div className="absolute top-0 left-0 z-30 flex space-x-3 justify-center p-4 w-full">
         {images.map((_, index) => (
           <button
             key={index}
@@ -40,7 +41,7 @@ const Carousel = () => {
         <div className="duration-700 ease-in-out">
           <img
             src={images[currentSlide]}
-            className="block w-full h-full object-cover" // Make images fill the container
+            className="block max-w-full h-auto object-cover" // natural size or scale to container width
             alt={`Image ${currentSlide + 1}`}
           />
         </div>
@@ -102,5 +103,6 @@ const Carousel = () => {
     </div>
   );
 };
+
 
 export default Carousel;
