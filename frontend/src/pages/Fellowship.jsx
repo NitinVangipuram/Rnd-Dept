@@ -165,7 +165,7 @@ export default function Fellowship() {
     return (
         <div className="p-6" id="sponsored-projects-table">
             <h1 id='fellowship-top' className='text-3xl font-bold text-center text-gray-800 mb-6'>
-                Fellowship Projects
+                Fellowships
             </h1>
             {loading ? (
                 <div className="animate-pulse space-y-2 mb-4">
@@ -175,7 +175,7 @@ export default function Fellowship() {
             ) : (
                 <ul className="project-summary">
                     <li><b>Total Projects:</b> {totalEntries}</li>
-                    <li><b>Total Value of Project:</b> ₹{totalValue.toLocaleString('en-IN')} </li>
+                    <li><b>Total Value of Projects:</b> ₹{totalValue.toLocaleString('en-IN')} </li>
                 </ul>
             )}
 

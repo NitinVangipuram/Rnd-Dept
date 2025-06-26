@@ -6,6 +6,12 @@ import img2 from '../assets/carousel-images/image-2.png';
 import img3 from '../assets/carousel-images/image-3.png';
 import img4 from '../assets/carousel-images/image-4.png';
 import img5 from '../assets/carousel-images/image4.jpg'
+import pdf1 from '../assets/i1.png';
+import pdf2 from '../assets/i2.png';
+import pdf3 from '../assets/i3.png';
+import pdf4 from '../assets/i10.jpg';
+import pdf5 from '../assets/i11.jpg';
+
 import { Link } from 'react-scroll';
 
 const CACHE_KEY = 'cachedOpportunities';
@@ -17,7 +23,7 @@ const Home = () => {
     const [opportunities, setOpportunities] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const images = [img5, img1, img2, img3, img4];
+    const images = [img5, img1, img2, img3, img4,pdf1,pdf2,pdf3,pdf4,pdf5];
 
     useEffect(() => {
         const fetchOpportunities = async () => {
