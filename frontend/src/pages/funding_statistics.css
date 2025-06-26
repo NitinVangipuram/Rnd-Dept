@@ -6,6 +6,10 @@
 }
 
 
+.custom_carousel {
+  height: 600px; /* set the desired height */
+  max-height: 100%; /* optional for responsiveness */
+}
 
 
 
