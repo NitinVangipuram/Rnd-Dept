@@ -49,7 +49,7 @@ const SHEET_API_URL = "https://opensheet.elk.sh/1ET9vwdstPycSC1WUh4DwtHRg7_2axgY
     
 
 useEffect(()=>{
-console.log(doc)
+// console.log(doc)
         let sum=0;
         let count=0;
 
@@ -84,10 +84,10 @@ console.log(doc)
           .includes(search.toLowerCase())
       );
       setfilteredDoc(filtered)
-    console.log(filtered)},[search,doc])
-    
-    
-    
+    // console.log(filtered)
+},[search,doc])
+
+
     useEffect(()=>{
     const sorted = [...filteredDoc].sort((a, b) => {
       const dateA = parseDateMDY(a["Sanction date"]);

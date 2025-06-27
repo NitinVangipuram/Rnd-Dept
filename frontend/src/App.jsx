@@ -14,6 +14,7 @@ import ResearchAreas from './pages/ResearchAreas';
 import Statsofpublications from './pages/statsofpublications';
 import Message from './pages/Message';
 import Fellowship from './pages/Fellowship';
+import Workshops from './pages/Workshops';
 // Lazy load other pages
 const People = lazy(() => import('./pages/People'));
 const Sponsored = lazy(() => import('./pages/Sponsored'));;
@@ -150,6 +151,11 @@ function App() {
             <Route path="/Projects/Fellowships" element={
                 <Suspense fallback={<PageSkeleton />}>
                   <Fellowship/>
+                </Suspense>
+              } />
+            <Route path="/Projects/Workshops" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Workshops/>
                 </Suspense>
               } />
 

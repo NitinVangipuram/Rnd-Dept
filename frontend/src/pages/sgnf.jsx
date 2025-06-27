@@ -49,7 +49,7 @@ const SHEET_API_URL = "https://opensheet.elk.sh/1JQ_9Xh9aPNnklv7_iP0ihVUztYd4Rs2
     
 
 useEffect(()=>{
-console.log(doc)
+// console.log(doc)
         let sum=0;
         let count=0;
 
@@ -82,7 +82,8 @@ console.log(doc)
           .includes(search.toLowerCase())
       );
       setfilteredDoc(filtered)
-    console.log(filtered)},[search,doc])
+    // console.log(filtered)
+  },[search,doc])
     
     
     
@@ -246,7 +247,7 @@ console.log(doc)
         {item["Project Title"]}
       </td>
        <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
-        ₹{(parseFloat(item["Value (₹1,00,000)"]) * 100000).toLocaleString("en-IN")}
+        {(parseFloat(item["Value (₹1,00,000)"]) * 1).toLocaleString("en-IN")}
       </td>
       <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
         {item["Sanction date"]}
