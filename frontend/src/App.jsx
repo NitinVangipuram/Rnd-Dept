@@ -25,6 +25,7 @@ const Ipr = lazy(() => import('./pages/iprcommittee'));
 const Ethics = lazy(() => import('./pages/ethicscommitte'));
 const Publications = lazy(() => import('./pages/Publications'));
 const Csr = lazy(() => import('./pages/Csr'));
+const Deans = lazy(() => import('./pages/Deans'));
 
 // ScrollToTop logic inside App.jsx
 function ScrollToTop() {
@@ -165,6 +166,12 @@ function App() {
               <Route path="/message" element={
                 <Suspense fallback={<PageSkeleton />}>
                   <Message />
+                </Suspense>
+              } />
+
+              <Route path="/deans" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Deans />
                 </Suspense>
               } />
             </Routes>
