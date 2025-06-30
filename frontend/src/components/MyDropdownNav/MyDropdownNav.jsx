@@ -78,6 +78,17 @@ const MyDropdownNav = ({closeMenu}) => {
                         >
                             CSR Projects
                         </NavLink>
+                         <NavLink
+                            to="/Projects/sgnf"
+                            className={({ isActive }) => `
+                                py-2 pl-3 pr-3 font-medium block w-full text-gray-700 hover:text-[blue] hover:bg-slate-100 rounded-lg
+                
+                            `}
+                            onClick={handleLinkClick}
+                            role="menuitem"
+                        >
+                        SGNF
+                        </NavLink>
                         <NavLink
                             to="/Projects/Sponsored"
                             className={({ isActive }) => `
@@ -99,6 +110,28 @@ const MyDropdownNav = ({closeMenu}) => {
                             role="menuitem"
                         >
                             Consultancy Projects
+                        </NavLink>
+                        <NavLink
+                            to="/Projects/Fellowships"
+                            className={({ isActive }) => `
+                                py-2 pl-3 pr-3 font-medium block w-full text-gray-700 hover:bg-slate-100 hover:text-[blue] rounded-lg
+
+                            `}
+                            onClick={handleLinkClick}
+                            role="menuitem"
+                        >
+                            Fellowships
+                        </NavLink>
+                        <NavLink
+                            to="/Projects/Workshops"
+                            className={({ isActive }) => `
+                                py-2 pl-3 pr-3 font-medium block w-full text-gray-700 hover:bg-slate-100 hover:text-[blue] rounded-lg
+
+                            `}
+                            onClick={handleLinkClick}
+                            role="menuitem"
+                        >
+                            Workshops
                         </NavLink>
                     </div>
                 </div>

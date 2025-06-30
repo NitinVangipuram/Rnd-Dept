@@ -139,7 +139,7 @@ function parseDateDMY(dateStr) {
       </Typography>
        <ul className="project-summary">
                 <li><b>Total Projects:</b>{entries}</li>
-                <li><b>Total Value of Project:</b>₹{value.toLocaleString('en-IN')} </li>
+                <li><b>Total Value of Projects:</b>₹{value.toLocaleString('en-IN')} </li>
             </ul>
         
 

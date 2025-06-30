@@ -13,7 +13,7 @@ import {
 
 import './searchresults.css'
 
-export default function Sponsored() {
+export default function Sgnf() {
    const [doc, setDoc] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -26,7 +26,7 @@ export default function Sponsored() {
 
 
 
-const SHEET_API_URL = "https://opensheet.elk.sh/1ET9vwdstPycSC1WUh4DwtHRg7_2axgYwZQgPVtqHfEQ/Sheet1";
+const SHEET_API_URL = "https://opensheet.elk.sh/1JQ_9Xh9aPNnklv7_iP0ihVUztYd4Rs2ZnumybaJrf7c/Sheet1";
 
 
     
@@ -71,10 +71,8 @@ useEffect(()=>{
        const filtered = doc.filter(item =>
         [
     
-      item["Title"],
-      item["Investigator(s)"],
-      item["Co-PI"],
-      item["Sponsoring Organization"],
+      item["Name "],
+      item["Project Title"],
       item["Value (₹1,00,000)"],
       item["Sanction date"],
       item["Duration (years)"]
@@ -85,13 +83,14 @@ useEffect(()=>{
       );
       setfilteredDoc(filtered)
     // console.log(filtered)
-},[search,doc])
-
-
+  },[search,doc])
+    
+    
+    
     useEffect(()=>{
     const sorted = [...filteredDoc].sort((a, b) => {
-      const dateA = parseDateMDY(a["Sanction date"]);
-      const dateB = parseDateMDY(b["Sanction date"]);
+      const dateA = parseDateYMD(a["Sanction date"]);
+      const dateB = parseDateYMD(b["Sanction date"]);
     
       const isValidA = dateA instanceof Date && !isNaN(dateA);
       const isValidB = dateB instanceof Date && !isNaN(dateB);
@@ -111,6 +110,23 @@ useEffect(()=>{
         setsortedDoc(sorted);
         
       }, [sortOrder, filteredDoc]);
+
+
+          function parseDateYMD(dateStr) {
+  if (!dateStr || dateStr.toLowerCase() === 'n/a') return null;
+
+  const parts = dateStr.split(/[-.]/);  
+
+  if (parts.length !== 3) return null;
+
+ 
+  const year = parseInt(parts[0], 10);
+  const month = parseInt(parts[1], 10) - 1; // Month is 0-based in JS Date
+  const day = parseInt(parts[2], 10);
+
+  const date = new Date(year, month, day);
+  return isNaN(date.getTime()) ? null : date;
+}
 
     function parseDateMDY(dateStr) {
   if (!dateStr || dateStr.toLowerCase() === 'n/a') return null;
@@ -164,7 +180,7 @@ useEffect(()=>{
 
          <Box sx={{ maxWidth: "95%", mx: "auto", p: 2 }}>
               <Typography id="consultancy-top" variant="h5" fontWeight="bold" mb={3} align="center">
-                Consultancy Projects
+                Seed Grant and Networking Fund
               </Typography>
 
             <ul className="project-summary">
@@ -174,7 +190,7 @@ useEffect(()=>{
         
             <div className="bar">
               <TextField
-                label="Search Consultancy Projects"
+                label="Search "
                 variant="outlined"
                 size="small"
                 className='searchfield'
@@ -204,23 +220,20 @@ useEffect(()=>{
                     <thead className="bg-purple-800">
                         <tr>
                             <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                                Title of Project
+                               Name
                             </th>
                             <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                                Principal Investigator
+                                Project Title
                             </th>
                             <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                                Industry
+                                Value (₹1,00,000)
                             </th>
                             <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
                                 Sanction Date
                             </th>
 
                             <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                                Duration
-                            </th>
-                            <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                                Cost of Project
+                                Duration (years)
                             </th>
                         </tr>
                     </thead>
@@ -228,13 +241,13 @@ useEffect(()=>{
   {sortedDoc.map((item, index) => (
     <tr key={index}>
       <td className="px-3 py-4 whitespace-normal text-sm font-medium text-gray-900">
-        {item["Title"]}
+        {item["Name "]}
       </td>
       <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
-        {item["Investigator(s)"]}
+        {item["Project Title"]}
       </td>
-      <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
-        {item["Sponsoring Organization"]}
+       <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
+        {(parseFloat(item["Value (₹1,00,000)"]) * 1).toLocaleString("en-IN")}
       </td>
       <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
         {item["Sanction date"]}
@@ -242,9 +255,7 @@ useEffect(()=>{
       <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
         {item["Duration (years)"]}
       </td>
-      <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
-        ₹{(parseFloat(item["Value (₹1,00,000)"]) * 100000).toLocaleString("en-IN")}
-      </td>
+     
     </tr>
   ))}
 </tbody>

@@ -7,11 +7,14 @@ import Footer from './components/Footer/Footer';
 import PageSkeleton from './components/LoadingSkeleton/PageSkeleton';
 import Home from './pages/Home';
 
+
 import Forms from './pages/Forms';
 import Statsofprojects from './pages/statsofprojects';
 import ResearchAreas from './pages/ResearchAreas';
 import Statsofpublications from './pages/statsofpublications';
 import Message from './pages/Message';
+import Fellowship from './pages/Fellowship';
+import Workshops from './pages/Workshops';
 // Lazy load other pages
 const People = lazy(() => import('./pages/People'));
 const Sponsored = lazy(() => import('./pages/Sponsored'));;
@@ -26,6 +29,7 @@ const Ethics = lazy(() => import('./pages/ethicscommitte'));
 const Publications = lazy(() => import('./pages/Publications'));
 const Csr = lazy(() => import('./pages/Csr'));
 const Deans = lazy(() => import('./pages/Deans'));
+const Sgnf= lazy(() => import('./pages/sgnf'));
 
 // ScrollToTop logic inside App.jsx
 function ScrollToTop() {
@@ -102,6 +106,11 @@ function App() {
                   <Documents />
                 </Suspense>
               } />
+              <Route path="/Projects/sgnf" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Sgnf />
+                </Suspense>
+              } />
              
              <Route path="/search" element={
                 <Suspense fallback={<PageSkeleton />}>
@@ -138,6 +147,16 @@ function App() {
             <Route path="/Projects/Csr" element={
                 <Suspense fallback={<PageSkeleton />}>
                   <CSRP/>
+                </Suspense>
+              } />
+            <Route path="/Projects/Fellowships" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Fellowship/>
+                </Suspense>
+              } />
+            <Route path="/Projects/Workshops" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Workshops/>
                 </Suspense>
               } />
 

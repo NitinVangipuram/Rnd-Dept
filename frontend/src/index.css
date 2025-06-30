@@ -11,3 +11,31 @@ input.MuiInputBase-input {
   outline: none;
   box-shadow: none;
 }
+
+
+.project-summary {
+    display: flex;
+    justify-content: flex-start; 
+    align-items: center;
+    gap: 3rem; 
+    list-style: none; 
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.project-summary li {
+    font-size: 1.125rem; 
+    color: #1f2937; 
+}
+
+
+@media (max-width: 640px) {
+    .project-summary {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}

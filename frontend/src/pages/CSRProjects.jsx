@@ -128,7 +128,7 @@ export default function CSR() {
             
             <ul className="project-summary">
                 <li><b>Total Projects:</b>{entries}</li>
-                <li><b>Total Value of Project:</b>₹{value.toLocaleString('en-IN')} </li>
+                <li><b>Total Value of Projects:</b>₹{value.toLocaleString('en-IN')} </li>
             </ul>
             <div className="overflow-x-auto shadow-lg rounded-lg">
                 <table className="min-w-full divide-y divide-gray-200">
