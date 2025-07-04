@@ -7,9 +7,6 @@ const backendUrl = import.meta.env.VITE_STRAPI_URL;
 import { Link } from 'react-scroll';
 
 export default function Forms() {
-  const [showModal, setShowModal] = useState(false);
-  const [selectedDocLink, setSelectedDocLink] = useState('');
-  const [rawDocLink, setRawDocLink] = useState('');
 
   const [formData, setFormData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -45,13 +42,6 @@ export default function Forms() {
     loadData();
   }, [backendUrl]);
 
-  const handleViewClick = (link) => {
-    const encodedLink = encodeURIComponent(link);
-    const viewerURL = `https://docs.google.com/gview?url=${encodedLink}&embedded=true`;
-    setSelectedDocLink(viewerURL);
-    setRawDocLink(link);
-    setShowModal(true);
-  };
 
   return (
     <div id='forms-top' className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8 text-gray-800">
@@ -118,12 +108,14 @@ export default function Forms() {
                     </a>
                   </td>
                   <td className="px-3 py-4 whitespace-normal text-sm text-blue-700 text-left">
-                    <button
-                      onClick={() => handleViewClick(form.wordLink)}
-                      className="underline hover:text-blue-900 cursor-pointer"
+                    <a
+                      href={form.pdfLink}
+                      className="underline hover:text-purple-900"
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
                       View
-                    </button>
+                    </a>
                   </td>
                 </tr>
               ))}
@@ -131,58 +123,19 @@ export default function Forms() {
           </table>
         </div>
       )}
-
-      {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-2 sm:px-4">
-          <div className="bg-white w-full max-w-5xl rounded-xl shadow-2xl overflow-hidden relative">
-            <div className="flex justify-between items-center px-4 py-3 border-b">
-              <h2 className="text-lg sm:text-xl font-semibold">Document Preview</h2>
-              <button
-                onClick={() => setShowModal(false)}
-                className="text-2xl font-bold text-red-600 hover:text-red-800"
-              >
-                &times;
-              </button>
-            </div>
-            <div className="w-full h-[60vh] sm:h-[70vh]">
-              <iframe
-                src={selectedDocLink}
-                className="w-full h-full"
-                title="Document Viewer"
-              ></iframe>
-            </div>
-            <div className="flex flex-wrap justify-end gap-2 p-4 border-t bg-gray-50">
-              <a
-                href={rawDocLink}
-                download
-                className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm sm:text-base"
-              >
-                Download Word
-              </a>
-              <button
-                onClick={() => window.print()}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm sm:text-base"
-              >
-                Save as PDF
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-                        {/* Back to Top Button */}
-                        <div className="cursor-pointer text-center mt-10">
-                            <Link
-                                to="forms-top"
-                                spy={true}
-                                smooth={true}
-                                offset={-100}
-                                duration={500}
-                                className="inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300"
-                            >
-                                Back to Top
-                            </Link>
-                        </div>
+      {/* Back to Top Button */}
+      <div className="cursor-pointer text-center mt-10">
+        <Link
+          to="forms-top"
+          spy={true}
+          smooth={true}
+          offset={-100}
+          duration={500}
+          className="inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300"
+        >
+          Back to Top
+        </Link>
+      </div>
     </div>
   );
 }
