@@ -68,7 +68,7 @@ const Ethics = () => {
                 <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white  z-20">
                     <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                         <NavLink
-                            to="/Committees/biosaftey"
+                            to="/Committees/biosafety"
                             className={({ isActive }) => `
                                 py-2 pl-3 pr-3 font-medium block w-full text-gray-700 hover:text-[blue] hover:bg-slate-100 rounded-lg
                 
@@ -76,7 +76,7 @@ const Ethics = () => {
                             onClick={handleLinkClick}
                             role="menuitem"
                         >
-                            BioSaftey Committee
+                            BioSafety Committee
             
                         </NavLink>
                             <NavLink
