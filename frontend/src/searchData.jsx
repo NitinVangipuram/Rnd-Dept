@@ -159,7 +159,34 @@ const searchData = [
     displaycontent: 'CSR brochures and certificates',
     link: '/csr'
   },
-  
+  {
+    page: 'Statistics',
+    title: 'projects statistics',
+    content: 'view the projects statistics of the department',
+    displaycontent: 'View consultancy,sponsored and csr projects statistics',
+    link: '/statistics/projects'
+  },
+   {
+    page: 'Statistics',
+    title: 'publications statistics',
+    content: 'view the publications statistics of the department',
+    displaycontent: 'View Publications statistics',
+    link: '/statistics/publications'
+  },
+  {
+    page: 'Statistics',
+    title: 'office statistics',
+    content: 'view the office statistics of the department',
+    displaycontent: 'View office statistics',
+    link: '/statistics/office'
+  },
+  {
+    page: 'Deans',
+    title: 'deans and designations',
+    content: 'view the deans and designations, tenure  of the department',
+    displaycontent: 'View about deans and their designations, tenure of the department.',
+    link: '/deans'
+  },
 ];
 
 export default searchData;
