@@ -160,6 +160,7 @@ const searchData = [
     link: '/csr'
   },
 
+
   //Committee
 
   //ethics Committee
@@ -207,6 +208,6 @@ const searchData = [
   }
 
   
-];
+
 
 export default searchData;
