@@ -22,7 +22,7 @@ export default function Searchresults() {
 
   return (
     <div id='search-top' className='searchresults'>
-      <h1 className="text-xl font-semibold mb-4">Search query: {query}</h1>
+      <h1 className="text-xl font-semibold mb-4">Searching: {query}</h1>
       {filteredResults.length > 0 ? (
         Object.entries(groupedResults).map(([page, items]) => (
           <div key={page} className="mb-10">

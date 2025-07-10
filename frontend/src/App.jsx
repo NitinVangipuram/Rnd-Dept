@@ -122,7 +122,7 @@ function App() {
                   <Ethics />
                 </Suspense>
               } />
-              <Route path="/Committees/biosaftey" element={
+              <Route path="/Committees/biosafety" element={
                 <Suspense fallback={<PageSkeleton />}>
                  <PageSkeleton/>
                 </Suspense>
