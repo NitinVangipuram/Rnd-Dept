@@ -208,6 +208,6 @@ const searchData = [
   }
 
   
-
+]
 
 export default searchData;

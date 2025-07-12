@@ -104,7 +104,15 @@ const Navbar = ({ closeMenu }) => {
                     </NavLink>
                 </li>
                 
-                
+                <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
+                    <NavLink
+                        to="/patents"
+                        className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
+                        onClick={handleLinkClick}
+                    >
+                        Patents
+                    </NavLink>
+                </li>
                 
             </ul>
         </nav>
