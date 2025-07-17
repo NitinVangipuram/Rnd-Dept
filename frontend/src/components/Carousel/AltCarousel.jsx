@@ -19,7 +19,7 @@ const CustomCarousel = ({ images }) => {
             <img
               src={src}
               alt={`Slide ${index + 1}`}
-              className="block w-full h-[350px] mx-auto rounded-lg"
+              className="block w-full max-h-none md:max-h-[350px] mx-auto rounded-lg"
             />
           </div>
         ))}
