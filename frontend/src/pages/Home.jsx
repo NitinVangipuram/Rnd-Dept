@@ -18,12 +18,40 @@ const CACHE_KEY = 'cachedOpportunities';
 const CACHE_TIMESTAMP_KEY = 'opportunitiesCacheTimestamp';
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in ms
 
+const folderId = "1QghD9U9how0WQ8jvj-SiMH1n0pz7p_Wd";
+const apiKey = "AIzaSyAsKXHFJELPcezYqPmkL-HJY8f9yQpNg98";
+
 
 const Home = () => {
     const [opportunities, setOpportunities] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const images = [img5, img1, img2, img3, img4,pdf1,pdf2,pdf3,pdf4,pdf5];
+    const [driveImages, setDriveImages] = useState([]);
+
+    // 📸 Fetch images from Google Drive
+    useEffect(() => {
+        const fetchDriveImages = async () => {
+            const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents&key=${apiKey}&fields=files(id,mimeType,name)`;
+
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+
+                const urls = data.files
+                    .filter((file) => file.mimeType.startsWith("image/"))
+                    .map((file) =>
+                        `https://www.googleapis.com/drive/v3/files/${file.id}?alt=media&key=${apiKey}`
+                    );
+
+                setDriveImages(urls);
+            } catch (err) {
+                console.error("Error fetching Drive images:", err);
+            }
+        };
+
+        fetchDriveImages();
+    }, []);
+
 
     useEffect(() => {
         const fetchOpportunities = async () => {
@@ -74,12 +102,14 @@ const Home = () => {
         }
     }, []);
 
+    const allImages = [...driveImages, pdf1, pdf2, pdf3, pdf4, pdf5];
+
     return (
         <>
             {/* Carousel Section */}
             <div id='home-top' className="py-6 px-4 md:px-8">
                 <div className="">
-                    <AltCarousel images={images} />
+                    <AltCarousel images={allImages} />
                 </div>
             </div>
 
