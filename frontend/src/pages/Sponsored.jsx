@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
 import './searchresults.css'
+import { Link } from 'react-scroll';
+
 import {
   Typography,
   TextField,
@@ -61,7 +63,7 @@ export default function Sponsored() {
 
 
 useEffect(()=>{
-console.log(doc)
+// console.log(doc)
         var sum=0;
         let count=0;
 
@@ -69,12 +71,12 @@ console.log(doc)
           
             
   const val= parseInt(item["Value (₹1,00,000)"])*100000;
-  console.log(val,typeof(val))
+  // console.log(val,typeof(val))
 if(!isNaN(val))
 sum+=val
             count++;
         })
-        console.log(sum)
+        // console.log(sum)
         setEntries(count)
         setValue(sum)
 },[doc])
@@ -137,7 +139,7 @@ function parseDateDMY(dateStr) {
       <Typography variant="h5" fontWeight="bold" mb={3} align="center">
         Sponsored Projects
       </Typography>
-       <ul className="project-summary">
+       <ul className="spon-top project-summary">
                 <li><b>Total Projects:</b>{entries}</li>
                 <li><b>Total Value of Projects:</b>₹{value.toLocaleString('en-IN')} </li>
             </ul>
@@ -201,6 +203,19 @@ function parseDateDMY(dateStr) {
           </tbody>
         </table>
       </div>
+      {/* Back to Top Button */}
+                        <div className="cursor-pointer text-center mt-10">
+                            <Link
+                                to="spon-top"
+                                spy={true}
+                                smooth={true}
+                                offset={-100}
+                                duration={500}
+                                className="inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300"
+                            >
+                                Back to Top
+                            </Link>
+                        </div>
     </Box>
   );
 }
