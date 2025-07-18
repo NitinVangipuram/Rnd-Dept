@@ -46,9 +46,18 @@ export default function Documents() {
   }, [backendUrl]);
 
   return (
-    <div id='doc-top' className="min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8 text-gray-800">
-      <h1 className="text-2xl sm:text-3xl font-bold mb-8 text-center">OM and Documents</h1>
-
+     <div id='doc-top' className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8 text-gray-800">
+      <h1 className="text-3xl sm:text-3xl font-bold mb-4 text-center">OM and Documents</h1>
+      <div className="mb-4 text-center">
+        <a
+          href="https://drive.google.com/drive/folders/1NsW2cChEMUG-sgS4VGh2_FWI9HOU_Nar?usp=sharing"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:text-purple-900 text-purple-700 text-sm sm:text-base font-medium"
+        >
+          View all documents
+        </a>
+      </div>
       {loading ? (
         <PageSkeleton />
       ) : error ? (
