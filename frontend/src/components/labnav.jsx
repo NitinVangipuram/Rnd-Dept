@@ -9,16 +9,19 @@ function LabSubNavbar() {
 
   return (
     <div className="bg-slate-800 border-b border-slate-700 px-2 py-3 flex flex-wrap gap-1 shadow">
+      <NavLink to="/Labs/biosciences" className={navLinkStyle} title="Bioscience and Bioengineering">BSBE</NavLink>
       <NavLink to="/Labs/cse" className={navLinkStyle} title="Computer Science and Engineering" >CSE</NavLink>
-      <NavLink to="/Labs/biosciences" className={navLinkStyle} title="Bioscience and Bioengineering">Biosciences</NavLink>
-      <NavLink to="/Labs/humanities" className={navLinkStyle} title="Humanities, Economics, Arts and Rural Technologies">Humanities</NavLink>
-      <NavLink to="/Labs/mechanical" className={navLinkStyle} title="Mechanical, Materials and Aerospace Engineering">MMAE</NavLink>
-      <NavLink to="/Labs/chemistry" className={navLinkStyle} title="Chemistry">Chemistry</NavLink>
+      <NavLink to="/Labs/civil" className={navLinkStyle} title="Civil & Infrastructure Engineering">CIE</NavLink>
+            <NavLink to="/Labs/chemistry" className={navLinkStyle} title="Chemistry">Chemistry</NavLink>
       <NavLink to="/Labs/chemicaleng" className={navLinkStyle} title="Chemical Engineering">Chemical Engineering</NavLink>
-      <NavLink to="/Labs/physics" className={navLinkStyle} title="Physics">Physics</NavLink>
       <NavLink to="/Labs/eece" className={navLinkStyle} title="Electrical, Electronics and Communication Engineering">EECE</NavLink>
-      <NavLink to="/Labs/civil" className={navLinkStyle} title="Civil & Infrastructure Engineering">Civil</NavLink>
+      <NavLink to="/Labs/humanities" className={navLinkStyle} title="Humanities, Economics, Arts and Rural Technologies">HEART</NavLink>
+      <NavLink to="/Labs/mechanical" className={navLinkStyle} title="Mechanical, Materials and Aerospace Engineering">MMAE</NavLink>
       <NavLink to="/Labs/mathematics" className={navLinkStyle} title="Mathematics">Mathematics</NavLink>
+      <NavLink to="/Labs/physics" className={navLinkStyle} title="Physics">Physics</NavLink>
+      
+      
+      
     </div>
   );
 }
