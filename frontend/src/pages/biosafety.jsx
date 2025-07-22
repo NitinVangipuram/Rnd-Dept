@@ -43,18 +43,18 @@ export default function Biosafety() {
                   
                   <td className="px-3 py-4 text-sm font-medium text-gray-900 text-center">Chairman</td>
                   <td className="px-3 py-4 text-sm font-medium text-gray-900 text-center">:</td>
-                  <td className="px-3 py-4 text-sm font-medium text-gray-900 text-center">Dr Sudhanshu Shukla, Chairman, Dharwad, KARNATAKA</td>
+                  <td className="px-3 py-4 text-sm font-medium text-gray-900 text-center">Dr Sudhanshu Shukla</td>
                 </tr>
               <tr   className="hover:bg-gray-50">
                   <td className="px-3 py-4 text-sm font-medium text-gray-900 text-center">DBT Nominee</td>
                   <td className="px-3 py-4 text-sm font-medium text-gray-900 text-center">:</td>
-                  <td className="px-3 py-4 text-sm font-medium text-gray-900 text-center">Dr C.B. GANESH, Professor, Department of Zoology, Karnatak University, Dharwad,KARNATAKA</td>
+                  <td className="px-3 py-4 text-sm font-medium text-gray-900 text-center">Dr C.B. GANESH</td>
                 </tr>
                 <tr   className="hover:bg-gray-50">
                   <td className="px-3 py-4 text-sm font-medium text-gray-900 text-center">Outside Experts
 </td>
                   <td className="px-3 py-4 text-sm font-medium text-gray-900 text-center">:</td>
-                  <td className="px-3 py-4 text-sm font-medium text-gray-900 text-center">Dr Vishwas Kaveeshwar, Outside Expert, Dharwad, KARNATAKA</td>
+                  <td className="px-3 py-4 text-sm font-medium text-gray-900 text-center">Dr Vishwas Kaveeshwar</td>
                  
                 </tr>
                 <tr   className="hover:bg-gray-50">
@@ -62,7 +62,7 @@ export default function Biosafety() {
                   
                   <td className="px-3 py-4 text-sm font-medium text-gray-900 text-center">Member Secretary</td>
                   <td className="px-3 py-4 text-sm font-medium text-gray-900 text-center">:</td>
-                  <td className="px-3 py-4 text-sm font-medium text-gray-900 text-center">Dr Subhash Mehto, Member Secretary, Dharwad, KARNATAKA</td>
+                  <td className="px-3 py-4 text-sm font-medium text-gray-900 text-center">Dr Subhash Mehto</td>
                 </tr>
                 <tr   className="hover:bg-gray-50">
                   
@@ -70,7 +70,7 @@ export default function Biosafety() {
                   <td className="px-3 py-4 text-sm font-medium text-gray-900 text-center">Biosafety Officer
 </td>
                   <td className="px-3 py-4 text-sm font-medium text-gray-900 text-center">:</td>
-                  <td className="px-3 py-4 text-sm font-medium text-gray-900 text-center">Dr Shrikrishna Javali, Biosafety Officer, Dharwad, KARNATAKA</td>
+                  <td className="px-3 py-4 text-sm font-medium text-gray-900 text-center">Dr Shrikrishna Javali</td>
                 </tr>
                     <tr   className="hover:bg-gray-50">
                   
@@ -79,9 +79,9 @@ export default function Biosafety() {
 
 </td>
                   <td className="px-3 py-4 text-sm font-medium text-gray-900 text-center">:</td>
-                  <td className="px-3 py-4 text-sm font-medium text-gray-900 text-center">Dr Bal Krishna Chaube, Internal Member, Dharwad, KARNATAKA# Dr Nilkamal Mahanta,
-Internal Member, Dharwad, KARNATAKA## Dr Surya Pratap Singh, Internal Member,
-Dharwad, KARNATAKA## Dr Swananda Marathe, Internal Member, Dharwad, KARNATAKA</td>
+                  <td className="px-3 py-4 text-sm font-medium text-gray-900 text-center">Dr Bal Krishna Chaube, Dr Nilkamal Mahanta,
+ Dr Surya Pratap Singh
+, Dr Swananda Marathe</td>
                 </tr>
             </tbody>
           </table>
