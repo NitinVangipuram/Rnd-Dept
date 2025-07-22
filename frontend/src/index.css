@@ -15,6 +15,7 @@ input.MuiInputBase-input {
 .blue{
     color:blue;
     text-decoration: underline;
+    cursor:pointer;
 }
 
 
