@@ -12,6 +12,11 @@ input.MuiInputBase-input {
   box-shadow: none;
 }
 
+.blue{
+    color:blue;
+    text-decoration: underline;
+}
+
 
 .project-summary {
     display: flex;

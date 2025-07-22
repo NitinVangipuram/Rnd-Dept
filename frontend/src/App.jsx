@@ -8,6 +8,8 @@ import PageSkeleton from './components/LoadingSkeleton/PageSkeleton';
 import Home from './pages/Home';
 
 
+import LabSubNavbar from './components/labnav'
+
 import Forms from './pages/Forms';
 import Statsofprojects from './pages/statsofprojects';
 import ResearchAreas from './pages/ResearchAreas';
@@ -15,6 +17,8 @@ import Statsofpublications from './pages/statsofpublications';
 import Message from './pages/Message';
 import Fellowship from './pages/Fellowship';
 import Workshops from './pages/Workshops';
+import Biosafety from './pages/biosafety'
+
 // Lazy load other pages
 const People = lazy(() => import('./pages/People'));
 const Sponsored = lazy(() => import('./pages/Sponsored'));;
@@ -31,7 +35,16 @@ const Csr = lazy(() => import('./pages/Csr'));
 const Deans = lazy(() => import('./pages/Deans'));
 const Sgnf= lazy(() => import('./pages/sgnf'));
 const Patents = lazy(() => import('./pages/Patents'));
-
+const Cse=lazy(()=>import ('./pages/labs/cse'))
+const Human=lazy(()=>import ('./pages/labs/humanities'))
+const Bio=lazy(()=>import ('./pages/labs/biosciences'))
+const Maths=lazy(()=>import ('./pages/labs/mathematics'))
+const Phy=lazy(()=>import ('./pages/labs/physics'))
+const Che=lazy(()=>import ('./pages/labs/chemistry'))
+const Mech=lazy(()=>import ('./pages/labs/mechanical'))
+const Cheeng=lazy(()=>import ('./pages/labs/chemicaleng'))
+const Civil=lazy(()=>import('./pages/labs/civil'))
+const Eece=lazy(()=>import('./pages/labs/ece'))
 // ScrollToTop logic inside App.jsx
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -45,6 +58,9 @@ function ScrollToTop() {
 
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const isLabsPage = location.pathname.startsWith('/Labs');
+
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -74,7 +90,7 @@ function App() {
           <div className="max-w-full overflow-x-hidden flex-grow">
             {/* Scroll restoration on route change */}
             <ScrollToTop />
-
+            {isLabsPage && <LabSubNavbar />}
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/forms" element={
@@ -125,7 +141,7 @@ function App() {
               } />
               <Route path="/Committees/biosafety" element={
                 <Suspense fallback={<PageSkeleton />}>
-                 <PageSkeleton/>
+                 <Biosafety/>
                 </Suspense>
               } />
               <Route path="/Committees/ipr" element={
@@ -192,6 +208,59 @@ function App() {
               <Route path="/deans" element={
                 <Suspense fallback={<PageSkeleton />}>
                   <Deans />
+                </Suspense>
+              } />
+
+              
+              <Route path="/Labs/cse" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Cse/>
+                </Suspense>
+              } />
+               <Route path="/Labs/civil" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Civil/>
+                </Suspense>
+              } />
+              
+               <Route path="/Labs/eece" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Eece/>
+                </Suspense>
+              } />
+              <Route path="/Labs/biosciences" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Bio />
+                </Suspense>
+              } />
+              <Route path="/Labs/humanities" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Human />
+                </Suspense>
+              } />
+              <Route path="/Labs/mechanical" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Mech/>
+                </Suspense>
+              } />
+              <Route path="/Labs/chemistry" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Che />
+                </Suspense>
+              } />
+              <Route path="/Labs/chemicaleng" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Cheeng />
+                </Suspense>
+              } />
+              <Route path="/Labs/physics" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Phy />
+                </Suspense>
+              } />
+              <Route path="/Labs/mathematics" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Maths />
                 </Suspense>
               } />
 
