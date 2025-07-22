@@ -73,7 +73,7 @@ const Home = () => {
                     return isRolling || isFutureDate;
                 });
                 
-                console.log('Filtered opportunities:', filtered);
+                // console.log('Filtered opportunities:', filtered);
                 localStorage.setItem(CACHE_KEY, JSON.stringify(filtered));
                 localStorage.setItem(CACHE_TIMESTAMP_KEY, Date.now().toString());
 
