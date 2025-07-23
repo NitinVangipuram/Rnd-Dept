@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footer = () => {
   // You can update this date whenever the site is modified
-  const lastUpdated = "April 2025";
+  const lastUpdated = "July 2025";
   const currentYear = new Date().getFullYear();
 
   return (

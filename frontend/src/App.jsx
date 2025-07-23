@@ -45,6 +45,8 @@ const Mech=lazy(()=>import ('./pages/labs/mechanical'))
 const Cheeng=lazy(()=>import ('./pages/labs/chemicaleng'))
 const Civil=lazy(()=>import('./pages/labs/civil'))
 const Eece=lazy(()=>import('./pages/labs/ece'))
+const Feedback= lazy(() => import('./pages/feedback'));
+
 // ScrollToTop logic inside App.jsx
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -270,6 +272,11 @@ function App() {
                 </Suspense>
               } />
 
+              <Route path="/feedback" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Feedback />
+                </Suspense>
+              } />
             </Routes>
           </div>
           <Footer />
