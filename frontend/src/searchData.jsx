@@ -205,7 +205,82 @@ const searchData = [
     content: 'Information about the various research areas within the department. Department. Name	Areas of Interest research projects, and collaborations.',
     displaycontent: 'Academics and Research Areas',
     link: '/research-areas'
-  }
+  },
+  
+  //labs
+  {
+    page: 'Labs',
+    title: 'Labs',
+    content: 'Information about the various labs within the department.Serial Numbers	Name of the Lab	Point of Contact	Other Faculty Members	Website. cse labs,computer science and engineering labs',
+    displaycontent: 'Labs',
+    link: '/Labs/cse'
+  },
+  {
+    page: 'Labs',
+    title: 'Biosciences Labs',
+    content: 'Biosciences labs',
+    displaycontent: 'Biosciences Labs',
+    link: '/Labs/biosciences'
+  },
+  {
+    page: 'Labs',
+    title: 'Humanities Labs',
+    content: 'Humanities labs',
+    displaycontent: 'Humanities Labs',
+    link: '/Labs/humanities'
+  },
+  {
+    page: 'Labs',
+    title: 'MMAE Labs',
+    content: 'MMAE labs,Mechanical, Materials and Aerospace Engineering labs',
+    displaycontent: 'MMAE Labs',
+    link: '/Labs/mechanical'
+  },
+  {
+    page: 'Labs',
+    title: 'Chemistry Labs',
+    content: 'Chemistry labs',
+    displaycontent: 'Chemistry Labs',
+    link: '/Labs/Chemistry'
+  },
+  {
+    page: 'Labs',
+    title: 'Chemical Engineering Labs',
+    content: 'Chemical Engineering labs',
+    displaycontent: 'Chemical Engineering Labs',
+    link: '/Labs/chemicaleng'
+  },
+  {
+    page: 'Labs',
+    title: 'Physics Labs',
+    content: 'Physics labs',
+    displaycontent: 'Physics Labs',
+    link: '/Labs/Physics'
+  },
+  {
+    page: 'Labs',
+    title: 'EECE Labs',
+    content: 'EECE labs',
+    displaycontent: 'EECE Labs',
+    link: '/Labs/eece'
+  },
+  {
+    page: 'Labs',
+    title: 'Civil Labs',
+    content: 'Civil labs',
+    displaycontent: 'Civil Labs',
+    link: '/Labs/civil'
+  },
+  {
+    page: 'Labs',
+    title: 'Mathematics Labs',
+    content: 'Mathematics labs',
+    displaycontent: 'Mathematics Labs',
+    link: '/Labs/mathematics'
+  },
+  
+  
+
 
   
 ]
