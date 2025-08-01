@@ -4,7 +4,7 @@
   "private": true,
   "description": "A Strapi application",
   "scripts": {
-    "build": "strapi build",
+    "build": "npx strapi build",
     "console": "strapi console",
     "deploy": "strapi deploy",
     "dev": "strapi develop",
@@ -17,6 +17,7 @@
   "dependencies": {
     "@strapi/plugin-cloud": "5.14.0",
     "@strapi/plugin-users-permissions": "5.14.0",
+    "@strapi/provider-upload-cloudinary": "^5.20.0",
     "@strapi/strapi": "5.14.0",
     "axios": "^1.9.0",
     "better-sqlite3": "11.3.0",
@@ -24,6 +25,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
+    "strapi": "^3.6.11",
     "styled-components": "^6.0.0"
   },
   "devDependencies": {

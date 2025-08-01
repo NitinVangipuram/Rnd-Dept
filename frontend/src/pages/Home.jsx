@@ -18,9 +18,6 @@ const CACHE_KEY = 'cachedOpportunities';
 const CACHE_TIMESTAMP_KEY = 'opportunitiesCacheTimestamp';
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in ms
 
-const folderId = "1QghD9U9how0WQ8jvj-SiMH1n0pz7p_Wd";
-const apiKey = "AIzaSyAsKXHFJELPcezYqPmkL-HJY8f9yQpNg98";
-
 
 const Home = () => {
     const [opportunities, setOpportunities] = useState([]);
@@ -28,29 +25,28 @@ const Home = () => {
     const [error, setError] = useState(null);
     const [driveImages, setDriveImages] = useState([]);
 
-    // 📸 Fetch images from Google Drive
-    useEffect(() => {
-        const fetchDriveImages = async () => {
-            const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents&key=${apiKey}&fields=files(id,mimeType,name)`;
+    
+   useEffect(() => {
+  const fetchStrapiImages = async () => {
+    const url = "http://rnd.iitdh.ac.in/api/upload/files"; 
 
-            try {
-                const res = await fetch(url);
-                const data = await res.json();
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
 
-                const urls = data.files
-                    .filter((file) => file.mimeType.startsWith("image/"))
-                    .map((file) =>
-                        `https://www.googleapis.com/drive/v3/files/${file.id}?alt=media&key=${apiKey}`
-                    );
+      
+      const imageUrls = data
+        .filter((file) => file.mime.includes("image/"))
+        .map((file) => file.url.startsWith("http") ? file.url : `http://localhost:1337${file.url}`);
 
-                setDriveImages(urls);
-            } catch (err) {
-                console.error("Error fetching Drive images:", err);
-            }
-        };
+      setDriveImages(imageUrls);
+    } catch (err) {
+      console.error("Error fetching Strapi images:", err);
+    }
+  };
 
-        fetchDriveImages();
-    }, []);
+  fetchStrapiImages();
+}, []);
 
 
     useEffect(() => {
@@ -102,7 +98,7 @@ const Home = () => {
         }
     }, []);
 
-    const allImages = [...driveImages, pdf1, pdf2, pdf3, pdf4, pdf5];
+    const allImages = [...driveImages];
 
     return (
         <>
