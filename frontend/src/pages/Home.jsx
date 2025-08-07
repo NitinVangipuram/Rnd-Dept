@@ -1,26 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
 import AltCarousel from '../components/Carousel/AltCarousel';
-import img1 from '../assets/carousel-images/image-1.png';
-import img2 from '../assets/carousel-images/image-2.png';
-import img3 from '../assets/carousel-images/image-3.png';
-import img4 from '../assets/carousel-images/image-4.png';
-import img5 from '../assets/carousel-images/image4.jpg'
-import pdf1 from '../assets/i1.png';
-import pdf2 from '../assets/i2.png';
-import pdf3 from '../assets/i3.png';
-import pdf4 from '../assets/i10.jpg';
-import pdf5 from '../assets/i11.jpg';
 
 import { Link } from 'react-scroll';
 
 const CACHE_KEY = 'cachedOpportunities';
 const CACHE_TIMESTAMP_KEY = 'opportunitiesCacheTimestamp';
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in ms
-const DRIVE_CACHE_KEY = 'cachedDriveImages';
-const DRIVE_CACHE_TIMESTAMP_KEY = 'driveImagesCacheTimestamp';
-const DRIVE_CACHE_DURATION = 1 * 60 * 1000;
-
 
 const folderId = "1QghD9U9how0WQ8jvj-SiMH1n0pz7p_Wd";
 const apiKey = "AIzaSyAsKXHFJELPcezYqPmkL-HJY8f9yQpNg98";
@@ -35,20 +21,6 @@ const Home = () => {
     // 📸 Fetch images from Google Drive
     useEffect(() => {
         const fetchDriveImages = async () => {
-            const now = Date.now();
-            const cachedData = localStorage.getItem(DRIVE_CACHE_KEY);
-            const cacheTimestamp = localStorage.getItem(DRIVE_CACHE_TIMESTAMP_KEY);
-
-            if (
-                cachedData &&
-                cacheTimestamp &&
-                now - parseInt(cacheTimestamp, 10) < DRIVE_CACHE_DURATION
-            ) {
-                setDriveImages(JSON.parse(cachedData));
-                console.log("Loaded drive images from cache");
-                return;
-            }
-
             const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents&key=${apiKey}&fields=files(id,mimeType,name)`;
 
             try {
@@ -58,26 +30,17 @@ const Home = () => {
                 const urls = data.files
                     .filter((file) => file.mimeType.startsWith("image/"))
                     .map((file) =>
-                        `https://drive.google.com/uc?id=${file.id}`
+                        `https://www.googleapis.com/drive/v3/files/${file.id}?alt=media&key=${apiKey}`
                     );
 
-
                 setDriveImages(urls);
-                localStorage.setItem(DRIVE_CACHE_KEY, JSON.stringify(urls));
-                localStorage.setItem(DRIVE_CACHE_TIMESTAMP_KEY, Date.now().toString());
-
-                console.log("Fetched and cached Drive images:", urls);
             } catch (err) {
-                localStorage.removeItem(DRIVE_CACHE_KEY);
-                localStorage.removeItem(DRIVE_CACHE_TIMESTAMP_KEY);
                 console.error("Error fetching Drive images:", err);
             }
-
         };
 
         fetchDriveImages();
     }, []);
-
 
 
     useEffect(() => {
@@ -108,8 +71,6 @@ const Home = () => {
             } catch (err) {
                 console.error('Error fetching opportunities:', err);
                 setError('Could not load opportunities.');
-                localStorage.removeItem(CACHE_KEY);
-                localStorage.removeItem(CACHE_TIMESTAMP_KEY);
             } finally {
                 setIsLoading(false);
             }
@@ -142,12 +103,7 @@ const Home = () => {
                 </div>
             </div>
 
-            <img
-      src="https://drive.google.com/uc?export=view&id=1q8YbNMMUw4VsbE3PVHUgsAqGRzCSX1_Q"
-      alt="Google Drive Image"
-    />
-
-     {/* Opportunities Section */}
+            {/* Opportunities Section */}
             <div className="px-4 py-8 max-w-6xl mx-auto">
                 <h2 className="text-2xl font-bold text-gray-800 mb-6">Call for proposals</h2>
 
