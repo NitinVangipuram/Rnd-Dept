@@ -28,7 +28,7 @@ const Home = () => {
     
    useEffect(() => {
   const fetchStrapiImages = async () => {
-    const url = "http://rnd.iitdh.ac.in/api/upload/files"; 
+    const url = "https://rnd.iitdh.ac.in/strapi/api/upload/files"; 
 
     try {
       const res = await fetch(url);
