@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PageSkeleton from "../components/LoadingSkeleton/PageSkeleton";
+import DOMPurify from "dompurify";
 
 const Message = () => {
   const [docContent, setDocContent] = useState("");
@@ -17,7 +18,7 @@ const Message = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const htmlContent = await response.text();
-        setDocContent(htmlContent);
+        setDocContent(DOMPurify.sanitize(htmlContent));
       } catch (err) {
         setError(err);
         console.error("Failed to fetch public Google Doc content:", err);
@@ -27,12 +28,10 @@ const Message = () => {
     };
 
     fetchPublicGoogleDocContent();
-  }, []); 
+  }, []);
 
   if (loading) {
-    return (
-     <PageSkeleton/>
-    );
+    return <PageSkeleton />;
   }
 
   if (error) {
@@ -64,20 +63,9 @@ const Message = () => {
         </h1>
         <div className="relative w-full">
           <div
-            className="
-              prose                                /* Apply prose for base styling of raw HTML */
-              max-w-none                           /* Remove default max-width from prose */
-              text-black                           /* color: #000; */
-              text-justify                         /* text-align: justify; */
-              font-lato                            /* font-family: Lato; (Requires config) */
-              text-[16px] md:text-[18px]           /* Responsive font-size */
-              not-italic                           /* font-style: normal; */
-              font-normal                          /* font-weight: 400; */
-              leading-[150%]                       /* line-height: 150%; */
-              tracking-[0.9px]                     /* letter-spacing: 0.9px; */
-            "
+            className="doc-content-wrapper prose max-w-none font-lato text-black text-justify text-[16px] md:text-[18px] leading-[150%] tracking-[0.9px]"
             dangerouslySetInnerHTML={{ __html: docContent }}
-          ></div>
+          />
         </div>
       </div>
     </div>
