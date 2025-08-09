@@ -182,12 +182,12 @@ const People = () => {
 
   // Categorized lists (computed from allPeople)
   const Dean = allPeople.filter((p) => p.type === "dean");
-  const AssociateDean = allPeople.filter((p) => p.type === "associateDean");
+  const AssociateDean = allPeople.filter((p) => p.type === "associateDean").sort((a,b) => a.name.localeCompare(b.name));
   const facultyMembers = allPeople.filter(
     (p) =>
       p.type === "faculty" ||
       (p.type === "facultyInCharge" || p.type === "faculty-in-charge") // support variants
-  );
+  ).sort((a,b) => a.name.localeCompare(b.name));
   const staffMembers = allPeople.filter((p) => p.type === "staff");
 
   // console.log("dean" + Dean);
