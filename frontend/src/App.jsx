@@ -201,11 +201,11 @@ function App() {
                   <Statsofpublications />
                       </Suspense>
               } />
-              <Route path="/message" element={
+              {/* <Route path="/message" element={
                 <Suspense fallback={<PageSkeleton />}>
                   <Message />
                 </Suspense>
-              } />
+              } /> */}
 
               <Route path="/deans" element={
                 <Suspense fallback={<PageSkeleton />}>

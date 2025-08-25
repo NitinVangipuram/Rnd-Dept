@@ -1,25 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
 import AltCarousel from '../components/Carousel/AltCarousel';
-import img1 from '../assets/carousel-images/image-1.png';
-import img2 from '../assets/carousel-images/image-2.png';
-import img3 from '../assets/carousel-images/image-3.png';
-import img4 from '../assets/carousel-images/image-4.png';
-import img5 from '../assets/carousel-images/image4.jpg'
-import pdf1 from '../assets/i1.png';
-import pdf2 from '../assets/i2.png';
-import pdf3 from '../assets/i3.png';
-import pdf4 from '../assets/i10.jpg';
-import pdf5 from '../assets/i11.jpg';
 
 import { Link } from 'react-scroll';
 
 const CACHE_KEY = 'cachedOpportunities';
 const CACHE_TIMESTAMP_KEY = 'opportunitiesCacheTimestamp';
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in ms
-
-const folderId = "1QghD9U9how0WQ8jvj-SiMH1n0pz7p_Wd";
-const apiKey = "AIzaSyAsKXHFJELPcezYqPmkL-HJY8f9yQpNg98";
 
 
 const Home = () => {
@@ -28,29 +15,28 @@ const Home = () => {
     const [error, setError] = useState(null);
     const [driveImages, setDriveImages] = useState([]);
 
-    // 📸 Fetch images from Google Drive
-    useEffect(() => {
-        const fetchDriveImages = async () => {
-            const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents&key=${apiKey}&fields=files(id,mimeType,name)`;
+    
+   useEffect(() => {
+  const fetchStrapiImages = async () => {
+    const url = "https://rnd.iitdh.ac.in/strapi/api/upload/files"; 
 
-            try {
-                const res = await fetch(url);
-                const data = await res.json();
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
 
-                const urls = data.files
-                    .filter((file) => file.mimeType.startsWith("image/"))
-                    .map((file) =>
-                        `https://www.googleapis.com/drive/v3/files/${file.id}?alt=media&key=${apiKey}`
-                    );
+      
+      const imageUrls = data
+        .filter((file) => file.mime.includes("image/"))
+        .map((file) => file.url.startsWith("http") ? file.url : `http://localhost:1337${file.url}`);
 
-                setDriveImages(urls);
-            } catch (err) {
-                console.error("Error fetching Drive images:", err);
-            }
-        };
+      setDriveImages(imageUrls);
+    } catch (err) {
+      console.error("Error fetching Strapi images:", err);
+    }
+  };
 
-        fetchDriveImages();
-    }, []);
+  fetchStrapiImages();
+}, []);
 
 
     useEffect(() => {
@@ -67,12 +53,12 @@ const Home = () => {
                 const filtered = data.filter(entry => {
                     const deadlineStr = entry.Deadline?.trim();
                     const deadlineDate = new Date(deadlineStr);
-                     deadlineDate.setDate(deadlineDate.getDate() + 1); 
+                    deadlineDate.setDate(deadlineDate.getDate() + 1);
                     const isRolling = /rolling/i.test(deadlineStr); // case-insensitive match
                     const isFutureDate = deadlineStr && !isNaN(deadlineDate) && deadlineDate >= today;
                     return isRolling || isFutureDate;
                 });
-                
+
                 // console.log('Filtered opportunities:', filtered);
                 localStorage.setItem(CACHE_KEY, JSON.stringify(filtered));
                 localStorage.setItem(CACHE_TIMESTAMP_KEY, Date.now().toString());
@@ -102,7 +88,7 @@ const Home = () => {
         }
     }, []);
 
-    const allImages = [...driveImages, pdf1, pdf2, pdf3, pdf4, pdf5];
+    const allImages = [...driveImages];
 
     return (
         <>
