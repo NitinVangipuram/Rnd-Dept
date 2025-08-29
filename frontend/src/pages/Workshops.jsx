@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
+import { Link } from 'react-scroll'; 
 
 export default function Workshops() {
     const [info, setInfo] = useState([]);
@@ -190,7 +191,7 @@ export default function Workshops() {
 
     return (
         <div className="p-6" id="sponsored-projects-table">
-            <h1 id='fellowship-top' className='text-3xl font-bold text-center text-gray-800 mb-6'>
+            <h1 id='workshops-top' className='text-3xl font-bold text-center text-gray-800 mb-6'>
                 Workshops
             </h1>
             {loading ? (
@@ -258,12 +259,16 @@ export default function Workshops() {
 
             {/* Back to Top Button */}
             <div className="cursor-pointer text-center mt-10">
-                <button
-                    onClick={scrollToTop}
-                    className="cursor-pointer inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300"
-                >
-                    Back to Top
-                </button>
+                <Link
+                          to="workshops-top"
+                          spy={true}
+                          smooth={true}
+                          offset={-100}
+                          duration={500}
+                          className="fixed bottom-6 right-6 bg-indigo-600 text-white p-3 rounded-full shadow-lg hover:bg-indigo-700 transition duration-300 cursor-pointer z-50"
+                        >
+                          ↑
+                        </Link>
             </div>
         </div>
     );

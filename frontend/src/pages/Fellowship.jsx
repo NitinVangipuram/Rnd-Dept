@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
+import { Link } from 'react-scroll';
 
 export default function Fellowship() {
     const [info, setInfo] = useState([]);
@@ -13,27 +14,27 @@ export default function Fellowship() {
     const GID = '1256952165';
     const CSV_EXPORT_URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv&gid=${GID}`;
 
-    
+
     // This will replace problematic characters and make the header a valid, consistent key
     const sanitizeHeader = (header) => {
-        
+
         if (header.includes('Value') && header.includes('₹1,00,000')) {
             return 'value_inr_lakh';
         }
-        
+
         if (header.includes('Sanction date')) {
             return 'sanction_date';
         }
-        
+
         if (header.includes('Duration (years)')) {
             return 'duration_years';
         }
         // For other headers, replace non-alphanumeric with underscore and convert to lowercase
         return header
             .trim()
-            .replace(/[^a-zA-Z0-9_]+/g, '_') 
-            .replace(/_+/g, '_') 
-            .toLowerCase(); 
+            .replace(/[^a-zA-Z0-9_]+/g, '_')
+            .replace(/_+/g, '_')
+            .toLowerCase();
     };
 
     // Robust CSV line parser that handles quoted fields
@@ -123,7 +124,7 @@ export default function Fellowship() {
 
             const rawValue = item[valueKey];
 
-            if (rawValue) { 
+            if (rawValue) {
                 const numericValue = parseFloat(String(rawValue).replace(/[^0-9.]/g, ''));
 
                 if (!isNaN(numericValue)) {
@@ -232,12 +233,16 @@ export default function Fellowship() {
 
             {/* Back to Top Button */}
             <div className="cursor-pointer text-center mt-10">
-                <button
-                    onClick={scrollToTop}
-                    className="cursor-pointer inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300"
+                <Link
+                    to="fellowship-top"
+                    spy={true}
+                    smooth={true}
+                    offset={-100}
+                    duration={500}
+                    className="fixed bottom-6 right-6 bg-indigo-600 text-white p-3 rounded-full shadow-lg hover:bg-indigo-700 transition duration-300 cursor-pointer z-50"
                 >
-                    Back to Top
-                </button>
+                    ↑
+                </Link>
             </div>
         </div>
     );

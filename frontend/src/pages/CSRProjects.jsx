@@ -49,11 +49,11 @@ export default function CSR() {
     //     fetchData();
     // }, [STRAPI_API_TOKEN]);
 
-    const [info,setInfo] = useState([]);
-    const [loading,setLoading] = useState(true);
-    const [error,setError] = useState(null);
-    const [entries,setEntries]=useState('')
-    const [value,setValue]=useState('')
+    const [info, setInfo] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [entries, setEntries] = useState('')
+    const [value, setValue] = useState('')
 
     useEffect(() => {
         const fetchData = async () => {
@@ -72,24 +72,24 @@ export default function CSR() {
     }, []);
 
 
-    useEffect(()=>{
-            let sum=0;
-            let count=0;
-    
-            info.map((item)=>{
-              
-                const val = parseFloat(item["Value (₹1,00,000)"]) * 100000;
-                if(val!=NaN)
-                sum+=val
-                
-                count++;
-            })
-            
-            setEntries(count)
-            setValue(sum)
-    },[info])
-    
-    
+    useEffect(() => {
+        let sum = 0;
+        let count = 0;
+
+        info.map((item) => {
+
+            const val = parseFloat(item["Value (₹1,00,000)"]) * 100000;
+            if (val != NaN)
+                sum += val
+
+            count++;
+        })
+
+        setEntries(count)
+        setValue(sum)
+    }, [info])
+
+
     if (loading) {
         return (
             <PageSkeleton />
@@ -97,19 +97,19 @@ export default function CSR() {
     }
 
     function parseDateDMY(dateStr) {
-      if (!dateStr || dateStr.toLowerCase() === 'n/a') return null;
-    
-      
-      const parts = dateStr.split(/[-.]/);  
-    
-      if (parts.length !== 3) return null;
-    
-      const day = parseInt(parts[0], 10);
-      const month = parseInt(parts[1], 10) - 1;
-      const year = parseInt(parts[2], 10);
-    
-      const date = new Date(year, month, day);
-      return isNaN(date.getTime()) ? null : date;
+        if (!dateStr || dateStr.toLowerCase() === 'n/a') return null;
+
+
+        const parts = dateStr.split(/[-.]/);
+
+        if (parts.length !== 3) return null;
+
+        const day = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10) - 1;
+        const year = parseInt(parts[2], 10);
+
+        const date = new Date(year, month, day);
+        return isNaN(date.getTime()) ? null : date;
     }
 
 
@@ -125,7 +125,7 @@ export default function CSR() {
     return (
         <div className="p-6" id="research-and-documents-table">
             <h1 id='csrProject-top' className='text-3xl font-bold text-center text-gray-800 mb-6'>CSR Projects</h1>
-            
+
             <ul className="project-summary">
                 <li><b>Total Projects:</b>{entries}</li>
                 <li><b>Total Value of Projects:</b>₹{value.toLocaleString('en-IN')} </li>
@@ -163,19 +163,19 @@ export default function CSR() {
                 </table>
             </div>
 
-                                    {/* Back to Top Button */}
-                                    <div className="cursor-pointer text-center mt-10">
-                                        <Link
-                                            to="csrProject-top"
-                                            spy={true}
-                                            smooth={true}
-                                            offset={-100}
-                                            duration={500}
-                                            className="inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300"
-                                        >
-                                            Back to Top
-                                        </Link>
-                                    </div>
+            {/* Back to Top Button */}
+            <div className="cursor-pointer text-center mt-10">
+                <Link
+                    to="csrProject-top"
+                    spy={true}
+                    smooth={true}
+                    offset={-100}
+                    duration={500}
+                    className="fixed bottom-6 right-6 bg-indigo-600 text-white p-3 rounded-full shadow-lg hover:bg-indigo-700 transition duration-300 cursor-pointer z-50"
+                >
+                    ↑
+                </Link>
+            </div>
         </div>
     );
 }
