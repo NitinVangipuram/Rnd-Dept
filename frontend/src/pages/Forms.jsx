@@ -25,8 +25,8 @@ export default function Forms() {
         setLoading(false);
       } else {
         try {
-          const response = await axios.get(`https://rnd.iitdh.ac.in/strapi/api/form?populate=*`);
-          const items = response.data?.data?.link || [];
+          const response = await axios.get(`https://opensheet.vercel.app/1zmpwBGzv6VtYhkiosMQfJ3YE3-8CNiGAUP0tiNEX_rU/Sheet1`);
+          const items = response.data || [];
           setFormData(items);
           localStorage.setItem(cacheKey, JSON.stringify(items));
           localStorage.setItem(cacheTimestampKey, Date.now().toString());
@@ -68,55 +68,58 @@ export default function Forms() {
           <p className="text-sm text-red-500 mb-4">
             Please check your internet connection or try again later.
           </p>
+          <p>{error}</p>
         </div>
       ) : (
         <div className="overflow-x-auto shadow-lg rounded-lg">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-purple-800">
               <tr>
-                <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                  Sl No.
-                </th>
-                <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                  Form Name
-                </th>
-                <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                  Word Format
-                </th>
-                <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                  PDF
-                </th>
+                {formData.length > 0 &&
+                  Object.keys(formData[0]).map((col, i) => (
+                    <th
+                      key={i}
+                      scope="col"
+                      className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider"
+                    >
+                      {col}
+                    </th>
+                  ))}
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {formData.map((form, index) => (
-                <tr key={index} className="hover:bg-gray-50">
-                  <td className="px-3 py-4 whitespace-normal text-sm font-medium text-gray-900 text-left">
-                    {index + 1}
-                  </td>
-                  <td className="px-3 py-4 whitespace-normal text-sm font-medium text-gray-900 text-left">
-                    {form.name}
-                  </td>
-                  <td className="px-3 py-4 whitespace-normal text-sm text-purple-700 text-left">
-                    <a
-                      href={form.wordLink}
-                      className="underline hover:text-purple-900"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Download
-                    </a>
-                  </td>
-                  <td className="px-3 py-4 whitespace-normal text-sm text-blue-700 text-left">
-                    <a
-                      href={form.pdfLink}
-                      className="underline hover:text-purple-900"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View
-                    </a>
-                  </td>
+              {formData.map((row, rowIndex) => (
+                <tr key={rowIndex} className="hover:bg-gray-50">
+                  {Object.keys(row).map((col, colIndex) => {
+                    const cell = row[col];
+                    const isLink =
+                      typeof cell === "string" &&
+                      (cell.startsWith("http://") || cell.startsWith("https://"));
+
+                    return (
+                      <td
+                        key={colIndex}
+                        className="px-3 py-4 whitespace-normal text-sm text-gray-900 text-left"
+                      >
+                        {isLink ? (
+                          <a
+                            href={cell}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`underline ${
+                              col.toLowerCase().includes("pdf")
+                                ? "text-blue-700 hover:text-purple-900"
+                                : "text-purple-700 hover:text-purple-900"
+                            }`}
+                          >
+                            {col.toLowerCase().includes("pdf") ? "View" : "Download"}
+                          </a>
+                        ) : (
+                          cell || <span className="text-gray-400">N/A</span>
+                        )}
+                      </td>
+                    );
+                  })}
                 </tr>
               ))}
             </tbody>
