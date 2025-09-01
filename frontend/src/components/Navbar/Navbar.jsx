@@ -57,7 +57,7 @@ const Navbar = ({ closeMenu }) => {
                         onClick={handleLinkClick}
                     >
 
-                       OM and Documents
+                       Documents
 
                     </NavLink>
                 </li>

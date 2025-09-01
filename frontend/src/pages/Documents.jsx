@@ -26,8 +26,8 @@ export default function Documents() {
         setLoading(false);
       } else {
         try {
-          const response = await axios.get(`https://rnd.iitdh.ac.in/strapi/api/om-docs?populate=*`);
-          const items = response.data?.data || [];
+          const response = await axios.get(`https://opensheet.vercel.app/1RG3VNFWNk8tnVrsNmk3-cf1Pko3lQIofwRyZonQmVg0/Sheet1`);
+          const items = response.data || [];
 
           setDocsData(items);
 
@@ -47,7 +47,7 @@ export default function Documents() {
 
   return (
     <div id='doc-top' className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8 text-gray-800">
-      <h1 className="text-3xl sm:text-3xl font-bold mb-4 text-center">OM and Documents</h1>
+      <h1 className="text-3xl sm:text-3xl font-bold mb-4 text-center">Documents</h1>
       <div className="mb-4 text-center">
         <a
           href="https://drive.google.com/drive/folders/1NsW2cChEMUG-sgS4VGh2_FWI9HOU_Nar?usp=sharing"
@@ -72,29 +72,23 @@ export default function Documents() {
         </div>
       ) : (
         <div className="max-w-4xl mx-auto space-y-8">
-          {docsData.map((section, idx) => (
-            <div
-              key={idx}
-              className="bg-white p-5 rounded-2xl shadow-md border border-gray-200"
-            >
-              <h2 className="text-xl font-semibold text-black mb-4">{section.heading}</h2>
-              <ol className="list-decimal ml-6 space-y-2">
-                {section.link.map((item, i) => (
-                  <li key={i}>
-                    <a
-                      href={item.wordLink}
-                      className="text-purple-600 hover:text-purple-800 no-underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{ textDecoration: 'none' }}
-                    >
-                      {item.name}
-                    </a>
-                  </li>
-                ))}
+          <div className="bg-white p-5 rounded-2xl shadow-md border border-gray-200">
+            <ol className="list-decimal ml-6 space-y-2">
+              {docsData.map((row, idx) => (         
+                <li key={row["Serial number"]}>
+                  <a
+                    href={row["Link"]}
+                    className="text-purple-600 hover:text-purple-800 no-underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ textDecoration: 'none' }}
+                  >
+                    {row["Name of the document"]}
+                  </a>
+                </li>
+              ))}
               </ol>
             </div>
-          ))}
         </div>
       )}
       {/* Back to Top Button */}
