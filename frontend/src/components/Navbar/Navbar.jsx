@@ -12,14 +12,14 @@ const Navbar = ({ closeMenu }) => {
         <nav className="h-full w-full bg-white overflow-y-auto pb-20">
             <div className="flex justify-between items-center p-4 sm:hidden">
                 <h2 className="font-bold text-gray-800">Menu</h2>
-                <button
+                {/* <button
                     onClick={closeMenu}
                     className="p-2 rounded-full hover:bg-gray-100"
                 >
                     <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
-                </button>
+                </button> */}
             </div>
             <ul className="space-y-1 p-3">
                 <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>

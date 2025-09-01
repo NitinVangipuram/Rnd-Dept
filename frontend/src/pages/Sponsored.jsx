@@ -19,10 +19,10 @@ export default function Sponsored() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [sortOrder, setSortOrder] = useState(' ');
-  const [filteredDoc,setfilteredDoc]=useState(' ')
-  const [sortedDoc,setSortedDoc]=useState(' ')
-  const [entries,setEntries]=useState('')
-  const [value,setValue]=useState('')
+  const [filteredDoc, setfilteredDoc] = useState(' ')
+  const [sortedDoc, setSortedDoc] = useState(' ')
+  const [entries, setEntries] = useState('')
+  const [value, setValue] = useState('')
 
   const SHEET_API_URL = "https://opensheet.elk.sh/1cVHmxJMGNPD_yGoQ4-_IASm1NYRfW1jpnozaR-PlB2o/Sheet1";
 
@@ -43,82 +43,83 @@ export default function Sponsored() {
     fetchData();
   }, []);
 
-  useEffect(()=>{
-   const filtered = doc.filter(item =>
-    [
-      item["Serial no."],
-      item["Title"],
-      item["Investigator(s)"],
-      item["Co-PI"],
-      item["Sponsoring Agency-Scheme"],
-      item["Value (₹1,00,000)"],
-      item["Sanction date"],
-      item["Duration (years)"]
-    ]
-      .join(" ")
-      .toLowerCase()
-      .includes(search.toLowerCase())
-  );
-  setfilteredDoc(filtered)},[search,doc])
+  useEffect(() => {
+    const filtered = doc.filter(item =>
+      [
+        item["Serial no."],
+        item["Title"],
+        item["Investigator(s)"],
+        item["Co-PI"],
+        item["Sponsoring Agency-Scheme"],
+        item["Value (₹1,00,000)"],
+        item["Sanction date"],
+        item["Duration (years)"]
+      ]
+        .join(" ")
+        .toLowerCase()
+        .includes(search.toLowerCase())
+    );
+    setfilteredDoc(filtered)
+  }, [search, doc])
 
 
-useEffect(()=>{
-// console.log(doc)
-        var sum=0;
-        let count=0;
+  useEffect(() => {
+    // console.log(doc)
+    var sum = 0;
+    let count = 0;
 
-        doc.map((item)=>{
-          
-            
-  const val= parseInt(item["Value (₹1,00,000)"])*100000;
-  // console.log(val,typeof(val))
-if(!isNaN(val))
-sum+=val
-            count++;
-        })
-        // console.log(sum)
-        setEntries(count)
-        setValue(sum)
-},[doc])
+    doc.map((item) => {
 
-useEffect(()=>{
-const sorted = [...filteredDoc].sort((a, b) => {
-  const dateA = parseDateDMY(a["Sanction date"]);
-  const dateB = parseDateDMY(b["Sanction date"]);
 
-  const isValidA = dateA instanceof Date && !isNaN(dateA);
-  const isValidB = dateB instanceof Date && !isNaN(dateB);
+      const val = parseInt(item["Value (₹1,00,000)"]) * 100000;
+      // console.log(val,typeof(val))
+      if (!isNaN(val))
+        sum += val
+      count++;
+    })
+    // console.log(sum)
+    setEntries(count)
+    setValue(sum)
+  }, [doc])
 
-  
-  if (!isValidA && isValidB) return 1;
-  if (isValidA && !isValidB) return -1;
-  if (!isValidA && !isValidB) return 1; 
+  useEffect(() => {
+    const sorted = [...filteredDoc].sort((a, b) => {
+      const dateA = parseDateDMY(a["Sanction date"]);
+      const dateB = parseDateDMY(b["Sanction date"]);
 
-  
-  return sortOrder === "asc"
-    ? dateA - dateB
-    : dateB - dateA;
-});
+      const isValidA = dateA instanceof Date && !isNaN(dateA);
+      const isValidB = dateB instanceof Date && !isNaN(dateB);
+
+
+      if (!isValidA && isValidB) return 1;
+      if (isValidA && !isValidB) return -1;
+      if (!isValidA && !isValidB) return 1;
+
+
+      return sortOrder === "asc"
+        ? dateA - dateB
+        : dateB - dateA;
+    });
 
 
     setSortedDoc(sorted);
   }, [sortOrder, filteredDoc]);
 
-function parseDateDMY(dateStr) {
-  if (!dateStr || dateStr.toLowerCase() === 'n/a') return null;
+  function parseDateDMY(dateStr) {
+    if (!dateStr || dateStr.toLowerCase() === 'n/a') return null;
 
-  
-  const parts = dateStr.split(/[-.]/);  
 
-  if (parts.length !== 3) return null;
+    const parts = dateStr.split(/[-.]/);
 
-  const day = parseInt(parts[0], 10);
-  const month = parseInt(parts[1], 10) - 1;
-  const year = parseInt(parts[2], 10);
+    if (parts.length !== 3) return null;
 
-  const date = new Date(year, month, day);
-  return isNaN(date.getTime()) ? null : date;
-}
+    const day = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1;
+    const year = parseInt(parts[2], 10);
+
+    const date = new Date(year, month, day);
+    return isNaN(date.getTime()) ? null : date;
+  }
 
 
   if (loading) {
@@ -139,41 +140,41 @@ function parseDateDMY(dateStr) {
       <Typography variant="h5" fontWeight="bold" mb={3} align="center">
         Sponsored Projects
       </Typography>
-       <ul className="spon-top project-summary">
-                <li><b>Total Projects:</b>{entries}</li>
-                <li><b>Total Value of Projects:</b>₹{value.toLocaleString('en-IN')} </li>
-            </ul>
-        
+      <ul className="spon-top project-summary">
+        <li><b>Total Projects:</b>{entries}</li>
+        <li><b>Total Value of Projects:</b>₹{value.toLocaleString('en-IN')} </li>
+      </ul>
 
-    <div className="bar">
-      <TextField
-        label="Search Sponsored Projects"
-        variant="outlined"
-        size="small"
-        className='searchfield'
-        value={search}
-        onChange={e => setSearch(e.target.value)}
-        sx={{ mb: 2 }}
-      />
- 
-      <FormControl className='formcontrol'  size="small" sx={{ mb: 3 }}>
-        <InputLabel id="sort-by-label">Sort by date</InputLabel>
-        <Select
-          labelId="sort-by-label"
-          id="sort-by"
-          placeholder='sort by sanctiondate'
-          value={sortOrder}
-        
-          label="Sort by Sanction Date"
-          onChange={(e) => setSortOrder(e.target.value)}
-        >
-    
-          <MenuItem value="asc">Oldest to Newest</MenuItem>
-          <MenuItem value="desc">Newest to Oldest</MenuItem>
-        </Select>
-      </FormControl>
-    </div>
-      
+
+      <div className="bar">
+        <TextField
+          label="Search Sponsored Projects"
+          variant="outlined"
+          size="small"
+          className='searchfield'
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          sx={{ mb: 2 }}
+        />
+
+        <FormControl className='formcontrol' size="small" sx={{ mb: 3 }}>
+          <InputLabel id="sort-by-label">Sort by date</InputLabel>
+          <Select
+            labelId="sort-by-label"
+            id="sort-by"
+            placeholder='sort by sanctiondate'
+            value={sortOrder}
+
+            label="Sort by Sanction Date"
+            onChange={(e) => setSortOrder(e.target.value)}
+          >
+
+            <MenuItem value="asc">Oldest to Newest</MenuItem>
+            <MenuItem value="desc">Newest to Oldest</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
+
 
       <div className="overflow-x-auto shadow-lg rounded-lg">
         <table className="min-w-full divide-y divide-gray-200">
@@ -204,18 +205,18 @@ function parseDateDMY(dateStr) {
         </table>
       </div>
       {/* Back to Top Button */}
-                        <div className="cursor-pointer text-center mt-10">
-                            <Link
-                                to="spon-top"
-                                spy={true}
-                                smooth={true}
-                                offset={-100}
-                                duration={500}
-                                className="inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300"
-                            >
-                                Back to Top
-                            </Link>
-                        </div>
+      <div className="cursor-pointer text-center mt-10">
+        <Link
+          to="spon-top"
+          spy={true}
+          smooth={true}
+          offset={-100}
+          duration={500}
+          className="fixed bottom-6 right-6 bg-indigo-600 text-white p-3 rounded-full shadow-lg hover:bg-indigo-700 transition duration-300 cursor-pointer z-50"
+        >
+          ↑
+        </Link>
+      </div>
     </Box>
   );
 }

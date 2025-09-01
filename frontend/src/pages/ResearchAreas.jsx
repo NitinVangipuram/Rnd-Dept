@@ -51,8 +51,8 @@ const ResearchAreas = () => {
     const deptMatch = selectedDept ? item.Department === selectedDept : true;
     const topicMatch = topicSearch
       ? item.AreaofInterest?.some((area) =>
-          normalize(area.Area).includes(normalize(topicSearch))
-        )
+        normalize(area.Area).includes(normalize(topicSearch))
+      )
       : true;
 
     return nameMatch && deptMatch && topicMatch;
@@ -185,11 +185,10 @@ const ResearchAreas = () => {
             <button
               key={page}
               onClick={() => handlePageChange(page)}
-              className={`cursor-pointer px-3 py-1 rounded border ${
-                page === currentPage
+              className={`cursor-pointer px-3 py-1 rounded border ${page === currentPage
                   ? 'bg-purple-600 text-white'
                   : 'bg-gray-100 hover:bg-gray-200'
-              }`}
+                }`}
             >
               {page}
             </button>
@@ -204,19 +203,19 @@ const ResearchAreas = () => {
           </button>
         </div>
       )}
-                  {/* Back to Top Button */}
-                  <div className="cursor-pointer text-center mt-10">
-                      <Link
-                          to="research-top"
-                          spy={true}
-                          smooth={true}
-                          offset={-100}
-                          duration={500}
-                          className="inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300"
-                      >
-                          Back to Top
-                      </Link>
-                  </div>
+      {/* Back to Top Button */}
+      <div className="cursor-pointer text-center mt-10">
+        <Link
+          to="research-top"
+          spy={true}
+          smooth={true}
+          offset={-100}
+          duration={500}
+          className="fixed bottom-6 right-6 bg-indigo-600 text-white p-3 rounded-full shadow-lg hover:bg-indigo-700 transition duration-300 cursor-pointer z-50"
+        >
+          ↑
+        </Link>
+      </div>
     </div>
   );
 };
