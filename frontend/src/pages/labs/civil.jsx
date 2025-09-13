@@ -160,7 +160,7 @@ const SHEET_API_URL = "https://opensheet.elk.sh/1g4imjnV8Yc0Aupva6slg9Z3m8L4fU05
         {item["Other Faculty Members"]||"-"}
       </td>
       <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
-        {item["Website"]}
+       {item["Website"]!=undefined && <a className="blue" href={item["Website"]} target="_blank">Link</a>}
       </td>
       
     </tr>
