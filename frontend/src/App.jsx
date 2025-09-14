@@ -7,7 +7,7 @@ import Footer from './components/Footer/Footer';
 import PageSkeleton from './components/LoadingSkeleton/PageSkeleton';
 import Home from './pages/Home';
 
-
+import "./pages/labs/nodata.css"
 import LabSubNavbar from './components/labnav'
 
 import Forms from './pages/Forms';

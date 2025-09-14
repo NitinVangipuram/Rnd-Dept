@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
 import { Link } from 'react-scroll';
 import axios from 'axios';
+import "./searchresults.css"
 
 const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1-v5ne-TsrgHOGDlcBMoGugzE_vO8H93kgWXtHNkYnZM/export?format=csv&gid=0';
 

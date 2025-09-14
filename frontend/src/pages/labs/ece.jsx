@@ -118,7 +118,7 @@ const SHEET_API_URL = "https://opensheet.elk.sh/1DlYPfxatycmVxRC8N38MlXXEcU8HDcU
               </FormControl>
             </div>
                */}
-        <div  id="research-and-documents-table">
+        {doc.length!=0?(<div  id="research-and-documents-table">
             <div className="overflow-x-auto shadow-lg rounded-lg">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-purple-800">
@@ -159,7 +159,7 @@ const SHEET_API_URL = "https://opensheet.elk.sh/1DlYPfxatycmVxRC8N38MlXXEcU8HDcU
       </td>
       <td className="px-3 py-4 whitespace-normal text-sm text-gray-700">
         
-          <a className="blue" href={item["Website"]} target='_blank'>Link</a>
+          {item["Website"]!=undefined && <a className="blue" href={item["Website"]} target="_blank">Link</a>}
       </td>
       
     </tr>
@@ -181,7 +181,20 @@ const SHEET_API_URL = "https://opensheet.elk.sh/1DlYPfxatycmVxRC8N38MlXXEcU8HDcU
                     Back to Top
                 </Link>
             </div>
-        </div>
+        </div>):(<main class="container">
+<section class="info-card" role="status" aria-live="polite">
+  <h2>Information is Being Updated</h2>
+  <p>
+    The details for this section are currently under review and will be
+    published once verified. We appreciate your patience.
+  </p>
+  <p class="note">
+    For any urgent queries, please contact the concerned department at IIT Dharwad.
+  </p>
+</section>
+
+</main>
+        )}
         </Box>
     );
 }
