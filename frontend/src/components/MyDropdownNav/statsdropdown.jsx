@@ -76,7 +76,7 @@ const Stats = () => {
                         >
                             Projects
                         </NavLink>
-                        <NavLink
+                        {/* <NavLink
 
                             to="/statistics/Office"
 
@@ -84,7 +84,7 @@ const Stats = () => {
                             onClick={handleLinkClick}
                         >
                             Office
-                        </NavLink>
+                        </NavLink> */}
                         <NavLink
                             to="/statistics/publications"
                             className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
