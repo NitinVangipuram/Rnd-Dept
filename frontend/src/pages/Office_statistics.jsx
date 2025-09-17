@@ -1,5 +1,5 @@
 import React from 'react';
-import './Funding_statistics.css'
+import './funding_statistics.css'
 
 import pdf2 from '../assets/i10.jpg';
 import pdf3 from '../assets/i11.jpg';
