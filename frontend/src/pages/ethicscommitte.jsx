@@ -24,7 +24,6 @@ export default function Ethicscommitte() {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${STRAPI_API_TOKEN}`,
                     },
                 });
 

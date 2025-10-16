@@ -440,6 +440,37 @@ export interface ApiCsrprojectCsrproject extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiDeanTenureDeanTenure extends Struct.CollectionTypeSchema {
+  collectionName: 'dean_tenures';
+  info: {
+    displayName: 'DeanTenure';
+    pluralName: 'dean-tenures';
+    singularName: 'dean-tenure';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    designation: Schema.Attribute.String;
+    fromDate: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::dean-tenure.dean-tenure'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    toDate: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiDocDoc extends Struct.CollectionTypeSchema {
   collectionName: 'docs';
   info: {
@@ -543,6 +574,73 @@ export interface ApiFundingStatisticFundingStatistic
       Schema.Attribute.Required &
       Schema.Attribute.Unique &
       Schema.Attribute.DefaultTo<'https://example.com'>;
+  };
+}
+
+export interface ApiPersonPerson extends Struct.CollectionTypeSchema {
+  collectionName: 'people';
+  info: {
+    displayName: 'person';
+    pluralName: 'people';
+    singularName: 'person';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    email: Schema.Attribute.Email;
+    expertise: Schema.Attribute.String;
+    imageUrl: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::person.person'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String;
+    type: Schema.Attribute.Enumeration<
+      ['dean', 'associateDean', 'facultyInCharge', 'staff']
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    website: Schema.Attribute.String;
+  };
+}
+
+export interface ApiResearchAreaResearchArea
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'research_areas';
+  info: {
+    displayName: 'ResearchArea';
+    pluralName: 'research-areas';
+    singularName: 'research-area';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    AreaofInterest: Schema.Attribute.Component<'faculty.array', true>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    Department: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::research-area.research-area'
+    > &
+      Schema.Attribute.Private;
+    ProfName: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -1091,9 +1189,12 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::consultancy.consultancy': ApiConsultancyConsultancy;
       'api::csrproject.csrproject': ApiCsrprojectCsrproject;
+      'api::dean-tenure.dean-tenure': ApiDeanTenureDeanTenure;
       'api::doc.doc': ApiDocDoc;
       'api::ethicscommitte.ethicscommitte': ApiEthicscommitteEthicscommitte;
       'api::funding-statistic.funding-statistic': ApiFundingStatisticFundingStatistic;
+      'api::person.person': ApiPersonPerson;
+      'api::research-area.research-area': ApiResearchAreaResearchArea;
       'api::sponsor.sponsor': ApiSponsorSponsor;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
