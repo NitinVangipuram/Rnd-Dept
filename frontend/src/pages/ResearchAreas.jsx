@@ -21,32 +21,46 @@ const ResearchAreas = () => {
   const [loading, setLoading] = useState(true);
   const itemsPerPage = 100;
 
-  const fetchData = async (page) => {
-    setLoading(true);
-    try {
-      const response = await axios.get(
-        `https://rnd.iitdh.ac.in/strapi/api/research-areas?populate=*&pagination[page]=${page}&pagination[pageSize]=${itemsPerPage}`
-      );
-      const result = response.data?.data || [];
-      const meta = response.data?.meta?.pagination || {};
-      setData(result);
-      setTotalPages(meta.pageCount || 1);
-    } catch (error) {
-      console.error('Error fetching research areas:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchData(currentPage);
-  }, [currentPage]);
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        let allData = [];
+        let page = 1;
+        let hasMore = true;
+
+        while (hasMore) {
+          const response = await axios.get(
+            `https://rnd.iitdh.ac.in/strapi/api/research-areas?populate=*&pagination[page]=${page}&pagination[pageSize]=${itemsPerPage}`
+          );
+          const results = response.data?.data || [];
+          const meta = response.data?.meta?.pagination || {};
+          allData = [...allData, ...results];
+          hasMore = page < meta.pageCount;
+          page += 1;
+        }
+        setData(allData);
+        setTotalPages(Math.ceil(allData.length / itemsPerPage));
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);   
+
+  const isSearching = 
+    normalize(nameSearch).length >= 3 ||
+    normalize(topicSearch).length >= 3 ||
+    selectedDept !== '';
 
   const uniqueDepartments = [
     ...new Set(data.map((item) => item.Department).filter(Boolean)),
   ];
 
-  const filteredData = data.filter((item) => {
+  const filteredData = isSearching ? data.filter((item) => {
     const nameMatch = normalize(item.ProfName).includes(normalize(nameSearch));
     const deptMatch = selectedDept ? item.Department === selectedDept : true;
     const topicMatch = topicSearch
@@ -56,7 +70,12 @@ const ResearchAreas = () => {
       : true;
 
     return nameMatch && deptMatch && topicMatch;
-  });
+  }) : data;
+
+  const paginatedData = isSearching ? filteredData : filteredData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  ); 
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -138,8 +157,8 @@ const ResearchAreas = () => {
                     <PageSkeleton />
                   </td>
                 </tr>
-              ) : filteredData.length > 0 ? (
-                filteredData.map((prof) => (
+              ) : paginatedData.length > 0 ? (
+                paginatedData.map((prof) => (
                   <tr key={prof.id} className="hover:bg-gray-50">
                     <td className="px-3 py-2 text-sm text-gray-900">
                       {prof.ProfName}
@@ -171,7 +190,7 @@ const ResearchAreas = () => {
         </div>
       </div>
 
-      {!loading && totalPages > 1 && (
+      {!loading && totalPages > 1 && !isSearching &&(
         <div className="flex justify-center items-center mt-4 flex-wrap gap-2 text-sm sm:text-base">
           <button
             disabled={currentPage === 1}
