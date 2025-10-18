@@ -100,11 +100,6 @@ function App() {
                   <Forms />
                 </Suspense>
               } />
-              <Route path="/csr" element={
-                <Suspense fallback={<PageSkeleton />}>
-                  <Csr/>
-                </Suspense>
-              } />
               <Route path="/people" element={
                 <Suspense fallback={<PageSkeleton />}>
                   <People />
