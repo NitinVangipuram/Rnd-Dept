@@ -66,13 +66,21 @@ const Navbar = ({ closeMenu }) => {
                <Ethics/>
 
                 <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
-                    <NavLink
+                    {/* <NavLink
                         to="/csr"
                         className={({ isActive }) => `py-2 rounded-lg pl-3 font-medium block w-full ${isActive ? 'bg-slate-100 text-indigo-600' : 'text-gray-700'}`}
                         onClick={handleLinkClick}
                     >
                         CSR Donations
-                    </NavLink>
+                    </NavLink> */}
+                    <a
+                        href="https://iitdh.ac.in/csr-contribution"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className='py-2 rounded-lg pl-3 font-medium block w-full text-gray-700 hover:bg-slate-100 transition-all duration-200'
+                    >
+                        CSR Donations
+                    </a>
                 </li>
                 
                 <li className='rounded-lg hover:bg-slate-100 transition-all duration-200'>
