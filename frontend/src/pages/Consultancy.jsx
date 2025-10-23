@@ -217,7 +217,7 @@ export default function Sponsored() {
                 </th>
 
                 <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
-                  Duration
+                  Duration (months)
                 </th>
                 <th scope="col" className="px-3 py-3 text-left text-m font-medium text-white uppercase tracking-wider">
                   Cost of Project
