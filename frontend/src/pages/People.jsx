@@ -270,6 +270,11 @@ const People = () => {
           icon={<i className="fas fa-user-graduate"></i>}
           targetId="Staff"
         />
+        <NavCard
+          title="Former Deans"
+          icon={<i className="fas fa-archive"></i>}
+          targetId="Former-Deans"
+        />
       </div>
 
       {/* Dean Section */}
@@ -308,6 +313,11 @@ const People = () => {
         </div>
       </Section>
 
+      {/* Former Deans Section */}
+      <Section id="Former-Deans" title="Former Deans">
+        <Deans />
+      </Section>
+
       {/* Back to Top Button */}
       <div className="cursor-pointer text-center mt-10">
         <Link
@@ -321,7 +331,6 @@ const People = () => {
           ↑
         </Link>
       </div>
-     <Deans/>
     </div>
   );
 };
