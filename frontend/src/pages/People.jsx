@@ -4,7 +4,7 @@ import { Mail, Globe } from "lucide-react";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
-
+import Deans from './Deans.jsx';
 const API_URL = "https://rnd.iitdh.ac.in/strapi/api/people?populate=*&sort=createdAt:desc";
 
 // Navigation Card Component
@@ -321,6 +321,7 @@ const People = () => {
           ↑
         </Link>
       </div>
+     <Deans/>
     </div>
   );
 };
