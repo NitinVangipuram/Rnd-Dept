@@ -28,7 +28,7 @@ const Feedback = () => {
             icon={<Briefcase className="w-12 h-12 text-purple-600" />}
             title="R&D Office Staff"
             description="Share your thoughts on the R&D office support staff."
-            link="https://forms.gle/SxNuXW7JeJEUPWe4A" 
+            link="https://docs.google.com/forms/d/e/1FAIpQLSfC5uvnnEm3ntgZ5yN7Cf4WL2stzdleijrvB6ezRTcXQvgo3Q/viewform?usp=publish-editor" 
           />
 
           <FeedbackCard

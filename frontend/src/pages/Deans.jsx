@@ -22,9 +22,9 @@ const Deans = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8 text-gray-800">
-      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">
-        R&D Deans
-      </h1>
+      {/* <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">
+        Former Deans
+      </h1> */}
 
       {loading ? (
         <PageSkeleton />
