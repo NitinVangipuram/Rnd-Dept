@@ -39,6 +39,15 @@ const Section = ({ id, title, children }) => {
   );
 };
 
+const SubSection = ({ title, children }) => {
+  return (
+    <div className="py-6">
+      <h3 className="text-xl font-semibold text-gray-800 mb-4 pb-1 border-b border-gray-200">{title}</h3>
+      {children}
+    </div>
+  );
+};
+
 // Faculty Card Component
 
 const FacultyCard = ({ name, title, imageUrl, expertise, email, website }) => {
@@ -171,6 +180,20 @@ const StaffCard = ({ name, title, imageUrl, email }) => {
 };
 
 
+const OutStaffCard = ({ name }) => {
+  return (
+    <div className="bg-white rounded-lg shadow-sm overflow-hidden flex flex-col h-full
+                    hover:shadow-lg cursor-pointer transition-shadow duration-300 ease-in-out">
+      <div className="p-4 flex items-start border-b border-gray-100">
+        <div className="min-w-0">
+          <h4 className="text-lg text-gray-800 truncate">{name}</h4>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
 
 
 // People Page Component
@@ -189,6 +212,14 @@ const People = () => {
       (p.type === "facultyInCharge" || p.type === "faculty-in-charge") // support variants
   ).sort((a,b) => a.name.localeCompare(b.name));
   const staffMembers = allPeople.filter((p) => p.type === "staff");
+  const outSourcedStaff = staffMembers.filter((p) => p.title.toLowerCase().includes("outsourced")).sort((a,b) => a.name.localeCompare(b.name));
+
+  const staffMembersFiltered = staffMembers.filter((p) => !p.title.toLowerCase().includes("outsourced"));
+
+  // Update staffMembers to exclude outsourced
+  // console.log(staffMembersFiltered);
+
+  //console.log(outSourcedStaff);
 
   // console.log("dean" + Dean);
   // console.log("staff" + staffMembers)
@@ -307,9 +338,16 @@ const People = () => {
       {/* Staff Section */}
       <Section id="Staff" title="Staff">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {staffMembers.map((member) => (
-            <StaffCard key={member.id} {...member} />
+          {staffMembersFiltered.map((member) => (
+            <StaffCard key={member.id} {...member} />  
           ))}
+          <SubSection title="Outsourced Staff">
+            <div className='grid gap-6'>
+              {outSourcedStaff.map((member) => (
+                <OutStaffCard key={member.id} name={member.name} />
+              ))}
+            </div>
+          </SubSection>
         </div>
       </Section>
 
