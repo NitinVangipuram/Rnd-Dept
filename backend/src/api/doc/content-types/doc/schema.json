@@ -4,26 +4,25 @@
   "info": {
     "singularName": "doc",
     "pluralName": "docs",
-    "displayName": "Doc",
-    "description": ""
+    "displayName": "doc"
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "category": {
-      "type": "string",
-      "required": true,
-      "unique": false
+    "title": {
+      "type": "string"
     },
-    "name": {  
-      "type": "json",
-      "required": true
-    },
-    "url": {
-      "type": "json",
-      "required": true
+    "file": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
     }
   }
 }

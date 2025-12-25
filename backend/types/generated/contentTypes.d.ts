@@ -373,73 +373,6 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiConsultancyConsultancy extends Struct.CollectionTypeSchema {
-  collectionName: 'consultancies';
-  info: {
-    displayName: 'consultancy';
-    pluralName: 'consultancies';
-    singularName: 'consultancy';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    duration: Schema.Attribute.Text & Schema.Attribute.Required;
-    Investigator: Schema.Attribute.String & Schema.Attribute.Required;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::consultancy.consultancy'
-    > &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    sanctiondate: Schema.Attribute.String & Schema.Attribute.Required;
-    sl_no: Schema.Attribute.Integer &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique &
-      Schema.Attribute.DefaultTo<1>;
-    SponsoringAgencyScheme: Schema.Attribute.String & Schema.Attribute.Required;
-    title: Schema.Attribute.Text & Schema.Attribute.Required;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    values: Schema.Attribute.BigInteger & Schema.Attribute.Required;
-  };
-}
-
-export interface ApiCsrprojectCsrproject extends Struct.CollectionTypeSchema {
-  collectionName: 'csrprojects';
-  info: {
-    displayName: 'csrproject';
-    pluralName: 'csrprojects';
-    singularName: 'csrproject';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    investigator: Schema.Attribute.String & Schema.Attribute.Required;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::csrproject.csrproject'
-    > &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    sponsoringAgency: Schema.Attribute.String & Schema.Attribute.Required;
-    title: Schema.Attribute.Text & Schema.Attribute.Required;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface ApiDeanTenureDeanTenure extends Struct.CollectionTypeSchema {
   collectionName: 'dean_tenures';
   info: {
@@ -474,8 +407,7 @@ export interface ApiDeanTenureDeanTenure extends Struct.CollectionTypeSchema {
 export interface ApiDocDoc extends Struct.CollectionTypeSchema {
   collectionName: 'docs';
   info: {
-    description: '';
-    displayName: 'Doc';
+    displayName: 'doc';
     pluralName: 'docs';
     singularName: 'doc';
   };
@@ -483,19 +415,21 @@ export interface ApiDocDoc extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    category: Schema.Attribute.String & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    file: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::doc.doc'> &
       Schema.Attribute.Private;
-    name: Schema.Attribute.JSON & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    url: Schema.Attribute.JSON & Schema.Attribute.Required;
   };
 }
 
@@ -528,52 +462,6 @@ export interface ApiEthicscommitteEthicscommitte
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-  };
-}
-
-export interface ApiFundingStatisticFundingStatistic
-  extends Struct.CollectionTypeSchema {
-  collectionName: 'funding_statistics';
-  info: {
-    displayName: 'FundingStatistic';
-    pluralName: 'funding-statistics';
-    singularName: 'funding-statistic';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::funding-statistic.funding-statistic'
-    > &
-      Schema.Attribute.Private;
-    name: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique &
-      Schema.Attribute.DefaultTo<'Unamed agency'>;
-    publishedAt: Schema.Attribute.DateTime;
-    sl_no: Schema.Attribute.Integer &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique &
-      Schema.Attribute.SetMinMax<
-        {
-          min: 1;
-        },
-        number
-      > &
-      Schema.Attribute.DefaultTo<1>;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    url: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique &
-      Schema.Attribute.DefaultTo<'https://example.com'>;
   };
 }
 
@@ -638,40 +526,6 @@ export interface ApiResearchAreaResearchArea
       Schema.Attribute.Private;
     ProfName: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
-export interface ApiSponsorSponsor extends Struct.CollectionTypeSchema {
-  collectionName: 'sponsors';
-  info: {
-    displayName: 'sponsor';
-    pluralName: 'sponsors';
-    singularName: 'sponsor';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    costofprojects: Schema.Attribute.Integer & Schema.Attribute.Required;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    industry: Schema.Attribute.String & Schema.Attribute.Required;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::sponsor.sponsor'
-    > &
-      Schema.Attribute.Private;
-    principalInvestigator: Schema.Attribute.String & Schema.Attribute.Required;
-    publishedAt: Schema.Attribute.DateTime;
-    sanctiondate: Schema.Attribute.String & Schema.Attribute.Required;
-    sl_no: Schema.Attribute.Integer & Schema.Attribute.Required;
-    time: Schema.Attribute.Decimal & Schema.Attribute.Required;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1187,15 +1041,11 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
-      'api::consultancy.consultancy': ApiConsultancyConsultancy;
-      'api::csrproject.csrproject': ApiCsrprojectCsrproject;
       'api::dean-tenure.dean-tenure': ApiDeanTenureDeanTenure;
       'api::doc.doc': ApiDocDoc;
       'api::ethicscommitte.ethicscommitte': ApiEthicscommitteEthicscommitte;
-      'api::funding-statistic.funding-statistic': ApiFundingStatisticFundingStatistic;
       'api::person.person': ApiPersonPerson;
       'api::research-area.research-area': ApiResearchAreaResearchArea;
-      'api::sponsor.sponsor': ApiSponsorSponsor;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
