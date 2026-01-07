@@ -28,7 +28,7 @@ export default function PublicationsList() {
   },[]);
 
   const filteredPublications = publications.filter(pub =>
-    [pub.Title, pub.Authors, pub["Source title"]]
+    [pub.Title, pub.Authors, pub["Source title"], pub.Year]
       .join(" ")
       .toLowerCase()
       .includes(search.toLowerCase())
