@@ -5,8 +5,10 @@ import {
 import LinkIcon from "@mui/icons-material/Link";
 import axios from "axios";
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
+import { getCachedData, setCachedData, CACHE_DURATIONS } from '../utils/cacheUtils';
 
 const PAGE_SIZE = 10;
+const CACHE_KEY_PUBLICATIONS = 'publications_data';
 
 export default function PublicationsList() {
 
@@ -16,16 +18,42 @@ export default function PublicationsList() {
   const [loading,setLoading] = useState(true);
   const [search, setSearch] = useState("");
 
-  useEffect(()=>{
-    setLoading(true);
-    axios
-    .get("https://opensheet.vercel.app/10P7vgxarVBixJkawH_SrFf3FaITKWeNLkc2rwPj0aoo/Sheet1")
-    .then((res) => {
-      setPublications(res.data); // reverse for latest first, optional
-      setLoading(false);
-    })
-    .catch(() => setLoading(false));
-  },[]);
+  useEffect(() => {
+    const fetchPublications = async () => {
+      try {
+        setLoading(true);
+        
+        // Check cache first
+        const cachedPublications = getCachedData(CACHE_KEY_PUBLICATIONS, CACHE_DURATIONS.LONG);
+        if (cachedPublications) {
+          setPublications(cachedPublications);
+          setLoading(false);
+          return;
+        }
+
+        // Fetch fresh data
+        const res = await axios.get(
+          "https://opensheet.vercel.app/10P7vgxarVBixJkawH_SrFf3FaITKWeNLkc2rwPj0aoo/Sheet1"
+        );
+        
+        // Cache the data
+        setCachedData(CACHE_KEY_PUBLICATIONS, res.data);
+        setPublications(res.data);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching publications:', err);
+        
+        // Try to use stale cache on error
+        const staleCache = getCachedData(CACHE_KEY_PUBLICATIONS, Infinity);
+        if (staleCache) {
+          setPublications(staleCache);
+        }
+        setLoading(false);
+      }
+    };
+
+    fetchPublications();
+  }, []);
 
   const filteredPublications = publications.filter(pub =>
     [pub.Title, pub.Authors, pub["Source title"], pub.Year]

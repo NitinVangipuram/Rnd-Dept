@@ -1,91 +1,109 @@
 import React, { useEffect, useState } from 'react';
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
 import AltCarousel from '../components/Carousel/AltCarousel';
-
 import { Link } from 'react-scroll';
+import { getCachedData, setCachedData, CACHE_DURATIONS } from '../utils/cacheUtils';
 
-const CACHE_KEY = 'cachedOpportunities';
-const CACHE_TIMESTAMP_KEY = 'opportunitiesCacheTimestamp';
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in ms
-
+const CACHE_KEY_OPPORTUNITIES = 'home_opportunities';
+const CACHE_KEY_CAROUSEL_IMAGES = 'home_carousel_images';
 
 const Home = () => {
     const [opportunities, setOpportunities] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [driveImages, setDriveImages] = useState([]);
+    const [imagesLoading, setImagesLoading] = useState(true);
 
-    
-   useEffect(() => {
-  const fetchStrapiImages = async () => {
-    const url = "https://rnd.iitdh.ac.in/strapi/api/upload/files"; 
+    // Fetch carousel images with caching
+    useEffect(() => {
+        const fetchStrapiImages = async () => {
+            try {
+                setImagesLoading(true);
+                
+                // Check cache first
+                const cachedImages = getCachedData(CACHE_KEY_CAROUSEL_IMAGES, CACHE_DURATIONS.MEDIUM);
+                if (cachedImages) {
+                    setDriveImages(cachedImages);
+                    setImagesLoading(false);
+                    return;
+                }
 
-    try {
-      const res = await fetch(url);
-      const data = await res.json();
+                // Fetch fresh data
+                const url = "https://rnd.iitdh.ac.in/strapi/api/upload/files";
+                const res = await fetch(url);
+                const data = await res.json();
 
-      
-      const imageUrls = data
-        .filter((file) => file.mime.includes("image/"))
-        .map((file) => file.url.startsWith("http") ? file.url : `http://localhost:1337${file.url}`);
+                const imageUrls = data
+                    .filter((file) => file.mime.includes("image/"))
+                    .map((file) => file.url.startsWith("http") ? file.url : `http://localhost:1337${file.url}`);
 
-      setDriveImages(imageUrls);
-    } catch (err) {
-      console.error("Error fetching Strapi images:", err);
-    }
-  };
+                // Cache the images
+                setCachedData(CACHE_KEY_CAROUSEL_IMAGES, imageUrls);
+                setDriveImages(imageUrls);
+            } catch (err) {
+                console.error("Error fetching Strapi images:", err);
+                // Try to use stale cache on error
+                const staleCache = getCachedData(CACHE_KEY_CAROUSEL_IMAGES, Infinity);
+                if (staleCache) {
+                    setDriveImages(staleCache);
+                }
+            } finally {
+                setImagesLoading(false);
+            }
+        };
 
-  fetchStrapiImages();
-}, []);
+        fetchStrapiImages();
+    }, []);
 
-
+    // Fetch opportunities with improved caching
     useEffect(() => {
         const fetchOpportunities = async () => {
             try {
                 setIsLoading(true);
+                
+                // Check cache first
+                const cachedOpportunities = getCachedData(CACHE_KEY_OPPORTUNITIES, CACHE_DURATIONS.MEDIUM);
+                if (cachedOpportunities) {
+                    setOpportunities(cachedOpportunities);
+                    setIsLoading(false);
+                    return;
+                }
+
+                // Fetch fresh data
                 const res = await fetch(
                     'https://opensheet.vercel.app/1t352KbG0gFpu_QK7BVjBrcwLy5Kthq4JmHRy_AtVHUM/Sheet1'
                 );
                 const data = await res.json();
-                // console.log('Fetched opportunities:', data);
                 const today = new Date();
 
                 const filtered = data.filter(entry => {
                     const deadlineStr = entry.Deadline?.trim();
                     const deadlineDate = new Date(deadlineStr);
                     deadlineDate.setDate(deadlineDate.getDate() + 1);
-                    const isRolling = /rolling/i.test(deadlineStr); // case-insensitive match
+                    const isRolling = /rolling/i.test(deadlineStr);
                     const isFutureDate = deadlineStr && !isNaN(deadlineDate) && deadlineDate >= today;
                     return isRolling || isFutureDate;
                 });
 
-                // console.log('Filtered opportunities:', filtered);
-                localStorage.setItem(CACHE_KEY, JSON.stringify(filtered));
-                localStorage.setItem(CACHE_TIMESTAMP_KEY, Date.now().toString());
-
+                // Cache the filtered opportunities
+                setCachedData(CACHE_KEY_OPPORTUNITIES, filtered);
                 setOpportunities(filtered);
             } catch (err) {
                 console.error('Error fetching opportunities:', err);
                 setError('Could not load opportunities.');
+                
+                // Try to use stale cache on error
+                const staleCache = getCachedData(CACHE_KEY_OPPORTUNITIES, Infinity);
+                if (staleCache) {
+                    setOpportunities(staleCache);
+                    setError(null);
+                }
             } finally {
                 setIsLoading(false);
             }
         };
 
-        const cachedData = localStorage.getItem(CACHE_KEY);
-        const cacheTimestamp = localStorage.getItem(CACHE_TIMESTAMP_KEY);
-        const now = Date.now();
-
-        if (
-            cachedData &&
-            cacheTimestamp &&
-            now - parseInt(cacheTimestamp, 10) < CACHE_DURATION
-        ) {
-            setOpportunities(JSON.parse(cachedData));
-            setIsLoading(false);
-        } else {
-            fetchOpportunities();
-        }
+        fetchOpportunities();
     }, []);
 
     const allImages = [...driveImages];

@@ -3,6 +3,9 @@ import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
 import { Link } from 'react-scroll';
 import axios from 'axios';
 import './searchresults.css'
+import { getCachedData, setCachedData, CACHE_DURATIONS } from '../utils/cacheUtils';
+
+const CACHE_KEY_CSR = 'csr_projects_data';
 
 export default function CSR() {
     // const [doc, setdoc] = useState([]);
@@ -59,10 +62,28 @@ export default function CSR() {
         const fetchData = async () => {
             try {
                 setLoading(true);
+                
+                // Check cache first
+                const cachedData = getCachedData(CACHE_KEY_CSR, CACHE_DURATIONS.MEDIUM);
+                if (cachedData) {
+                    setInfo(cachedData);
+                    setLoading(false);
+                    return;
+                }
+
+                // Fetch fresh data
                 const res = await axios.get("https://opensheet.vercel.app/1aGpQlcEX4hw_L4nAhOxTC07KK0yXe0QqoKW3s7TRAaM/Sheet1");
-                setInfo(res.data); // reverse for latest first, optional
+                
+                // Cache the data
+                setCachedData(CACHE_KEY_CSR, res.data);
+                setInfo(res.data);
             } catch (error) {
-                console.error(error); // optional logging
+                console.error(error);
+                // Try stale cache on error
+                const staleCache = getCachedData(CACHE_KEY_CSR, Infinity);
+                if (staleCache) {
+                    setInfo(staleCache);
+                }
             } finally {
                 setLoading(false);
             }

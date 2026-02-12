@@ -3,8 +3,11 @@ import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
 import { Link } from 'react-scroll';
 import axios from 'axios';
 import "./searchresults.css"
+import { getCachedData, setCachedData, CACHE_DURATIONS } from '../utils/cacheUtils';
 
 const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1-v5ne-TsrgHOGDlcBMoGugzE_vO8H93kgWXtHNkYnZM/export?format=csv&gid=0';
+const CACHE_KEY_PATENTS = 'patents_data';
+const CACHE_KEY_PATENTS_NUMBER = 'patents_number';
 
 const Patents = () => {
     const [patentData, setPatentData] = useState([]);
@@ -17,10 +20,28 @@ const Patents = () => {
         const fetchData = async () => {
             try {
                 setLoading(true);
+                
+                // Check cache first
+                const cachedData = getCachedData(CACHE_KEY_PATENTS, CACHE_DURATIONS.MEDIUM);
+                if (cachedData) {
+                    setPatentData(cachedData);
+                    setLoading(false);
+                    return;
+                }
+
+                // Fetch fresh data
                 const res = await axios.get("https://opensheet.vercel.app/1GwrkMQ6uIeKmUU8yhEpZce-cTnGDcvNlj6KwYR6CrBE/Sheet1");
-                setPatentData(res.data); // reverse for latest first, optional
+                
+                // Cache the data
+                setCachedData(CACHE_KEY_PATENTS, res.data);
+                setPatentData(res.data);
             } catch (error) {
-                console.error(error); // optional logging
+                console.error(error);
+                // Try stale cache on error
+                const staleCache = getCachedData(CACHE_KEY_PATENTS, Infinity);
+                if (staleCache) {
+                    setPatentData(staleCache);
+                }
             } finally {
                 setLoading(false);
             }
@@ -31,30 +52,40 @@ const Patents = () => {
 
     useEffect(() => {
         const fetchNumber = async () => {
-        try {
-            const response = await axios.get(GOOGLE_SHEET_CSV_URL);
-            const csvString = response.data;
-            //const trimmedString = csvString.trim();
-            const parsedNumber = parseFloat(csvString);
+            try {
+                // Check cache first
+                const cachedNumber = getCachedData(CACHE_KEY_PATENTS_NUMBER, CACHE_DURATIONS.MEDIUM);
+                if (cachedNumber !== null) {
+                    setNumber(cachedNumber);
+                    return;
+                }
 
-            if (!isNaN(parsedNumber)) {
-            setNumber(parsedNumber);
-            } else {
-            //setError(new Error(`Could not parse "${trimmedString}" as a number. Please ensure cell A1 contains only a number.`));
-            setNumber(null);
+                // Fetch fresh data
+                const response = await axios.get(GOOGLE_SHEET_CSV_URL);
+                const csvString = response.data;
+                const parsedNumber = parseFloat(csvString);
+
+                if (!isNaN(parsedNumber)) {
+                    // Cache the number
+                    setCachedData(CACHE_KEY_PATENTS_NUMBER, parsedNumber);
+                    setNumber(parsedNumber);
+                } else {
+                    setNumber(null);
+                }
+            } catch (err) {
+                console.error("Failed to fetch number:", err);
+                // Try stale cache on error
+                const staleCache = getCachedData(CACHE_KEY_PATENTS_NUMBER, Infinity);
+                if (staleCache !== null) {
+                    setNumber(staleCache);
+                } else {
+                    setNumber(null);
+                }
             }
+        };
 
-        } catch (err) {
-            console.error("Failed to fetch number:", err);
-            // setError(new Error(`Failed to fetch data from Google Sheet: ${err.message || 'Network error'}. Check sheet permissions.`));
-            setNumber(null);
-        } //finally {
-        //     setLoading(false); // Stop loading
-        // }
-    };
-
-    fetchNumber();
-  }, [])
+        fetchNumber();
+    }, [])
 
     useEffect(()=>{
         let count=0;

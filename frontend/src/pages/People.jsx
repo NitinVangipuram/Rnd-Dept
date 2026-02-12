@@ -5,7 +5,10 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
 import Deans from './Deans.jsx';
+import { getCachedData, setCachedData, CACHE_DURATIONS } from '../utils/cacheUtils';
+
 const API_URL = "https://rnd.iitdh.ac.in/strapi/api/people?populate=*&sort=createdAt:desc";
+const CACHE_KEY_PEOPLE = 'people_data';
 
 // Navigation Card Component
 const NavCard = ({ title, icon, targetId }) => {
@@ -225,28 +228,42 @@ const People = () => {
   // console.log("staff" + staffMembers)
 
   useEffect(() => {
-    // Try cache first
-    const cached = localStorage.getItem("people_cache_v1");
-    if (cached) {
-      setAllPeople(JSON.parse(cached));
-      setLoading(false);
-    }
+    const fetchPeople = async () => {
+      try {
+        setLoading(true);
+        
+        // Check cache first
+        const cachedPeople = getCachedData(CACHE_KEY_PEOPLE, CACHE_DURATIONS.MEDIUM);
+        if (cachedPeople) {
+          setAllPeople(cachedPeople);
+          setLoading(false);
+          return;
+        }
 
-    // Always update in background
-    axios
-      .get(API_URL)
-      .then((res) => {
-        // Strapi v4 response: res.data.data is array of { id, attributes: { ...fields } }
+        // Fetch fresh data
+        const res = await axios.get(API_URL);
         const fetched = res.data.data;
+        
+        // Cache the data
+        setCachedData(CACHE_KEY_PEOPLE, fetched);
         setAllPeople(fetched);
-        localStorage.setItem("people_cache_v1", JSON.stringify(fetched));
         setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching people:', err);
         setError(err);
-        if (!cached) setAllPeople([]); // No data at all
-      });
+        
+        // Try to use stale cache on error
+        const staleCache = getCachedData(CACHE_KEY_PEOPLE, Infinity);
+        if (staleCache) {
+          setAllPeople(staleCache);
+        } else {
+          setAllPeople([]);
+        }
+        setLoading(false);
+      }
+    };
+
+    fetchPeople();
   }, []);
 
   // Optional: show loading state
