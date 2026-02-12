@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import PageSkeleton from "../components/LoadingSkeleton/PageSkeleton";
+import { getCachedData, setCachedData, CACHE_DURATIONS } from '../utils/cacheUtils';
+
+const CACHE_KEY_DEANS = 'deans_tenure_data';
 
 const Deans = () => {
   const [data, setData] = useState([]);
@@ -8,16 +11,37 @@ const Deans = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get("https://rnd.iitdh.ac.in/strapi/api/dean-tenures")
-      .then(res => {
+    const fetchDeans = async () => {
+      try {
+        // Check cache first
+        const cachedData = getCachedData(CACHE_KEY_DEANS, CACHE_DURATIONS.LONG);
+        if (cachedData) {
+          setData(cachedData);
+          setLoading(false);
+          return;
+        }
+
+        // Fetch fresh data
+        const res = await axios.get("https://rnd.iitdh.ac.in/strapi/api/dean-tenures");
+        const freshData = res.data.data;
         
-        setData(res.data.data);
+        // Cache the data
+        setCachedData(CACHE_KEY_DEANS, freshData);
+        setData(freshData);
         setLoading(false);
-      })
-      .catch(err => {
+      } catch (err) {
+        console.error('Error fetching deans:', err);
         setError(err);
+        // Try stale cache on error
+        const staleCache = getCachedData(CACHE_KEY_DEANS, Infinity);
+        if (staleCache) {
+          setData(staleCache);
+        }
         setLoading(false);
-      });
+      }
+    };
+
+    fetchDeans();
   }, []);
 
   return (

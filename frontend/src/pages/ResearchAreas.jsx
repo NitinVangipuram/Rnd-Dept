@@ -8,8 +8,10 @@ import {
 } from '@mui/material';
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
 import { Link } from 'react-scroll';
+import { getCachedData, setCachedData, CACHE_DURATIONS } from '../utils/cacheUtils';
 
 const normalize = (str) => str?.toLowerCase().replace(/\s+/g, '') || '';
+const CACHE_KEY_RESEARCH_AREAS = 'research_areas_data';
 
 const ResearchAreas = () => {
   const [data, setData] = useState([]);
@@ -25,6 +27,16 @@ const ResearchAreas = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
+        // Check cache first
+        const cachedData = getCachedData(CACHE_KEY_RESEARCH_AREAS, CACHE_DURATIONS.MEDIUM);
+        if (cachedData) {
+          setData(cachedData);
+          setTotalPages(Math.ceil(cachedData.length / itemsPerPage));
+          setLoading(false);
+          return;
+        }
+
+        // Fetch fresh data
         let allData = [];
         let page = 1;
         let hasMore = true;
@@ -39,10 +51,19 @@ const ResearchAreas = () => {
           hasMore = page < meta.pageCount;
           page += 1;
         }
+        
+        // Cache the data
+        setCachedData(CACHE_KEY_RESEARCH_AREAS, allData);
         setData(allData);
         setTotalPages(Math.ceil(allData.length / itemsPerPage));
       } catch (error) {
         console.error('Error fetching data:', error);
+        // Try stale cache on error
+        const staleCache = getCachedData(CACHE_KEY_RESEARCH_AREAS, Infinity);
+        if (staleCache) {
+          setData(staleCache);
+          setTotalPages(Math.ceil(staleCache.length / itemsPerPage));
+        }
       } finally {
         setLoading(false);
       }

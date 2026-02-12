@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PageSkeleton from '../components/LoadingSkeleton/PageSkeleton';
 import './searchresults.css'
 import { Link } from 'react-scroll';
+import { getCachedData, setCachedData, CACHE_DURATIONS } from '../utils/cacheUtils';
 
 import {
   Typography,
@@ -12,6 +13,8 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
+
+const CACHE_KEY_SPONSORED = 'sponsored_projects_data';
 
 export default function Sponsored() {
   const [doc, setDoc] = useState([]);
@@ -29,12 +32,29 @@ export default function Sponsored() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Check cache first
+        const cachedData = getCachedData(CACHE_KEY_SPONSORED, CACHE_DURATIONS.MEDIUM);
+        if (cachedData) {
+          setDoc(cachedData);
+          setLoading(false);
+          return;
+        }
+
+        // Fetch fresh data
         const response = await fetch(SHEET_API_URL);
         const jsonData = await response.json();
+        
+        // Cache the data
+        setCachedData(CACHE_KEY_SPONSORED, jsonData);
         setDoc(jsonData);
       } catch (err) {
         console.error("Failed to fetch data from Google Sheet:", err);
         setError(err);
+        // Try stale cache on error
+        const staleCache = getCachedData(CACHE_KEY_SPONSORED, Infinity);
+        if (staleCache) {
+          setDoc(staleCache);
+        }
       } finally {
         setLoading(false);
       }
