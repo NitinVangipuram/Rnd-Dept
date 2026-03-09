@@ -295,9 +295,9 @@ function App() {
       </div>
       
       {/* Chatbot - Available on all pages */}
-      <Suspense fallback={null}>
+      {/* <Suspense fallback={null}>
         <Chatbot />
-      </Suspense>
+      </Suspense> */}
     </div>
   );
 }
