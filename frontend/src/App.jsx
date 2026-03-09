@@ -1,29 +1,31 @@
 // App.jsx 
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import Topbar from './components/Topbar/Topbar';
-import Navbar from './components/Navbar/Navbar';
-import Footer from './components/Footer/Footer';
 import PageSkeleton from './components/LoadingSkeleton/PageSkeleton';
-import Home from './pages/Home';
 
 import "./pages/labs/nodata.css"
-import LabSubNavbar from './components/labnav'
 
-import Forms from './pages/Forms';
-import Statsofprojects from './pages/statsofprojects';
-import ResearchAreas from './pages/ResearchAreas';
-import Statsofpublications from './pages/statsofpublications';
-import Message from './pages/Message';
-import Fellowship from './pages/Fellowship';
-import Workshops from './pages/Workshops';
-import Biosafety from './pages/biosafety'
+// Lazy load all components and pages
+const Topbar = lazy(() => import('./components/Topbar/Topbar'));
+const Navbar = lazy(() => import('./components/Navbar/Navbar'));
+const Footer = lazy(() => import('./components/Footer/Footer'));
+const LabSubNavbar = lazy(() => import('./components/labnav'));
+const Chatbot = lazy(() => import('./components/Chatbot/Chatbot'));
 
-// Lazy load other pages
+// Lazy load pages
+const Home = lazy(() => import('./pages/Home'));
+const Forms = lazy(() => import('./pages/Forms'));
+const Statsofprojects = lazy(() => import('./pages/statsofprojects'));
+const ResearchAreas = lazy(() => import('./pages/ResearchAreas'));
+const Statsofpublications = lazy(() => import('./pages/statsofpublications'));
+const Message = lazy(() => import('./pages/Message'));
+const Fellowship = lazy(() => import('./pages/Fellowship'));
+const Workshops = lazy(() => import('./pages/Workshops'));
+const Biosafety = lazy(() => import('./pages/biosafety'));
 const People = lazy(() => import('./pages/People'));
-const Sponsored = lazy(() => import('./pages/Sponsored'));;
+const Sponsored = lazy(() => import('./pages/Sponsored'));
 const Consultancy = lazy(() => import('./pages/Consultancy'));
-const CSRP= lazy(() => import('./pages/CSRProjects'));
+const CSRP = lazy(() => import('./pages/CSRProjects'));
 const Funding = lazy(() => import('./pages/Funding_statistics'));
 const Office = lazy(() => import('./pages/Office_statistics'));
 const Documents = lazy(() => import('./pages/Documents'));
@@ -33,19 +35,19 @@ const Ethics = lazy(() => import('./pages/ethicscommitte'));
 const Publications = lazy(() => import('./pages/Publications'));
 const Csr = lazy(() => import('./pages/Csr'));
 const Deans = lazy(() => import('./pages/Deans'));
-const Sgnf= lazy(() => import('./pages/sgnf'));
+const Sgnf = lazy(() => import('./pages/sgnf'));
 const Patents = lazy(() => import('./pages/Patents'));
-const Cse=lazy(()=>import ('./pages/labs/cse'))
-const Human=lazy(()=>import ('./pages/labs/humanities'))
-const Bio=lazy(()=>import ('./pages/labs/biosciences'))
-const Maths=lazy(()=>import ('./pages/labs/mathematics'))
-const Phy=lazy(()=>import ('./pages/labs/physics'))
-const Che=lazy(()=>import ('./pages/labs/chemistry'))
-const Mech=lazy(()=>import ('./pages/labs/mechanical'))
-const Cheeng=lazy(()=>import ('./pages/labs/chemicaleng'))
-const Civil=lazy(()=>import('./pages/labs/civil'))
-const Eece=lazy(()=>import('./pages/labs/ece'))
-const Feedback= lazy(() => import('./pages/feedback'));
+const Cse = lazy(() => import('./pages/labs/cse'));
+const Human = lazy(() => import('./pages/labs/humanities'));
+const Bio = lazy(() => import('./pages/labs/biosciences'));
+const Maths = lazy(() => import('./pages/labs/mathematics'));
+const Phy = lazy(() => import('./pages/labs/physics'));
+const Che = lazy(() => import('./pages/labs/chemistry'));
+const Mech = lazy(() => import('./pages/labs/mechanical'));
+const Cheeng = lazy(() => import('./pages/labs/chemicaleng'));
+const Civil = lazy(() => import('./pages/labs/civil'));
+const Eece = lazy(() => import('./pages/labs/ece'));
+const Feedback = lazy(() => import('./pages/feedback'));
 
 // ScrollToTop logic inside App.jsx
 function ScrollToTop() {
@@ -70,7 +72,9 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-50 overflow-hidden flex flex-col">
-      <Topbar toggleMobileMenu={toggleMobileMenu} isMobileMenuOpen={isMobileMenuOpen} />
+      <Suspense fallback={<PageSkeleton />}>
+        <Topbar toggleMobileMenu={toggleMobileMenu} isMobileMenuOpen={isMobileMenuOpen} />
+      </Suspense>
 
       <div 
         className={`sm:hidden fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 ${
@@ -85,16 +89,26 @@ function App() {
             bg-white shadow-md transition-transform duration-300 ease-in-out
             ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full sm:translate-x-0'}`}
         >
-          <Navbar closeMenu={() => setIsMobileMenuOpen(false)} />
+          <Suspense fallback={<PageSkeleton />}>
+            <Navbar closeMenu={() => setIsMobileMenuOpen(false)} />
+          </Suspense>
         </div>
 
         <div className="w-full sm:pl-[220px] lg:pl-[250px] flex flex-col min-h-full">
           <div className="max-w-full overflow-x-hidden flex-grow">
             {/* Scroll restoration on route change */}
             <ScrollToTop />
-            {isLabsPage && <LabSubNavbar />}
+            {isLabsPage && (
+              <Suspense fallback={<PageSkeleton />}>
+                <LabSubNavbar />
+              </Suspense>
+            )}
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <Home />
+                </Suspense>
+              } />
               <Route path="/forms" element={
                 <Suspense fallback={<PageSkeleton />}>
                   <Forms />
@@ -274,9 +288,16 @@ function App() {
               } />
             </Routes>
           </div>
-          <Footer />
+          <Suspense fallback={<PageSkeleton />}>
+            <Footer />
+          </Suspense>
         </div>
       </div>
+      
+      {/* Chatbot - Available on all pages */}
+      <Suspense fallback={null}>
+        <Chatbot />
+      </Suspense>
     </div>
   );
 }
