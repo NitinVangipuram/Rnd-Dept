@@ -10,7 +10,7 @@ const Topbar = lazy(() => import('./components/Topbar/Topbar'));
 const Navbar = lazy(() => import('./components/Navbar/Navbar'));
 const Footer = lazy(() => import('./components/Footer/Footer'));
 const LabSubNavbar = lazy(() => import('./components/labnav'));
-const Chatbot = lazy(() => import('./components/Chatbot/Chatbot'));
+// const Chatbot = lazy(() => import('./components/Chatbot/Chatbot'));
 
 // Lazy load pages
 const Home = lazy(() => import('./pages/Home'));
