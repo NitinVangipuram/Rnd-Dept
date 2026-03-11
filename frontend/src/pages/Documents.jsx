@@ -53,7 +53,7 @@ export default function Documents() {
           href="https://drive.google.com/drive/folders/1NsW2cChEMUG-sgS4VGh2_FWI9HOU_Nar?usp=sharing"
           target="_blank"
           rel="noopener noreferrer"
-          className="underline hover:text-purple-900 text-purple-700 text-sm sm:text-base font-medium"
+          className="underline hover:text-blue-900 text-blue-700 text-base sm:text-lg md:text-xl lg:text-2xl font-medium"
         >
           View all documents
         </a>
@@ -78,7 +78,7 @@ export default function Documents() {
                 <li key={row["Serial number"]}>
                   <a
                     href={row["Link"]}
-                    className="text-purple-600 hover:text-purple-800 no-underline"
+                    className="text-blue-600 hover:text-blue-800 no-underline text-sm sm:text-base md:text-lg lg:text-xl"
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{ textDecoration: 'none' }}
@@ -99,7 +99,7 @@ export default function Documents() {
           smooth={true}
           offset={-100}
           duration={500}
-          className="fixed bottom-6 right-6 bg-indigo-600 text-white p-3 rounded-full shadow-lg hover:bg-indigo-700 transition duration-300 cursor-pointer z-50"
+          className="fixed bottom-6 right-6 bg-indigo-600 text-white p-3 rounded-full shadow-lg hover:bg-indigo-700 transition duration-300 cursor-pointer z-50 text-lg sm:text-xl md:text-2xl lg:text-3xl"
         >
           ↑
         </Link>
