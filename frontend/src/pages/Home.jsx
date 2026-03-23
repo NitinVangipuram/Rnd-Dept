@@ -33,10 +33,24 @@ const Home = () => {
                 const res = await fetch(url);
                 const data = await res.json();
 
+                const optimizeCloudinary = (url) => {
+                    if (!url.includes("res.cloudinary.com")) return url;
+
+                    return url.replace(
+                        "/upload/",
+                        "/upload/w_1000,q_auto,f_auto/"
+                    );
+                };
+
                 const imageUrls = data
                     .filter((file) => file.mime.includes("image/"))
-                    .map((file) => file.url.startsWith("http") ? file.url : `http://localhost:1337${file.url}`);
+                    .map((file) => {
+                        const rawUrl = file.url.startsWith("http")
+                            ? file.url
+                            : `http://localhost:1337${file.url}`;
 
+                        return optimizeCloudinary(rawUrl);
+                    });
                 // Cache the images
                 setCachedData(CACHE_KEY_CAROUSEL_IMAGES, imageUrls);
                 setDriveImages(imageUrls);

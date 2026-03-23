@@ -1,7 +1,7 @@
 // src/components/Topbar.jsx
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import logo from '../../assets/institute-logo.png'
+import logo from '../../assets/institute-logo.webp'
 
 function Topbar({ toggleMobileMenu, isMobileMenuOpen }) {
   const [searchQuery, setSearchQuery] = useState('')

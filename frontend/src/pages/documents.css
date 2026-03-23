@@ -1,9 +1,0 @@
-li::marker {
-  padding-right: 1.5rem; 
-  font-size: 1.1rem;
-}
-
-#documents ol {
-  list-style-type:decimal;
-  padding-left: 30px;
-}
